@@ -1,5 +1,6 @@
 import Banner from "../components/Home/Banner";
 import CustomerLoved from "../components/Home/CustomerLoved";
+import Faq from "../components/Home/Faq";
 import Featured from "../components/Home/Featured";
 import Footer from "../components/Home/Footer";
 import OfferedProducts from "../components/Home/OfferedProducts";
@@ -14,6 +15,7 @@ export default function Home() {
       <OfferedProducts />
       <CustomerLoved />
       <RecomenderProduct />
+      <Faq />
       <Footer />
     </div>
   );
