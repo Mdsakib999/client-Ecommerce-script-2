@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function RecomenderProduct() {
   const products = [
@@ -81,8 +81,10 @@ export default function RecomenderProduct() {
 
   return (
     <div className="max-w-7xl mx-auto px-4">
-         <div className="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0 mb-6">
-        <h2 className="text-2xl md:text-4xl font-semibold">Recommended for you</h2>
+      <div className="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0 mb-6">
+        <h2 className="text-2xl md:text-4xl font-semibold">
+          Recommended for you
+        </h2>
         <p className="underline cursor-pointer text-md md:text-lg font-semibold">
           View All Products
         </p>
@@ -127,7 +129,9 @@ export default function RecomenderProduct() {
                       />
                     </div>
                     <div className="w-full text-center">
-                      <p className="text-sm text-gray-500 mb-1">{product.category}</p>
+                      <p className="text-sm text-gray-500 mb-1">
+                        {product.category}
+                      </p>
                       <h2 className="text-lg font-semibold text-gray-800 mb-2">
                         {product.name}
                       </h2>
