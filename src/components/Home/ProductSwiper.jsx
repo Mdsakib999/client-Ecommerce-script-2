@@ -97,7 +97,7 @@ const ProductSwiper = () => {
                     {slide.subtitle}
                   </p>
                   <button className="hover:bg-black group mt-6 px-8 py-3 bg-white text-gray-800 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center gap-2  cursor-pointer">
-                    <ShoppingBag className="w-5 h-5 cursor-pointer" />
+                    <ShoppingBag className="w-5 h-5 cursor-pointer " />
                     {slide.buttonText}
                   </button>
                 </div>
