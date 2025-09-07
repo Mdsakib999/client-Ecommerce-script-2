@@ -1,7 +1,9 @@
 import Banner from "../components/Home/Banner";
+import Brands from "../components/Home/Brands";
 import CustomerLoved from "../components/Home/CustomerLoved";
 import Featured from "../components/Home/Featured";
 import Footer from "../components/Home/Footer";
+import Offer from "../components/Home/Offer";
 import RecomenderProduct from "../components/Home/RecomenderProduct";
 
 export default function Home() {
@@ -10,7 +12,9 @@ export default function Home() {
       <Banner />
       <Featured />
       <CustomerLoved />
+      <Offer />
       <RecomenderProduct />
+      <Brands />
       <Footer />
     </div>
   );
