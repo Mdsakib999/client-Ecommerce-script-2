@@ -200,7 +200,7 @@ const Featured = () => {
               >
                 <div className="text-center">
                   {/* Category Card Container */}
-                  <div className={`relative w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 mx-auto mb-4 rounded-3xl bg-gradient-to-br ${category.gradient} flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 ${category.shadowColor} shadow-lg group-hover:shadow-2xl overflow-hidden`}>
+                  <div className={`relative w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 mx-auto mb-4 rounded-3xl bg-gradient-to-br ${category.gradient} flex items-center justify-center group-hover:scale-110  transition-all duration-500 ${category.shadowColor} shadow-lg group-hover:shadow-2xl overflow-hidden`}>
                     {/* Featured Badge */}
                     {category.featured && (
                       <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg animate-pulse">
