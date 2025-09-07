@@ -3,7 +3,7 @@ import ProductSwiper from './ProductSwiper'
 
 export default function Banner() {
   return (
-    <div>
+    <div className="max-w-7xl">
         <ProductSwiper />
     </div>
   )

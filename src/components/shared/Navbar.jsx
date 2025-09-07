@@ -48,7 +48,7 @@ export default function Navbar() {
           <div className="flex justify-between items-center py-4">
             {/* Logo */}
             <>
-              <img className="w-32" src={logo} alt="uniMart logo" />
+              <img className="w-32 cursor-pointer" src={logo} alt="uniMart logo" />
             </>
 
             {/* Search Bar - Desktop Only */}
