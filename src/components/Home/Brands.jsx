@@ -1,7 +1,5 @@
-import React from "react";
+import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // Import Swiper styles
 import "swiper/css";
@@ -17,47 +15,32 @@ const Brands = () => {
     {
       id: 2,
       name: "ThinkPad",
-      logo: "https://logos-world.net/wp-content/uploads/2020/08/ThinkPad-Logo.png",
+      logo: "https://i.ibb.co.com/jk6G0frS/apple-inc-508812-1280.jpg",
     },
     {
       id: 3,
       name: "Huawei",
-      logo: "https://logos-world.net/wp-content/uploads/2020/07/Huawei-Logo.png",
+      logo: "https://i.ibb.co.com/jk6G0frS/apple-inc-508812-1280.jpg",
     },
     {
       id: 4,
       name: "Vivo",
-      logo: "https://logos-world.net/wp-content/uploads/2020/08/Vivo-Logo.png",
+      logo: "https://i.ibb.co.com/jk6G0frS/apple-inc-508812-1280.jpg",
     },
     {
       id: 5,
       name: "HiKOKI",
-      logo: "https://www.hikoki-powertools.com/images/logo-hikoki.svg",
+      logo: "https://i.ibb.co.com/jk6G0frS/apple-inc-508812-1280.jpg",
     },
     {
       id: 6,
       name: "Samsung",
-      logo: "https://logos-world.net/wp-content/uploads/2020/04/Samsung-Logo.png",
+      logo: "https://i.ibb.co.com/jk6G0frS/apple-inc-508812-1280.jpg",
     },
     {
       id: 7,
       name: "LG",
-      logo: "https://logos-world.net/wp-content/uploads/2020/04/LG-Logo.png",
-    },
-    {
-      id: 8,
-      name: "LG",
-      logo: "https://logos-world.net/wp-content/uploads/2020/04/LG-Logo.png",
-    },
-    {
-      id: 9,
-      name: "LG",
-      logo: "https://logos-world.net/wp-content/uploads/2020/04/LG-Logo.png",
-    },
-    {
-      id: 10,
-      name: "LG",
-      logo: "https://logos-world.net/wp-content/uploads/2020/04/LG-Logo.png",
+      logo: "https://i.ibb.co.com/jk6G0frS/apple-inc-508812-1280.jpg",
     },
   ];
 
@@ -71,13 +54,13 @@ const Brands = () => {
       {/* Swiper Carousel */}
       <div className="relative">
         <Swiper
-          modules={[Navigation]}
-          spaceBetween={16}
-          slidesPerView={5}
-          navigation={{
-            prevEl: ".swiper-button-prev",
-            nextEl: ".swiper-button-next",
+          modules={[Autoplay]}
+          spaceBetween={4}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
           }}
+          slidesPerView={5}
           breakpoints={{
             320: { slidesPerView: 2 },
             640: { slidesPerView: 3 },
@@ -87,9 +70,7 @@ const Brands = () => {
         >
           {brands.map((brand) => (
             <SwiperSlide key={brand.id}>
-              <div
-                className="w-36 h-24 bg-white border border-gray-200 rounded-lg p-6 flex items-center justify-center hover:shadow-md transition-shadow duration-200 cursor-pointer mx-auto"
-              >
+              <div className="w-36 h-24 bg-white border border-gray-200 rounded-lg p-6 flex items-center justify-center hover:shadow-md transition-shadow duration-200 cursor-pointer mx-auto">
                 <img
                   src={brand.logo}
                   alt={brand.name}
@@ -100,18 +81,6 @@ const Brands = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-
-        {/* Custom Navigation Buttons */}
-        <button
-          className="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-2 rounded-full z-10 hover:bg-gray-100"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-        <button
-          className="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-2 rounded-full z-10 hover:bg-gray-100"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
       </div>
     </div>
   );

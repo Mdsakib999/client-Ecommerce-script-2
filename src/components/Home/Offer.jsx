@@ -70,9 +70,14 @@ const Offer = () => {
 
       {/* Offers Grid */}
       <Swiper
-        slidesPerView={4}
+        slidesPerView={1}
         modules={[Pagination, Autoplay]}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 group"
+                breakpoints={{
+          640: { slidesPerView: 1 },   // mobile
+          768: { slidesPerView: 2 },   // tablet
+          1024: { slidesPerView: 4 },  // desktop
+        }}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 group"
         pagination={{ clickable: true }}
         autoplay={{
           delay: 2500,
@@ -82,13 +87,13 @@ const Offer = () => {
         {offers.map((offer) => (
           <SwiperSlide
             key={offer.id}
-            className="flex flex-col items-center text-center"
+            className="flex flex-col items-center pb-16 text-center"
           >
             {/* Circular Image Container */}
             <div
               className={`
               relative w-64 h-64 ${offer.bgColor} rounded-full 
-              flex items-center justify-center mb-6 overflow-hidden
+              flex items-center justify-center mb-6 overflow-hidden mx-auto
               hover:scale-105 transition-transform duration-300
             `}
             >
@@ -103,13 +108,13 @@ const Offer = () => {
                 </div>
               </div>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-6 max-w-xs leading-relaxed mr-10 h-12 pb-10">
+            <h3 className="text-lg font-medium text-gray-900 mb-6 max-w-xs leading-relaxed mx-auto h-12 pb-10">
               {offer.title}
             </h3>
 
             {/* Shop Now Button */}
             <button
-              className={` shopBtn text-center ml-16
+              className={` shopBtn text-center mx-auto
               px-8 py-3 block rounded-lg font-medium text-sm transition-colors border border-gray-300 hover:border-[#1a1a2c] duration-200
               ${offer.buttonStyle}
             `}
