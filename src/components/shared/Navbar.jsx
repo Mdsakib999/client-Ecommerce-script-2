@@ -4,6 +4,7 @@ import { User, Heart, Menu, X, ChevronDown } from "lucide-react";
 import SearchBar from "../SearchBar";
 import SubHeader from "./SubHeader";
 import CartSlider from "./CartSlider";
+import { Link } from "react-router";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -107,18 +108,18 @@ export default function Navbar() {
                         Sign in to your account
                       </p>
                     </div>
-                    <a
-                      href="#"
+                    <Link
+                      to="/login"
                       className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
                     >
                       Sign In
-                    </a>
-                    <a
-                      href="#"
+                    </Link>
+                    <Link
+                      to="/register"
                       className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
                     >
                       Create Account
-                    </a>
+                    </Link>
                     <hr className="my-1 border-gray-100" />
                     <a
                       href="#"
