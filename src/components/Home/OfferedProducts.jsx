@@ -24,7 +24,8 @@ export default function OfferedProducts() {
     }, 1000);
 
     return () => clearInterval(timer);
-  });
+  }, []);
+
   const products = [
     {
       id: 1,
@@ -32,7 +33,8 @@ export default function OfferedProducts() {
       name: "Medicube Zero Pore Pink",
       price: 108,
       salePrice: 95,
-      imageUrl: "https://i.ibb.co.com/tMd7xstr/istockphoto-1246138278-1024x1024.jpg",
+      imageUrl:
+        "https://i.ibb.co.com/tMd7xstr/istockphoto-1246138278-1024x1024.jpg",
     },
     {
       id: 2,
@@ -53,77 +55,83 @@ export default function OfferedProducts() {
   ];
 
   return (
-    <div className="max-w-7xl px-4 w-full mx-auto ">
-      <div className="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0 mb-6">
-        <div className="flex items-center">
+    <div className="max-w-7xl px-4 w-full mx-auto">
+      {/* Section header */}
+      <div className="flex flex-col md:flex-row justify-between items-center space-y-3 md:space-y-0 mb-6">
+        <div className="flex items-center space-x-3">
           <img
-            className="w-24"
+            className="w-16 md:w-24"
             src="https://i.ibb.co.com/ymWS3hLw/megaphone-loudspeaker-making-announcement-vector.jpg"
-            alt=""
+            alt="offer"
           />
-          <h2 className="text-2xl md:text-4xl font-semibold">
-            Available Offer{" "}
+          <h2 className="text-xl md:text-3xl lg:text-4xl font-semibold">
+            Available Offer
           </h2>
         </div>
-        
       </div>
 
-      <div className="flex bg-red-200 items-center rounded-4xl p-4">
-        <div className="w-1/4 ">
-          <div className="flex-col items-center justify-center px-4 space-y-4">
-            <h1 className="text-3xl font-bold mb-8">Countdown Timer</h1>
-            <div className="flex space-x-4 text-center">
-              <div>
-                <div className="text-2xl font-semibold w-12 h-12 rounded-full bg-gray-700 text-white flex items-center justify-center">
-                  {timeLeft.days}
-                </div>
-                <div className="text-sm text-gray-600 ">Days</div>
+      {/* Timer + Products */}
+      <div className="flex flex-col lg:flex-row bg-red-200 items-center rounded-2xl p-6 lg:space-x-6 space-y-6 lg:space-y-0 ">
+        {/* Timer */}
+        <div className="w-full lg:w-1/4 flex flex-col items-center justify-center">
+          <h1 className="text-2xl md:text-3xl font-bold mb-6">⏳ Offer Ends In</h1>
+          <div className="flex space-x-4 text-center">
+            <div>
+              <div className="text-xl md:text-2xl font-semibold w-12 h-12 rounded-full bg-gray-700 text-white flex items-center justify-center">
+                {timeLeft.days}
               </div>
-              <div>
-                <div className="text-2xl font-semibold w-12 h-12 rounded-full bg-gray-700 text-white flex items-center justify-center">{timeLeft.hours}</div>
-                <div className="text-sm text-gray-600">Hours</div>
-              </div>
-              <div>
-                <div className="text-2xl font-semibold w-12 h-12 rounded-full bg-gray-700 text-white flex items-center justify-center">{timeLeft.minutes}</div>
-                <div className="text-sm text-gray-600">Mins</div>
-              </div>
-              <div>
-                <div className="text-2xl font-semibold w-12 h-12 rounded-full bg-gray-700 text-white flex items-center justify-center">{timeLeft.seconds}</div>
-                <div className="text-sm text-gray-600">Secs</div>
-              </div>
+              <div className="text-xs md:text-sm text-gray-600">Days</div>
             </div>
-            <p className="border w-44 py-2 px-2 text-center rounded-4xl mt-10 cursor-pointer text-md md:text-lg font-semibold ">
-                View All Offers
-            </p>
+            <div>
+              <div className="text-xl md:text-2xl font-semibold w-12 h-12 rounded-full bg-gray-700 text-white flex items-center justify-center">
+                {timeLeft.hours}
+              </div>
+              <div className="text-xs md:text-sm text-gray-600">Hours</div>
+            </div>
+            <div>
+              <div className="text-xl md:text-2xl font-semibold w-12 h-12 rounded-full bg-gray-700 text-white flex items-center justify-center">
+                {timeLeft.minutes}
+              </div>
+              <div className="text-xs md:text-sm text-gray-600">Mins</div>
+            </div>
+            <div>
+              <div className="text-xl md:text-2xl font-semibold w-12 h-12 rounded-full bg-gray-700 text-white flex items-center justify-center">
+                {timeLeft.seconds}
+              </div>
+              <div className="text-xs md:text-sm text-gray-600">Secs</div>
+            </div>
           </div>
+          <p className="border w-40 md:w-44 py-2 px-2 text-center rounded-full mt-8 cursor-pointer text-sm md:text-lg font-semibold hover:bg-gray-700 hover:text-white transition">
+            View All Offers
+          </p>
         </div>
 
-        {/* products  */}
-        <div className="w-3/4 ">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Products */}
+        <div className="w-full lg:w-3/4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.map((product) => (
               <div
                 key={product.id}
                 className="bg-white border border-gray-300 rounded-2xl shadow-md overflow-hidden relative transform transition-transform duration-300 hover:scale-105"
               >
                 {product.salePrice && (
-                  <div className="absolute top-1 left-0 bg-red-500 text-white text-xs font-bold px-3 py-1 m-2 rounded-full">
+                  <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
                     SALE
                   </div>
                 )}
                 <div className="p-4 flex flex-col items-center">
-                  <div className="w-40 h-40 mb-4">
+                  <div className="w-32 h-32 md:w-40 md:h-40 mb-4">
                     <img
                       src={product.imageUrl}
                       alt={product.name}
-                      className="w-full h-full rounded-full object-cover"
+                      className="w-full h-full rounded-full object-cover "
                     />
                   </div>
                   <div className="w-full text-center">
                     <p className="text-sm text-gray-500 mb-1">
                       {product.category}
                     </p>
-                    <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                    <h2 className="text-base md:text-lg font-semibold text-gray-800 mb-2">
                       {product.name}
                     </h2>
                     <div className="flex justify-center items-baseline space-x-2">
