@@ -1,5 +1,7 @@
 import { ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
+// import {} Link
 
 export default function OfferedProducts() {
   const targetDate = new Date("September 25, 2025 00:00:00").getTime();
@@ -151,10 +153,13 @@ export default function OfferedProducts() {
                       )}
                     </div>
                     <div className="pt-3">
-                      <button className="w-full bg-gray-200 rounded-full py-2 px-4 font-semibold text-sm flex items-center justify-center space-x-2 transition-colors hover:bg-gray-700 hover:text-white">
+                       <Link
+                        to={`/product/${product.id}`}
+                        className="w-full bg-gray-200 rounded-full py-2 px-4 font-semibold text-sm flex items-center justify-center space-x-2 transition-colors hover:bg-gray-700 hover:text-white"
+                      >
                         <ShoppingCart size={16} />
-                        <span>Add to Cart</span>
-                      </button>
+                        <span>Details</span>
+                      </Link>
                     </div>
                   </div>
                 </div>
