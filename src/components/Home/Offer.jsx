@@ -82,7 +82,7 @@ const Offer = () => {
         {offers.map((offer) => (
           <SwiperSlide
             key={offer.id}
-            className="flex flex-col items-center text-center"
+            className="flex flex-col items-center pb-16 text-center"
           >
             {/* Circular Image Container */}
             <div
