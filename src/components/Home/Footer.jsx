@@ -129,13 +129,15 @@ export default function Footer() {
               <div className="flex space-x-4 pt-2">
                 <a
                   href="#"
-                  className="text-gray-300  w-10 h-10 bg-gray-600 hover:bg-gray-500 rounded-full flex justify-center items-center"
+                  className="text-gray-100  w-10 h-10 bg-gray-600 hover:bg-gray-500 rounded-full flex justify-center items-center"
                 >
                   <Facebook size={24} />
                 </a>
+                
+
                 <a
                   href="#"
-                  className="text-gray-300  w-10 h-10 bg-gray-600 hover:bg-gray-500 rounded-full flex justify-center items-center"
+                  className="text-gray-100  w-10 h-10 bg-gray-600 hover:bg-gray-500 rounded-full flex justify-center items-center"
                 >
                   <Youtube size={24} />
                 </a>
