@@ -44,6 +44,21 @@ const Brands = () => {
       name: "LG",
       logo: "https://logos-world.net/wp-content/uploads/2020/04/LG-Logo.png",
     },
+    {
+      id: 8,
+      name: "LG",
+      logo: "https://logos-world.net/wp-content/uploads/2020/04/LG-Logo.png",
+    },
+    {
+      id: 9,
+      name: "LG",
+      logo: "https://logos-world.net/wp-content/uploads/2020/04/LG-Logo.png",
+    },
+    {
+      id: 10,
+      name: "LG",
+      logo: "https://logos-world.net/wp-content/uploads/2020/04/LG-Logo.png",
+    },
   ];
 
   return (

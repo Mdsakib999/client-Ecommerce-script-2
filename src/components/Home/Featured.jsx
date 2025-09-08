@@ -190,7 +190,7 @@ const Featured = () => {
           className="flex gap-3 sm:gap-4 lg:gap-6 overflow-x-auto scrollbar-hide px-4 sm:px-8 lg:px-16 py-6"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          {categories.map((category, index) => {
+          {categories.map((category) => {
             const IconComponent = category.icon;
             return (
               <div
