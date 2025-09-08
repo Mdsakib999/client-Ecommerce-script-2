@@ -28,7 +28,7 @@ export default function RecomenderProduct() {
     {
       id: 4,
       category: "Electronics",
-      name: "Noise Cancelling Headphones",
+      name: "Noise Cancelling Headph",
       price: 250,
       salePrice: 220,
       imageUrl: "https://i.ibb.co.com/9kKVfzL0/pexels-pixabay-51383.jpg",
@@ -114,7 +114,8 @@ export default function RecomenderProduct() {
                 className="px-2 flex-shrink-0"
                 style={{ width: `${100 / visibleCount}%` }}
               >
-                <div className="bg-white border border-gray-300 rounded-2xl shadow-md overflow-hidden relative transform transition-transform duration-300 hover:scale-105">
+                <div className="p-3">
+                    <div className="bg-white border border-gray-300 rounded-2xl shadow-md overflow-hidden relative transform transition-transform duration-300 hover:scale-105">
                   {product.salePrice && (
                     <div className="absolute top-1 left-0 bg-red-500 text-white text-xs font-bold px-3 py-1 m-2 rounded-full">
                       SALE
@@ -160,6 +161,8 @@ export default function RecomenderProduct() {
                     </div>
                   </div>
                 </div>
+                </div>
+                
               </div>
             ))}
           </div>

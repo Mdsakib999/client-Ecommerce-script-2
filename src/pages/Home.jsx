@@ -1,6 +1,6 @@
 import Banner from "../components/Home/Banner";
 import Brands from "../components/Home/Brands";
-import CustomerLoved from "../components/Home/CustomerLoved";
+import PopularProduct from "../components/Home/PopularProduct";
 import Faq from "../components/Home/Faq";
 import Featured from "../components/Home/Featured";
 import Offer from "../components/Home/Offer";
@@ -13,7 +13,7 @@ export default function Home() {
       <Banner />
       <Featured />
       <OfferedProducts />
-      <CustomerLoved />
+      <PopularProduct />
       <Offer />
       <RecomenderProduct />
       <Faq />

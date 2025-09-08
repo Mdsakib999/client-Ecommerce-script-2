@@ -62,7 +62,7 @@ export default function Faq() {
           <div className="flex-col justify-center items-center">
             <img
               className="w-96"
-              src="https://i.ibb.co.com/Myf3yzVH/62dfed9c4df6bbcbd5e4cb6cc35cbdb6.jpg"
+              src="https://i.ibb.co.com/HfQZVvvc/question-mark-1019820-1920.jpg"
               alt=""
             />
             <h2 className="font-semibold text-gray-900 text-2xl py-3">
