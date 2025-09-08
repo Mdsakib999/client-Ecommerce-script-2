@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
 import { useState, useEffect } from "react";
 
-export default function CustomerLoved() {
+export default function PopularProduct() {
   const products = [
     {
       id: 1,
@@ -21,7 +21,7 @@ export default function CustomerLoved() {
     {
       id: 3,
       category: "Electronics",
-      name: "Noise Cancelling Headphones",
+      name: "Noise Cancelling Headpho",
       price: 250,
       salePrice: 220,
       imageUrl: "https://i.ibb.co.com/fVjSnPgR/pexels-shottrotter-1034653.jpg",
@@ -112,7 +112,8 @@ export default function CustomerLoved() {
                 className="px-2 flex-shrink-0"
                 style={{ width: `${100 / visibleCount}%` }}
               >
-                <div className="bg-white border border-gray-300 rounded-2xl shadow-md overflow-hidden relative transform transition-transform duration-300 hover:scale-105">
+                <div className="p-3">
+<div className="bg-white border border-gray-300 rounded-2xl shadow-md overflow-hidden relative transform transition-transform duration-300 hover:scale-105">
                   {product.salePrice && (
                     <div className="absolute top-1 left-0 bg-red-500 text-white text-xs font-bold px-3 py-1 m-2 rounded-full">
                       SALE
@@ -130,7 +131,7 @@ export default function CustomerLoved() {
                       <p className="text-sm text-gray-500 mb-1">
                         {product.category}
                       </p>
-                      <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                      <h2 className="text-lg font-semibold text-gray-800 mb-2 ">
                         {product.name}
                       </h2>
                       <div className="flex justify-center items-baseline space-x-2">
@@ -158,6 +159,8 @@ export default function CustomerLoved() {
                     </div>
                   </div>
                 </div>
+                </div>
+                
               </div>
             ))}
           </div>
