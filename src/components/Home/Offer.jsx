@@ -1,3 +1,9 @@
+import "swiper/css";
+import "swiper/css/autoplay";
+import "swiper/css/pagination";
+import { Autoplay, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+
 const Offer = () => {
   const offers = [
     {
@@ -32,6 +38,22 @@ const Offer = () => {
       bgColor: "bg-green-200",
       buttonStyle: "border border-gray-300 text-gray-900 hover:bg-gray-50",
     },
+    {
+      id: 5,
+      title: "Save up to 30% on audio items",
+      image:
+        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop&crop=center",
+      bgColor: "bg-green-200",
+      buttonStyle: "border border-gray-300 text-gray-900 hover:bg-gray-50",
+    },
+    {
+      id: 6,
+      title: "Save up to 30% on audio items",
+      image:
+        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop&crop=center",
+      bgColor: "bg-green-200",
+      buttonStyle: "border border-gray-300 text-gray-900 hover:bg-gray-50",
+    },
   ];
 
   return (
@@ -41,20 +63,26 @@ const Offer = () => {
         <h2 className="text-2xl font-semibold text-gray-900">
           Our Featured Offers
         </h2>
-        <a
-          href="#"
-          className="text-sm text-gray-600 hover:text-gray-900 underline underline-offset-2"
-        >
+        <p className="underline cursor-pointer text-md md:text-lg font-semibold">
           See All Products
-        </a>
+        </p>
       </div>
 
       {/* Offers Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 group">
+      <Swiper
+        slidesPerView={4}
+        modules={[Pagination, Autoplay]}
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 group"
+        pagination={{ clickable: true }}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+      >
         {offers.map((offer) => (
-          <div
+          <SwiperSlide
             key={offer.id}
-            className="flex flex-col relative items-center text-center"
+            className="flex flex-col items-center text-center"
           >
             {/* Circular Image Container */}
             <div
@@ -75,24 +103,22 @@ const Offer = () => {
                 </div>
               </div>
             </div>
-
-            {/* Offer Text */}
-            <h3 className="text-lg font-medium text-gray-900 mb-6 max-w-xs leading-relaxed">
+            <h3 className="text-lg font-medium text-gray-900 mb-6 max-w-xs leading-relaxed mr-10 h-12 pb-10">
               {offer.title}
             </h3>
 
             {/* Shop Now Button */}
             <button
-              className={` shopBtn
-              px-8 py-3 absolute -bottom-10 block rounded-lg font-medium text-sm transition-colors border border-gray-300 hover:border-[#1a1a2c] duration-200
+              className={` shopBtn text-center ml-16
+              px-8 py-3 block rounded-lg font-medium text-sm transition-colors border border-gray-300 hover:border-[#1a1a2c] duration-200
               ${offer.buttonStyle}
             `}
             >
               Shop Now
             </button>
-          </div>
+          </SwiperSlide>
         ))}
-      </div>
+      </Swiper>
     </div>
   );
 };

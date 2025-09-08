@@ -7,7 +7,6 @@ import Footer from "../components/Home/Footer";
 import Offer from "../components/Home/Offer";
 import OfferedProducts from "../components/Home/OfferedProducts";
 import RecomenderProduct from "../components/Home/RecomenderProduct";
-import Test from "../components/Home/Test";
 
 export default function Home() {
   return (
