@@ -185,11 +185,11 @@ export default function ProductDetails() {
 
           {/* Action Buttons */}
           <div className="flex items-center gap-1 md:gap-4">
-            <button className="flex-1 bg-blue-600 hover:bg-blue-800 cursor-pointer text-white font-semibold py-2 md:py-3 px-4 rounded-full flex items-center justify-center space-x-2 transition">
+            <button className="flex-1 bg-blue-600 hover:bg-blue-800 cursor-pointer text-white font-semibold py-2 md:py-3 px-4 whitespace-nowrap rounded-full flex items-center justify-center space-x-2 transition">
               <ShoppingCart size={20} />
               <span>Add to Cart</span>
             </button>
-            <button className="flex-1 bg-red-500 cursor-pointer opacity-90 hover:bg-red-800 text-white font-semibold py-2 md:py-3 px-4 rounded-full transition">
+            <button className="flex-1 bg-red-500 cursor-pointer opacity-90 hover:bg-red-800 text-white font-semibold whitespace-nowrap py-2 md:py-3 px-4 rounded-full transition">
               Buy Now
             </button>
             <button
