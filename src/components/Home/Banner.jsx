@@ -69,7 +69,7 @@ export default function Banner() {
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
         >
-          {slides.map((slide, index) => (
+          {slides.map((slide) => (
             <div
               key={slide.id}
               className={`min-w-full relative ${slide.bgColor} overflow-hidden`}
