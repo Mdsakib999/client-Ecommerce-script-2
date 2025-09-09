@@ -46,10 +46,14 @@ export default function Navbar() {
 
         {/* Main navbar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
+          <div className="flex justify-between items-center py-12">
             {/* Logo */}
             <>
-              <img className="w-32 cursor-pointer" src={logo} alt="uniMart logo" />
+              <img
+                className="w-32 cursor-pointer"
+                src={logo}
+                alt="uniMart logo"
+              />
             </>
 
             {/* Search Bar - Desktop Only */}
