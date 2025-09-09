@@ -58,7 +58,7 @@ export default function Banner() {
   }, [isAutoPlaying, currentSlide]);
 
   return (
-    <div className="mt-10">
+    <div className="">
       <div className="relative w-full overflow-hidden">
         <div
           className="flex transition-transform duration-500 ease-in-out"
@@ -69,7 +69,7 @@ export default function Banner() {
           {slides.map((slide) => (
             <div
               key={slide.id}
-              className="min-w-full relative h-[600px] lg:h-[500px]"
+              className="min-w-full relative h-[600px]"
               style={{
                 backgroundImage: `url(${slide.productImage})`,
                 backgroundSize: 'cover',
