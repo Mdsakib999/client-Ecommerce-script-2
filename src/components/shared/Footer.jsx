@@ -1,6 +1,5 @@
-import { AiFillInstagram } from "react-icons/ai";
-import { FaFacebook, FaYoutube } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa6";
+import { Facebook, Youtube, Instagram, Twitter } from "lucide-react";
+import logo from "../../assets/footerLogo.png";
 
 export default function Footer() {
   return (
@@ -8,11 +7,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-8 md:gap-8 lg:gap-0 text-left px-2">
         {/* Logo & Description */}
         <div className="space-y-4 pt-1 col-span-1 md:col-span-1 px-1">
-          <img
-            className="w-44 mx-auto md:mx-0 h-18"
-            src="https://i.ibb.co.com/bRDdfVBp/logo-4.png"
-            alt="UniMart"
-          />
+          <img className="w-44 mx-auto md:mx-0" src={logo} alt="UniMart" />
           <p className="text-sm">
             <span className="text-lg font-semibold">
               UniMart Industries Ltd.
@@ -108,38 +103,51 @@ export default function Footer() {
         {/* Newsletter / Social → span 2 cols */}
         <div className="md:col-span-2">
           <h6 className="font-semibold mb-4 text-lg">
-            UniMart Industries Ltd.
+            Subscribe to our newsletter
           </h6>
           <form className="space-y-3">
-            <div className="space-y-2">
-              <label className="text-sm block">Enter your email address</label>
-              <div className="flex">
-                
+            <div className="w-full max-w-lg mx-auto">
+              <div className="flex items-center bg-gray-900 rounded-full shadow-md overflow-hidden border border-gray-700 w-full">
                 <input
+                  id="email"
                   type="email"
-                  placeholder="username@site.com"
-                  className="border border-gray-600 rounded-l-md pl-3 py-1 w-[200px] "
+                  required
+                  placeholder="Your email address"
+                  className="flex-1 min-w-0 bg-transparent text-gray-100 placeholder-gray-500 px-5 py-3 text-sm focus:ring-0 focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="bg-gray-700 opacity-80 text-white rounded-r-md px-4 py-1 font-semibold hover:bg-gray-500 transition-colors cursor-pointer"
+                  className="flex-shrink-0 bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 font-semibold text-sm rounded-full transition-all duration-300"
                 >
                   Subscribe
                 </button>
               </div>
             </div>
+
             <div className="flex space-x-3 pt-2">
-              <a href="#" className="text-gray-600">
-                <FaFacebook size={28} />
+              <a
+                href="#"
+                className="bg-blue-500 hover:bg-blue-400 rounded-full p-2"
+              >
+                <Facebook size={22} />
               </a>
-              <a href="#" className="text-gray-600">
-                <FaYoutube size={28} />
+              <a
+                href="#"
+                className="bg-red-500 hover:bg-red-400 rounded-full p-2"
+              >
+                <Youtube size={22} />
               </a>
-              <a href="#" className="text-gray-600">
-                <AiFillInstagram size={28} />
-              </a>
-              <a href="#" className="text-gray-600">
-                <FaTwitter size={28} />
+              <a
+                href="#"
+                className="bg-blue-400 hover:bg-blue-500 rounded-full p-2"
+              >
+                <Twitter size={22} />
+              </a>{" "}
+              <a
+                href="#"
+                className="bg-rose-600 hover:bg-rose-700 rounded-full p-2"
+              >
+                <Instagram size={22} />
               </a>
             </div>
           </form>
