@@ -7,7 +7,8 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-8 md:gap-8 lg:gap-0 text-left px-2">
         {/* Logo & Description */}
         <div className="space-y-4 pt-1 col-span-1 md:col-span-1 px-1">
-            <Logo w="44" />
+             <Logo w="44" />
+           
           <p className="text-sm">
             <span className="text-lg font-semibold">
               UniMart Industries Ltd.

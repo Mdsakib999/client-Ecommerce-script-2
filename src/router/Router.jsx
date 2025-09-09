@@ -8,6 +8,7 @@ import UserDashboard from "../pages/Dashboard/customer/UserDashboard";
 import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home";
 import ProductDetails from "../pages/Products/ProductDetails";
+import ContactPage from "../pages/ContactPage";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "/about",
         Component: About,
+      },
+      {
+        path: "/contact",
+        Component: ContactPage,
       },
       {
         path: "/product/:id",
