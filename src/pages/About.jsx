@@ -1,5 +1,4 @@
 import AboutSection from "../components/shared/AboutSection";
-import Team from "../components/shared/Team";
 
 export default function About() {
   return (
@@ -18,7 +17,6 @@ export default function About() {
         image="https://i.ibb.co.com/V0RVB1DL/steampunk-1636156-1280.png"
         reverse={true}
       />
-      <Team />
     </div>
   );
 }
