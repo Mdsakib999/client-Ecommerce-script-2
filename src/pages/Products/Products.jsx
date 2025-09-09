@@ -143,7 +143,7 @@ export default function Products() {
             placeholder="Search products..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full border border-gray-300 px-3 py-2 rounded-2xl focus:outline-none focus:ring-2 focus:ring-red-600"
+            className="w-full border border-gray-300 px-3 py-2 rounded-2xl focus:outline-none focus:ring-1 focus:ring-gray-400"
           /> {/* ✅ Added search box */}
         </div>
 
