@@ -5,7 +5,7 @@ import Faq from "../components/Home/Faq";
 import Featured from "../components/Home/Featured";
 import Offer from "../components/Home/Offer";
 import OfferedProducts from "../components/Home/OfferedProducts";
-import RecomenderProduct from "../components/Home/RecomenderProduct";
+import RecomendedProduct from "../components/Home/RecomendedProduct";
 
 export default function Home() {
   return (
@@ -15,7 +15,7 @@ export default function Home() {
       <OfferedProducts />
       <PopularProduct />
       <Offer />
-      <RecomenderProduct />
+      <RecomendedProduct />
       <Faq />
       <Brands />
     </div>
