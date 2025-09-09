@@ -57,7 +57,7 @@ export default function Register() {
       <div className="flex w-full md:w-1/2 items-center justify-center bg-white p-10">
         <div className="w-full max-w-lg">
           {/* Logo */}
-          <Link to="/" className="flex flex-col relative -mb-5">
+          <Link to="/" className="flex flex-col mb-6">
             <img className="w-32" src={logo} alt="UniMart logo" />
           </Link>
 
