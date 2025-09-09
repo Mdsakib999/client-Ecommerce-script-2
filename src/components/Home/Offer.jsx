@@ -3,6 +3,7 @@ import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Link } from "react-router";
 
 const Offer = () => {
   const offers = [
@@ -63,9 +64,11 @@ const Offer = () => {
         <h2 className="text-2xl font-semibold text-gray-900">
           Our Featured Offers
         </h2>
-        <p className="underline cursor-pointer text-md md:text-lg font-semibold">
-          See All Products
-        </p>
+        <Link to={"/products"}>
+          <p className="underline cursor-pointer text-md md:text-lg font-semibold">
+            View All Products
+          </p>
+        </Link>
       </div>
 
       {/* Offers Grid */}

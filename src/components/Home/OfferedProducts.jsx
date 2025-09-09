@@ -1,7 +1,7 @@
 import { ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-// import {} Link
+
 
 export default function OfferedProducts() {
   const targetDate = new Date("September 25, 2025 00:00:00").getTime();
