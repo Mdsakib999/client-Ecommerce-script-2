@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export default function RecomenderProduct() {
+export default function RecomendedProduct() {
   const products = [
     {
       id: 1,
