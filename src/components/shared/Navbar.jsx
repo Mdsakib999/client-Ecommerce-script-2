@@ -1,10 +1,10 @@
-import logo from "../../assets/logo.png";
+import { ChevronDown, Heart, Menu, User, X } from "lucide-react";
 import { useState } from "react";
-import { User, Heart, Menu, X, ChevronDown } from "lucide-react";
-import SearchBar from "../SearchBar";
-import SubHeader from "./SubHeader";
-import CartSlider from "./CartSlider";
 import { Link } from "react-router";
+import logo from "../../assets/logo.png";
+import SearchBar from "../SearchBar";
+import CartSlider from "./CartSlider";
+import SubHeader from "./SubHeader";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -123,6 +123,18 @@ export default function Navbar() {
                       className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
                     >
                       Create Account
+                    </Link>
+                    <Link
+                      to="/dashboard/user"
+                      className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+                    >
+                      User Dashboard
+                    </Link>
+                    <Link
+                      to="/dashboard/admin"
+                      className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+                    >
+                      Admin Dashboard
                     </Link>
                     <hr className="my-1 border-gray-100" />
                     <a
