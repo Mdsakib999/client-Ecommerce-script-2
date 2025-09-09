@@ -26,7 +26,7 @@ export default function OfferedProducts() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  });
 
   const products = [
     {

@@ -1,4 +1,5 @@
-import { Heart, ShoppingCart, Star } from "lucide-react";
+import { motion } from "framer-motion";
+import { ShoppingCart, Star } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "react-router";
 
@@ -12,7 +13,7 @@ const products = [
     imageUrl:
       "https://i.ibb.co.com/tMd7xstr/istockphoto-1246138278-1024x1024.jpg",
     description:
-      "Medicube Zero Pore Pink is a premium skincare solution designed to minimize pores and improve skin texture.",
+      "Medicube Zero Pore Pink is a premium skincare solution designed to minimize pores and improve skin texture. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free f",
   },
   {
     id: 2,
@@ -40,8 +41,9 @@ const products = [
     name: "Vitamin C Serum",
     price: 50,
     salePrice: 40,
-    imageUrl: "https://i.ibb.co.com/tMd7xstr/istockphoto-1246138278-1024x1024.jpg",
-    description: "Brightening Vitamin C Serum for glowing skin."
+    imageUrl:
+      "https://i.ibb.co.com/tMd7xstr/istockphoto-1246138278-1024x1024.jpg",
+    description: "Brightening Vitamin C Serum for glowing skin.",
   },
   {
     id: 5,
@@ -49,27 +51,30 @@ const products = [
     name: "Collagen Cream",
     price: 70,
     salePrice: 60,
-    imageUrl: "https://i.ibb.co.com/tMd7xstr/istockphoto-1246138278-1024x1024.jpg",
-    description: "Anti-aging collagen cream to reduce wrinkles."
+    imageUrl:
+      "https://i.ibb.co.com/tMd7xstr/istockphoto-1246138278-1024x1024.jpg",
+    description: "Anti-aging collagen cream to reduce wrinkles.",
   },
   {
-    id: 4,
+    id: 6,
     category: "Health & Beauty",
     name: "Vitamin C Serum",
     price: 50,
     salePrice: 40,
-    imageUrl: "https://i.ibb.co.com/tMd7xstr/istockphoto-1246138278-1024x1024.jpg",
-    description: "Brightening Vitamin C Serum for glowing skin."
+    imageUrl:
+      "https://i.ibb.co.com/tMd7xstr/istockphoto-1246138278-1024x1024.jpg",
+    description: "Brightening Vitamin C Serum for glowing skin.",
   },
   {
-    id: 5,
+    id: 7,
     category: "Health & Beauty",
     name: "Collagen Cream",
     price: 70,
     salePrice: 60,
-    imageUrl: "https://i.ibb.co.com/tMd7xstr/istockphoto-1246138278-1024x1024.jpg",
-    description: "Anti-aging collagen cream to reduce wrinkles."
-  }
+    imageUrl:
+      "https://i.ibb.co.com/tMd7xstr/istockphoto-1246138278-1024x1024.jpg",
+    description: "Anti-aging collagen cream to reduce wrinkles.",
+  },
 ];
 
 // Sample reviews
@@ -101,7 +106,8 @@ export default function ProductDetails() {
   const { id } = useParams();
   const product = products.find((p) => p.id === parseInt(id));
   const [quantity, setQuantity] = useState(1);
-  const [heart, setHeart] = useState(false);
+  const [activeTab, setActiveTab] = useState("description");
+  const [showReviewModal, setShowReviewModal] = useState(false);
 
   if (!product) {
     return (
@@ -114,7 +120,6 @@ export default function ProductDetails() {
   const increaseQuantity = () => setQuantity((prev) => prev + 1);
   const decreaseQuantity = () =>
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
-  const handleHeart = () => setHeart(!heart);
 
   // Average rating
   const avgRating =
@@ -144,7 +149,30 @@ export default function ProductDetails() {
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
             {product.name}
           </h1>
-          <p className="text-gray-600 mb-4">{product.description}</p>
+          <p className="text-gray-600 mb-4">
+            {product.description.split(" ").slice(0, 15).join(" ")}{" "}
+            <span className="opacity-80 text-xl">. . . . . . .</span>
+          </p>
+
+          {/* Average Rating */}
+          <div className="flex items-center mb-4 -mt-2">
+            <span className="flex items-center">
+              {Array.from({ length: 5 }, (_, i) => (
+                <Star
+                  key={i}
+                  size={20}
+                  className={
+                    i < Math.round(avgRating)
+                      ? "text-yellow-400"
+                      : "text-gray-300"
+                  }
+                />
+              ))}
+            </span>
+            <span className="ml-3 text-gray-600 font-semibold">
+              {avgRating.toFixed(1)} / 5
+            </span>
+          </div>
 
           <div className="flex items-center space-x-3 mb-6">
             {product.salePrice ? (
@@ -192,74 +220,151 @@ export default function ProductDetails() {
             <button className="flex-1 bg-red-500 cursor-pointer opacity-90 hover:bg-red-800 text-white font-semibold whitespace-nowrap py-2 md:py-3 px-4 rounded-full transition">
               Buy Now
             </button>
-            <button
-              onClick={handleHeart}
-              className="p-2 rounded-full transition cursor-pointer"
-            >
-              <Heart size={36} className={heart ? "text-red-600" : "text-black"} />
-            </button>
           </div>
         </div>
       </div>
 
-      {/* Review Section */}
-      <div className="bg-white rounded-2xl shadow-md p-6 space-y-6">
-        <h2 className="text-2xl font-bold text-gray-800">
-          Reviews ({reviews.length})
-        </h2>
-        <div className="flex items-center mb-4">
-          <span className="text-yellow-400 flex items-center">
-            {Array.from({ length: 5 }, (_, i) => (
-              <Star
-                key={i}
-                size={20}
-                className={i < Math.round(avgRating) ? "text-yellow-400" : "text-gray-300"}
-              />
-            ))}
-          </span>
-          <span className="ml-3 text-gray-600 font-semibold">
-            {avgRating.toFixed(1)} / 5
-          </span>
+      {/* ================= Description & Review Tabs ================= */}
+      <div className="mt-12 border-t border-gray-200 pt-4">
+        {/* Tab Buttons */}
+        <div className="flex gap-6 border-b border-gray-200 mb-4">
+          <button
+            onClick={() => setActiveTab("description")}
+            className={`pb-2 font-semibold cursor-pointer ${
+              activeTab === "description"
+                ? "border-b-2 border-red-600 text-black "
+                : "text-gray-500"
+            }`}
+          >
+            Description
+          </button>
+          <button
+            onClick={() => setActiveTab("reviews")}
+            className={`pb-2 font-semibold cursor-pointer ${
+              activeTab === "reviews"
+                ? "border-b-2 border-red-600 text-black"
+                : "text-gray-500"
+            }`}
+          >
+            Reviews ({reviews.length})
+          </button>
         </div>
 
-        <div className="space-y-4">
-          {reviews.map((review) => (
-            <div
-              key={review.id}
-              className="border border-gray-200 rounded-xl p-4 space-y-2"
-            >
-              <div className="flex justify-between items-center">
-                <p className="font-semibold text-gray-800">{review.user}</p>
-                <p className="text-gray-500 text-sm">{review.date}</p>
-              </div>
-              <div className="flex items-center">
-                {Array.from({ length: 5 }, (_, i) => (
-                  <Star
-                    key={i}
-                    size={16}
-                    className={i < review.rating ? "text-yellow-400" : "text-gray-300"}
-                  />
-                ))}
-              </div>
-              <p className="text-gray-600">{review.comment}</p>
+        {/* Tab Content */}
+        <div className="text-gray-700">
+          {/* Description Tab */}
+          {activeTab === "description" && (
+            <div className="mt-3 text-[15px] leading-7 text-gray-600">
+              <p>{product.description}</p>
+              <p className="mt-4">
+                This product belongs to the{" "}
+                <span className="font-semibold">{product.category}</span>{" "}
+                category. It is priced at{" "}
+                <span className="font-semibold">
+                  ${product.salePrice || product.price}
+                </span>{" "}
+                and designed to ensure customer satisfaction.
+              </p>
             </div>
-          ))}
+          )}
+
+          {/* Reviews Tab */}
+          {activeTab === "reviews" && (
+            <div className="space-y-6">
+              <div className="bg-white rounded-2xl shadow-md p-6 space-y-6">
+                <h2 className="text-2xl font-bold text-gray-800">
+                  Reviews ({reviews.length})
+                </h2>
+
+                {/* Average Rating */}
+                <div className="flex items-center mb-4">
+                  <span className="flex items-center">
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <Star
+                        key={i}
+                        size={20}
+                        className={
+                          i < Math.round(avgRating)
+                            ? "text-yellow-400"
+                            : "text-gray-300"
+                        }
+                      />
+                    ))}
+                  </span>
+                  <span className="ml-3 text-gray-600 font-semibold">
+                    {avgRating.toFixed(1)} / 5
+                  </span>
+                </div>
+
+                {/* Individual Reviews */}
+                <div className="space-y-4">
+                  {reviews.map((review, index) => (
+                    <motion.div
+                      key={review.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      className="border border-gray-200 rounded-xl p-4 space-y-2"
+                    >
+                      <div className="flex justify-between items-center">
+                        <p className="font-semibold text-gray-800">
+                          {review.user}
+                        </p>
+                        <p className="text-gray-500 text-sm">{review.date}</p>
+                      </div>
+                      <div className="flex items-center">
+                        {Array.from({ length: 5 }, (_, i) => (
+                          <Star
+                            key={i}
+                            size={16}
+                            className={
+                              i < review.rating
+                                ? "text-yellow-400"
+                                : "text-gray-300"
+                            }
+                          />
+                        ))}
+                      </div>
+                      <p className="text-gray-600">{review.comment}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Add Review Button */}
+              <div className="text-center">
+                <button
+                  onClick={() => setShowReviewModal(true)}
+                  className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition shadow-md"
+                >
+                  Add Review
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Same Category Products */}
       {relatedProducts.length > 0 && (
         <div className="bg-white rounded-2xl shadow-md p-6 space-y-6">
-          <h2 className="text-2xl font-bold text-gray-800 opacity-80">You May Also Like</h2>
+          <h2 className="text-2xl font-bold text-gray-800 opacity-80">
+            Related Products
+          </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
             {relatedProducts.map((p) => (
-              <div key={p.id} className="border border-gray-200 rounded-xl p-4 flex flex-col items-center space-y-1">
+              <div
+                key={p.id}
+                className="border border-gray-200 rounded-xl p-4 flex flex-col items-center space-y-1"
+              >
                 <img
                   src={p.imageUrl}
                   alt={p.name}
                   className="w-full h-24 object-cover rounded-lg"
                 />
-                <h3 className="font-semibold text-gray-800 text-lg text-center whitespace-nowrap">{p.name}</h3>
+                <h3 className="font-semibold text-gray-800 text-lg text-center whitespace-nowrap">
+                  {p.name}
+                </h3>
                 <div className="flex items-center space-x-2">
                   {p.salePrice ? (
                     <>
