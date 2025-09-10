@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 export default function ContactPage() {
@@ -20,9 +20,7 @@ export default function ContactPage() {
       <div className="max-w-6xl w-full bg-white rounded-2xl shadow-xl p-8 grid md:grid-cols-2 gap-12">
         {/* Left: Contact Info */}
         <div>
-          <h2 className="text-3xl font-semibold mb-4">
-            Contact Us
-          </h2>
+          <h2 className="text-3xl font-semibold mb-4">Contact Us</h2>
           <p className="text-gray-600 mb-8 text-lg leading-relaxed">
             Have questions? We’d love to hear from you. Our support team is here
             to help you anytime.
@@ -52,7 +50,7 @@ export default function ContactPage() {
             <iframe
               title="map"
               className="w-full h-52 rounded-xl shadow-md"
-              src="https://www.google.com/maps/embed"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3689.814205679748!2d91.8120790755546!3d22.360643179643297!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30acd9005629cff9%3A0x134782e81960acf0!2sSM%20IT%20SOLUTION!5e0!3m2!1sen!2sbd!4v1757483636275!5m2!1sen!2sbd"
               allowFullScreen
               loading="lazy"
             ></iframe>
