@@ -69,7 +69,7 @@ export default function Banner() {
           {slides.map((slide) => (
             <div
               key={slide.id}
-              className="min-w-full relative h-[600px]"
+              className="min-w-full relative min-h-[600px]"
               style={{
                 backgroundImage: `url(${slide.productImage})`,
                 backgroundSize: 'cover',
