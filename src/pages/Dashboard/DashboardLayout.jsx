@@ -1,29 +1,33 @@
 import {
   ChevronLeft,
   ChevronRight,
-  Grid3X3,
-  HelpCircle,
+  ClipboardList,
   Menu,
-  MessageSquare,
-  Settings,
-  User,
+  Package,
+  ShoppingCart,
+  UserCircle,
+  Users,
   X,
 } from "lucide-react";
-import { Link,Outlet, useLocation } from "react-router";
 import { useState } from "react";
+import { Link, Outlet, useLocation,Navigate } from "react-router";
 import Logo from "../../components/shared/Logo";
 
 export default function DashboardLayout() {
-    const location = useLocation();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false); // mobile menu open
   const [collapsed, setCollapsed] = useState(false); // desktop collapsed
   const menuItems = [
-    { name: "manage-orders", icon: Grid3X3, active: true },
-    { name: "products", icon: User },
-    { name: "users", icon: Settings },
-    { name: "orders", icon: MessageSquare },
-    { name: "profile", icon: HelpCircle },
+    { name: "manage-orders", icon: ClipboardList, active: true },
+    { name: "products", icon: Package },
+    { name: "users", icon: Users },
+    { name: "orders", icon: ShoppingCart },
+    { name: "profile", icon: UserCircle },
   ];
+
+  if (location.pathname === "/dashboard") {
+    return <Navigate to="/dashboard/profile" replace />;
+  }
 
   return (
     <div className="flex h-screen bg-gray-50">
@@ -54,9 +58,7 @@ export default function DashboardLayout() {
             collapsed ? "justify-center" : "justify-between"
           }`}
         >
-          {!collapsed && (
-            <Logo w='32' />
-          )}
+          {!collapsed && <Logo w="32" />}
           <button
             onClick={() => setCollapsed((s) => !s)}
             className="hidden md:inline-flex p-1 rounded hover:bg-gray-100"
@@ -74,7 +76,9 @@ export default function DashboardLayout() {
         <nav className="mt-4 space-y-1">
           {menuItems.map((item) => {
             const Icon = item.icon;
-            const isActive = location.pathname.startsWith(`/dashboard/${item.name}`);
+            const isActive = location.pathname.startsWith(
+              `/dashboard/${item.name}`
+            );
             return (
               <Link
                 to={item.name}
@@ -108,7 +112,7 @@ export default function DashboardLayout() {
       */}
       <main
         className={`flex-1 p-6 pt-14 mt-4 md:pt-0 transition-all duration-300 ${
-          collapsed ? "md:ml-20" : "md:ml-64"
+          collapsed ? "md:ml-20" : "md:ml-40"
         }`}
       >
         <h1 className="text-xl font-semibold">Welcome to Dashboard</h1>
