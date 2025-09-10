@@ -119,16 +119,10 @@ export default function Navbar() {
                       Create Account
                     </Link>
                     <Link
-                      to="/dashboard/user"
+                      to="/dashboard"
                       className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
                     >
-                      User Dashboard
-                    </Link>
-                    <Link
-                      to="/dashboard/admin"
-                      className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
-                    >
-                      Admin Dashboard
+                      Dashboard
                     </Link>
                     <hr className="my-1 border-gray-100" />
                     <a
