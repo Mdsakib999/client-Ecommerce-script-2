@@ -19,22 +19,16 @@ export default function SubHeader() {
               About
             </Link>
             <Link
-              to="help-support"
-              className="hover:text-blue-600 transition-colors duration-200 font-medium"
-            >
-              Help & Support
-            </Link>
-            <Link
               to="/track-order"
               className="hover:text-blue-600 transition-colors duration-200 font-medium"
             >
               Track Order
             </Link>
             <Link
-              to="/faq"
+              to="help-support"
               className="hover:text-blue-600 transition-colors duration-200 font-medium"
             >
-              FAQ
+              Faq
             </Link>
             <Link
               to="/contact"

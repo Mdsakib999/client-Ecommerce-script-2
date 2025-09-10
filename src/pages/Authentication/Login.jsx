@@ -16,12 +16,12 @@ export default function Login() {
   } = useForm();
   const [showPassword, setShowPassword] = useState(false);
 
-  const [login] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const onSubmit = async (data) => {
     try {
       const res = await login(data).unwrap();
-
+      console.log("res-->", res);
       if (res.success) {
         toast.success("Logged in successfully");
         // navigate("/");
@@ -37,10 +37,13 @@ export default function Login() {
         toast.error("Your account is not verified");
         // navigate("/verify", { state: data.email });
       }
+      if (err.data.message === "You have authenticated through Google login!") {
+        toast.error("You are authenticated through google!", {
+          position: "bottom-right",
+        });
+      }
     }
   };
-
-  let isLoading = false;
 
   return (
     <div className="flex min-h-screen">
@@ -50,7 +53,7 @@ export default function Login() {
         <img
           src={loginImage}
           alt="Shop illustration"
-          className="object-cover h-full w-full"
+          className="object-cover h-full w-full brightness-50"
         />
       </div>
 
@@ -115,7 +118,7 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full bg-black text-white py-4 rounded-xl font-medium hover:bg-slate-800 transition-colors shadow-lg hover:shadow-xl"
+              className="cursor-pointer w-full bg-black text-white py-4 rounded-xl font-medium hover:bg-slate-800 transition-colors shadow-lg hover:shadow-xl"
             >
               Sign In
             </button>
@@ -129,7 +132,7 @@ export default function Login() {
               }
               type="button"
               disabled={isLoading}
-              className={`flex items-center justify-center w-full gap-3 px-4 py-4 rounded-xl font-medium transition-colors duration-200 border ${
+              className={`cursor-pointer flex items-center justify-center w-full gap-3 px-4 py-4 rounded-xl font-medium transition-colors duration-200 border ${
                 isLoading
                   ? "bg-slate-100 cursor-not-allowed text-slate-400 border-slate-200"
                   : "bg-white text-slate-700 hover:bg-slate-50 border-slate-300 shadow-sm hover:shadow-md"
