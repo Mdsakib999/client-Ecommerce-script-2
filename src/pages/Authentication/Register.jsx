@@ -6,6 +6,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router";
 import { useRegisterUserMutation } from "../../redux/app/services/user/userApi";
 import toast from "react-hot-toast";
+import googleLogo from "../../assets/googleLogo.png";
 
 export default function Register() {
   const {
@@ -79,7 +80,7 @@ export default function Register() {
               <input
                 type="text"
                 {...register("name", { required: "Full name is required" })}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 outline-none transition"
+                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-gray-400 outline-none transition"
                 placeholder="Enter your full name"
               />
               {errors.name && (
@@ -97,7 +98,7 @@ export default function Register() {
               <input
                 type="email"
                 {...register("email", { required: "Email is required" })}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 outline-none transition"
+                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-black-400 outline-none transition"
                 placeholder="Enter your email"
               />
               {errors.email && (
@@ -121,7 +122,7 @@ export default function Register() {
                     message: "Password must be at least 6 characters",
                   },
                 })}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 outline-none transition pr-10"
+                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-black-400 outline-none transition pr-10"
                 placeholder="Enter your password"
               />
               <span
@@ -149,7 +150,7 @@ export default function Register() {
                   validate: (value) =>
                     value === password || "Passwords do not match",
                 })}
-                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-400 outline-none transition pr-10"
+                className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-black-400 outline-none transition pr-10"
                 placeholder="Confirm your password"
               />
               <span
@@ -169,18 +170,36 @@ export default function Register() {
               type="submit"
               disabled={isLoading}
               className={`cursor-pointer w-full ${
-                isLoading ? "bg-gray-500" : "bg-blue-500"
-              } text-white py-3 rounded-xl font-medium hover:bg-blue-600 transition`}
+                isLoading ? "bg-gray-500" : "bg-black"
+              } text-white py-3 rounded-xl font-medium hover:bg-slate-800 transition`}
             >
               {isLoading ? "Signing up..." : "Sign Up"}
             </button>
+            <button
+              onClick={() =>
+                window.open(
+                  `${import.meta.env.VITE_SERVER_URL}/auth/google`,
+                  "_self"
+                )
+              }
+              type="submit"
+              disabled={isLoading}
+              className={`flex items-center justify-center w-full gap-3 px-4 py-3 rounded-xl font-medium transition-colors duration-200 ${
+                isLoading
+                  ? "bg-gray-300 cursor-not-allowed text-gray-500"
+                  : "bg-white text-gray-800 hover:bg-gray-100 border border-gray-300"
+              }`}
+            >
+              <img src={googleLogo} alt="google" className="w-5 h-5" />
+              <span>{isLoading ? "Signing up..." : "Sign Up with Google"}</span>
+            </button>
           </form>
 
-          <p className="text-center text-gray-500 mt-6">
+          <p className="text-center mt-6">
             Already have an account?{" "}
             <Link
               to="/login"
-              className="text-blue-500 font-medium cursor-pointer hover:underline"
+              className="text-black font-medium cursor-pointer hover:underline"
             >
               Login
             </Link>
