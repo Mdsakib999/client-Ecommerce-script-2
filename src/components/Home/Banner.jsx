@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
+import {Link} from 'react-router'
 
 export default function Banner() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -86,7 +87,7 @@ export default function Banner() {
               <div className="absolute inset-0 bg-black/30"></div>
 
               {/* Centered Content */}
-              <div className="absolute inset-0 flex items-center justify-center">
+              <div className="absolute scale-80 inset-0 flex items-center justify-center">
                 <div className="text-center text-white z-10 px-4 max-w-4xl mx-auto">
                   <div className="space-y-4 lg:space-y-6">
                     <div className="inline-block bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 text-sm font-medium border border-white/20">
@@ -101,12 +102,14 @@ export default function Banner() {
                       {slide.subtitle}
                     </p>
 
-                    <button className="group bg-white text-gray-800 px-8 py-2 rounded-full font-semibold text-lg hover:bg-gray-700 transform hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl">
-                      {slide.buttonText}
-                      <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">
-                        →
-                      </span>
-                    </button>
+                    <Link to="/products">
+                      <button className="group bg-white text-gray-800 px-8 py-2 rounded-full font-semibold text-lg hover:bg-gray-700 transform hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl">
+                        {slide.buttonText}
+                        <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">
+                          →
+                        </span>
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -138,7 +141,7 @@ export default function Banner() {
         {/* Navigation Arrows - Sides */}
         <button
           onClick={prevSlide}
-          className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-4 rounded-full transition-all duration-300 hover:scale-110 z-20 border border-white/20"
+          className="absolute hidden sm:visible left-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-4 rounded-full transition-all duration-300 hover:scale-110 z-20 border border-white/20"
           aria-label="Previous slide"
         >
           <ChevronLeft size={24} />
@@ -146,7 +149,7 @@ export default function Banner() {
 
         <button
           onClick={nextSlide}
-          className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-4 rounded-full transition-all duration-300 hover:scale-110 z-20 border border-white/20"
+          className="absolute hidden sm:visible right-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-4 rounded-full transition-all duration-300 hover:scale-110 z-20 border border-white/20"
           aria-label="Next slide"
         >
           <ChevronRight size={24} />

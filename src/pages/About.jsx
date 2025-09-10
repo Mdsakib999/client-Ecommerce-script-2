@@ -21,26 +21,26 @@ export default function About() {
 At UniMart, we are committed to making online shopping simple, enjoyable, and trustworthy. Our mission is to deliver high-quality products directly to your doorstep while providing exceptional customer service. Every item is carefully selected for quality, value, and style. We aim to build a community where customers feel supported, valued, and inspired. Your satisfaction drives everything we do, making every interaction seamless and memorable.
         </p>
       </div>
-      <div className="grid gap-6 grid-cols-4 mb-16 max-w-7xl mx-auto">
-        <div className="flex bg-gray-100 text-black flex-col gap-1 py-10 items-center justify-center text-center rounded-lg hover:bg-white hover:outline hover:outline-gray-600 transition">
+      <div className="grid  px-4 py-2 gap-6 grid-cols-2 sm:grid-cols-4 mb-16 max-w-7xl mx-auto">
+        <div className="flex bg-gray-100 text-black flex-col gap-1 py-6 sm:py-10 items-center justify-center text-center rounded-lg hover:bg-white hover:outline hover:outline-gray-600 transition">
           <h1 className="text-4xl"> <Countup>800</Countup>+ </h1>
           <p className="text-md">
             Product Types
           </p>
         </div>
-        <div className="flex bg-gray-100 text-black flex-col gap-1 py-10 items-center justify-center text-center rounded-lg hover:bg-white hover:outline hover:outline-gray-600 transition">
+        <div className="flex bg-gray-100 text-black flex-col gap-1 py-6 sm:py-10 items-center justify-center text-center rounded-lg hover:bg-white hover:outline hover:outline-gray-600 transition">
           <h1 className="text-4xl"> <Countup>12</Countup>+ </h1>
           <p className="text-md">
             Years Of Experiance
           </p>
         </div>
-        <div className="flex bg-gray-100 text-black flex-col gap-1 py-10 items-center justify-center text-center rounded-lg hover:bg-white hover:outline hover:outline-gray-600 transition">
+        <div className="flex bg-gray-100 text-black flex-col gap-1 py-6 sm:py-10 items-center justify-center text-center rounded-lg hover:bg-white hover:outline hover:outline-gray-600 transition">
           <h1 className="text-4xl"> <Countup>2500</Countup>+ </h1>
           <p className="text-md">
             Trust Customers
           </p>
         </div>
-        <div className="flex bg-gray-100 text-black flex-col gap-1 py-10 items-center justify-center text-center rounded-lg hover:bg-white hover:outline hover:outline-gray-600 transition">
+        <div className="flex bg-gray-100 text-black flex-col gap-1 py-6 sm:py-10 items-center justify-center text-center rounded-lg hover:bg-white hover:outline hover:outline-gray-600 transition">
           <h1 className="text-4xl"> <Countup>15</Countup>+ </h1>
           <p className="text-md">
             Stores Nationwide
