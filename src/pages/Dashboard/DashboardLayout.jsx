@@ -1,28 +1,33 @@
 import {
   ChevronLeft,
   ChevronRight,
-  Grid3X3,
-  HelpCircle,
+  ClipboardList,
   Menu,
-  MessageSquare,
-  Settings,
-  User,
+  Package,
+  ShoppingCart,
+  UserCircle,
+  Users,
   X,
 } from "lucide-react";
 import { useState } from "react";
-import logo from "../../../assets/logo.png";
-import Logo from "../../../components/shared/Logo";
+import { Link, Outlet, useLocation,Navigate } from "react-router";
+import Logo from "../../components/shared/Logo";
 
-export default function CustomerDashboard() {
+export default function DashboardLayout() {
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false); // mobile menu open
   const [collapsed, setCollapsed] = useState(false); // desktop collapsed
   const menuItems = [
-    { name: "Dashboard", icon: Grid3X3, active: true },
-    { name: "Profile", icon: User },
-    { name: "Settings", icon: Settings },
-    { name: "Message", icon: MessageSquare },
-    { name: "Support", icon: HelpCircle },
+    { name: "manage-orders", icon: ClipboardList, active: true },
+    { name: "products", icon: Package },
+    { name: "users", icon: Users },
+    { name: "orders", icon: ShoppingCart },
+    { name: "profile", icon: UserCircle },
   ];
+
+  if (location.pathname === "/dashboard") {
+    return <Navigate to="/dashboard/profile" replace />;
+  }
 
   return (
     <div className="flex h-screen bg-gray-50">
@@ -53,13 +58,7 @@ export default function CustomerDashboard() {
             collapsed ? "justify-center" : "justify-between"
           }`}
         >
-          {!collapsed && (
-            <img
-              className="w-32 cursor-pointer"
-              src={logo}
-              alt="uniMart logo"
-            />
-          )}
+          {!collapsed && <Logo w="32" />}
           <button
             onClick={() => setCollapsed((s) => !s)}
             className="hidden md:inline-flex p-1 rounded hover:bg-gray-100"
@@ -77,20 +76,23 @@ export default function CustomerDashboard() {
         <nav className="mt-4 space-y-1">
           {menuItems.map((item) => {
             const Icon = item.icon;
+            const isActive = location.pathname.startsWith(
+              `/dashboard/${item.name}`
+            );
             return (
-              <div
-                key={item.name}
+              <Link
+                to={item.name}
                 className={`flex items-center py-3 cursor-pointer transition-colors
                   ${collapsed ? "justify-center" : "px-4"}
                   ${
-                    item.active
+                    isActive
                       ? "bg-blue-50 border-r-4 border-blue-500 text-blue-600"
                       : "text-gray-600 hover:bg-gray-50"
                   }`}
               >
                 <Icon className="w-5 h-5" />
                 {!collapsed && <span className="ml-3">{item.name}</span>}
-              </div>
+              </Link>
             );
           })}
         </nav>
@@ -110,11 +112,12 @@ export default function CustomerDashboard() {
       */}
       <main
         className={`flex-1 p-6 pt-14 mt-4 md:pt-0 transition-all duration-300 ${
-          collapsed ? "md:ml-20" : "md:ml-64"
+          collapsed ? "md:ml-20" : "md:ml-40"
         }`}
       >
         <h1 className="text-xl font-semibold">Welcome to Dashboard</h1>
         {/* ...rest of content */}
+        <Outlet />
       </main>
     </div>
   );

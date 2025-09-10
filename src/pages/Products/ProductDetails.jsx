@@ -12,11 +12,16 @@ const products = [
     price: 1299.99,
     discountPrice: 1199.99,
     quantity: 1,
-    image:
-      "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=300&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=300&h=300&fit=crop",
+    image1: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-pro-max-1?w=300",
+    image2: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-pro-max-2?w=300",
+    image3: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-pro-max-3?w=300",
     color: ["Natural Titanium", "Blue", "Silver", "Black"],
     rating: 4.8,
     inStock: true,
+    warranty: "1 Year Official Apple Warranty",
+    deliveryTime: "3 - 5 Business Days",
+    deliveryCharge: "Free Delivery",
     description:
       "The Apple iPhone 15 Pro Max is Apple’s most advanced smartphone yet, built with aerospace-grade titanium for strength and reduced weight. It features a stunning 6.7-inch Super Retina XDR display with ProMotion for smoother visuals and ultra-bright performance. Powered by the A17 Pro chip, it delivers unmatched speed, power efficiency, and graphics capabilities for gaming and multitasking. The advanced triple-camera system includes a 48MP main camera, telephoto lens, and ultra-wide, capturing breathtaking photos and videos in all lighting conditions. With 5G connectivity, iOS 17, and all-day battery life, the iPhone 15 Pro Max redefines premium smartphones for professionals and enthusiasts alike.",
   },
@@ -28,11 +33,15 @@ const products = [
     price: 1099.99,
     discountPrice: 999.99,
     quantity: 1,
-    image:
-      "https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=300&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=300&h=300&fit=crop",
+    image1: "https://i.ibb.co.com/KxvJM3mP/pexels-fotios-photos-1092644.jpg",
+    image2: "https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=300&h=300&fi",
     color: ["Obsidian", "Porcelain", "Bay Blue"],
     rating: 4.6,
     inStock: true,
+    warranty: "2 Years Official Google Warranty",
+    deliveryTime: "5 - 7 Business Days",
+    deliveryCharge: "$15 Standard Delivery",
     description:
       "The Google Pixel 8 Pro is designed to deliver the best of Android with Google’s clean software and AI-driven performance. Equipped with the Google Tensor G3 chip, it offers cutting-edge AI features such as enhanced voice recognition, live translation, and advanced photo editing tools like Magic Eraser. Its 6.7-inch LTPO OLED display supports adaptive refresh rates up to 120Hz for smooth scrolling and vivid visuals. The Pixel 8 Pro’s triple camera system, led by a powerful 50MP sensor, captures incredible details, while Night Sight and Real Tone ensure accurate photos in any condition. With long software support, it’s built to last.",
   },
@@ -129,9 +138,13 @@ const reviews = [
 
 export default function ProductDetails() {
   const { id } = useParams();
-  const location = useLocation();
-  const product = location.state?.product;
-  // const product = products.find((p) => p.id === parseInt(id));
+  // const location = useLocation();
+  // const product = location.state?.product;
+  const product = products.find((p) => p.id === parseInt(id));
+
+  const [mainImage, setMainImage] = useState(product.image);
+
+  console.log(products);
 
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("description");
@@ -162,16 +175,36 @@ export default function ProductDetails() {
     <div className="max-w-6xl mx-auto p-6 space-y-8">
       {/* Product Details */}
       <div className="bg-white rounded-2xl shadow-md p-6 flex flex-col md:flex-row gap-6">
-        {/* Image */}
-        <div className="w-full md:w-1/2 flex items-center justify-center">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="rounded-2xl w-full h-80 object-cover"
-          />
+        {/* Image Section */}
+        <div className="w-full md:w-1/2 flex flex-col items-center">
+          {/* Main Image */}
+          <div className="w-full flex items-center justify-center">
+            <img
+              src={mainImage}
+              alt={product.name}
+              className="rounded-2xl w-full h-80 object-cover transition duration-300"
+            />
+          </div>
+
+          {/* Thumbnails */}
+          <div className="flex gap-3 mt-4">
+            {[product.image, product.image1, product.image2, product.image3]
+              .filter(Boolean)
+              .map((img, index) => (
+                <img
+                  key={index}
+                  src={img}
+                  alt={`thumb-${index}`}
+                  onClick={() => setMainImage(img)}
+                  className={`w-20 h-20 rounded-lg object-cover cursor-pointer border-2 ${
+                    mainImage === img ? "border-red-500" : "border-transparent"
+                  }`}
+                />
+              ))}
+          </div>
         </div>
 
-        {/* Info */}
+        {/* Info Section */}
         <div className="w-full md:w-1/2 flex flex-col justify-center">
           <p className="text-sm text-gray-500 mb-1">{product.category}</p>
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
@@ -202,6 +235,7 @@ export default function ProductDetails() {
             </span>
           </div>
 
+          {/* Price */}
           <div className="flex items-center space-x-3 mb-6">
             {product.discountPrice ? (
               <>
@@ -252,7 +286,7 @@ export default function ProductDetails() {
         </div>
       </div>
 
-      {/* ================= Description & Review Tabs ================= */}
+      {/* ================= Tabs ================= */}
       <div className="mt-12 border-t border-gray-200 pt-4">
         {/* Tab Buttons */}
         <div className="flex gap-6 border-b border-gray-200 mb-4">
@@ -275,6 +309,16 @@ export default function ProductDetails() {
             }`}
           >
             Reviews ({reviews.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("additionalInfo")}
+            className={`pb-2 font-semibold cursor-pointer ${
+              activeTab === "additionalInfo"
+                ? "border-b-2 border-red-600 text-black"
+                : "text-gray-500"
+            }`}
+          >
+            Additional Info
           </button>
         </div>
 
@@ -370,25 +414,48 @@ export default function ProductDetails() {
               </div>
             </div>
           )}
+
+          {/* Additional Info Tab */}
+          {activeTab === "additionalInfo" && (
+            <div className="bg-white rounded-2xl shadow-md p-6 space-y-6">
+              <h2 className="text-2xl font-bold text-gray-800">
+                Additional Information
+              </h2>
+              <ul className="space-y-3 text-gray-700 text-[15px]">
+                <li>
+                  <span className="font-semibold">Warranty:</span>{" "}
+                  {product.warranty}
+                </li>
+                <li>
+                  <span className="font-semibold">Delivery Time:</span>{" "}
+                  {product.deliveryTime}
+                </li>
+                <li>
+                  <span className="font-semibold">Delivery Charge:</span>{" "}
+                  {product.deliveryCharge}
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Same Category Products */}
+      {/* Related Products */}
       {relatedProducts.length > 0 && (
         <div className="bg-white rounded-2xl shadow-md p-6 space-y-6">
           <h2 className="text-2xl font-bold text-gray-800 opacity-80">
             Related Products
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {relatedProducts.map((p) => (
               <div
                 key={p.id}
-                className="border border-gray-200 rounded-xl p-4 flex flex-col items-center space-y-1"
+                className="bg-gray-50 rounded-xl pb-4 flex flex-col items-center space-y-2"
               >
                 <img
                   src={p.image}
                   alt={p.name}
-                  className="w-full h-24 object-cover rounded-lg"
+                  className="w-full h-36 object-cover rounded-lg"
                 />
                 <h3 className="font-semibold text-gray-800 text-lg text-center whitespace-nowrap">
                   {p.name}
@@ -396,17 +463,17 @@ export default function ProductDetails() {
                 <div className="flex items-center space-x-2">
                   {p.discountPrice ? (
                     <>
-                      <p className="text-red-500 font-bold">
-                        ${p.discountPrice}
-                      </p>
+                      <p className="text-red-500 font-bold">${p.discountPrice}</p>
                       <p className="text-gray-400 line-through">${p.price}</p>
                     </>
                   ) : (
                     <p className="text-gray-800 font-bold">${p.price}</p>
                   )}
                 </div>
-                <button className="bg-blue-600 opacity-85 hover:bg-blue-800 text-white py-1 md:py-1 px-4 rounded-full flex items-center justify-center space-x-1 transition">
-                  <ShoppingCart size={16} />
+                {/* <button className="bg-gray-300 opacity-85 hover:bg-blue-800 text-white py-1 md:py-1 px-4 rounded-full flex items-center justify-center space-x-1 transition">
+                  <span>Details</span>
+                </button> */}
+                <button className="bg-gray-200 rounded-full py-2  w-4/5 font-semibold cursor-pointer text-sm flex items-center justify-center space-x-2 transition-colors hover:bg-gray-700 hover:text-white">
                   <span>Details</span>
                 </button>
               </div>

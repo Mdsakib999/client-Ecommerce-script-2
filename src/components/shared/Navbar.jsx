@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import SearchBar from "../SearchBar";
 import CartSlider from "./CartSlider";
-import SubHeader from "./SubHeader";
 import Logo from "./Logo";
 import {
   authApi,
@@ -11,6 +10,7 @@ import {
   useUserInfoQuery,
 } from "../../redux/app/services/auth/authApi";
 import { useDispatch } from "react-redux";
+import SubHeader from "./SubHeader";
 
 export default function Navbar() {
   const { data: userInfo } = useUserInfoQuery();
