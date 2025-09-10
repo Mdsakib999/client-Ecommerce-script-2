@@ -1,7 +1,7 @@
 import { ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-// import {} Link
+
 
 export default function OfferedProducts() {
   const targetDate = new Date("September 25, 2025 00:00:00").getTime();
@@ -26,35 +26,62 @@ export default function OfferedProducts() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  });
+
+
+
+
 
   const products = [
+  {
+    id: 1,
+    name: "Apple iPhone 15 Pro Max",
+    brand: "Apple",
+    category: "Smartphones",
+    price: 1299.99,
+    discountPrice: 1199.99,
+    quantity: 1,
+    image:
+      "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=300&h=300&fit=crop",
+    color: ["Natural Titanium", "Blue", "Silver", "Black"],
+    rating: 4.8,
+    inStock: true,
+    description:
+      "The Apple iPhone 15 Pro Max is Apple’s most advanced smartphone yet, built with aerospace-grade titanium for strength and reduced weight. It features a stunning 6.7-inch Super Retina XDR display with ProMotion for smoother visuals and ultra-bright performance. Powered by the A17 Pro chip, it delivers unmatched speed, power efficiency, and graphics capabilities for gaming and multitasking. The advanced triple-camera system includes a 48MP main camera, telephoto lens, and ultra-wide, capturing breathtaking photos and videos in all lighting conditions. With 5G connectivity, iOS 17, and all-day battery life, the iPhone 15 Pro Max redefines premium smartphones for professionals and enthusiasts alike."
+  },
+  {
+    id: 3,
+    name: "Google Pixel 8 Pro",
+    brand: "Google",
+    category: "Smartphones",
+    price: 1099.99,
+    discountPrice: 999.99,
+    quantity: 1,
+    image:
+      "https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=300&h=300&fit=crop",
+    color: ["Obsidian", "Porcelain", "Bay Blue"],
+    rating: 4.6,
+    inStock: true,
+    description:
+      "The Google Pixel 8 Pro is designed to deliver the best of Android with Google’s clean software and AI-driven performance. Equipped with the Google Tensor G3 chip, it offers cutting-edge AI features such as enhanced voice recognition, live translation, and advanced photo editing tools like Magic Eraser. Its 6.7-inch LTPO OLED display supports adaptive refresh rates up to 120Hz for smooth scrolling and vivid visuals. The Pixel 8 Pro’s triple camera system, led by a powerful 50MP sensor, captures incredible details, while Night Sight and Real Tone ensure accurate photos in any condition. With long software support, it’s built to last."
+  },
     {
-      id: 1,
-      category: "Health & Beauty",
-      name: "Medicube Zero Pore Pink",
-      price: 108,
-      salePrice: 95,
-      imageUrl:
-        "https://i.ibb.co.com/tMd7xstr/istockphoto-1246138278-1024x1024.jpg",
-    },
-    {
-      id: 2,
-      category: "Cosmetics",
-      name: "Christian Dior Dior Addict",
-      price: 100,
-      salePrice: 75,
-      imageUrl: "https://i.ibb.co.com/9kKVfzL0/pexels-pixabay-51383.jpg",
-    },
-    {
-      id: 3,
-      category: "Home & Kitchen",
-      name: "Stainless Steel Coffee Maker",
-      price: 120,
-      salePrice: 55,
-      imageUrl: "https://i.ibb.co.com/p6Sx7pgz/phantom-drone-camera.jpg",
-    },
-  ];
+    id: 5,
+    name: "Xiaomi 14 Pro",
+    brand: "Xiaomi",
+    category: "Smartphones",
+    price: 849.99,
+    discountPrice: 749.99,
+    quantity: 1,
+    image:
+      "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=300&h=300&fit=crop",
+    color: ["Graphite", "Blue", "White"],
+    rating: 4.4,
+    inStock: true,
+    description:
+      "The Xiaomi 14 Pro combines high-end performance with sleek design at a competitive price point. Featuring a large AMOLED display with vibrant colors and a 120Hz refresh rate, it ensures immersive visuals whether for gaming, streaming, or browsing. Powered by the Snapdragon 8 Gen 3 chipset, it offers blazing-fast performance and efficient multitasking. The advanced Leica-engineered camera system includes a 50MP primary lens, telephoto zoom, and ultra-wide sensor for professional-grade photography. With fast charging, long-lasting battery, and MIUI optimization, the Xiaomi 14 Pro balances premium features with affordability, making it an excellent choice for users seeking flagship performance without breaking the bank."
+  },
+];
 
   return (
     <div className="max-w-7xl px-4 w-full mx-auto">
@@ -116,7 +143,7 @@ export default function OfferedProducts() {
                 key={product.id}
                 className="bg-white border border-gray-300 rounded-2xl shadow-md overflow-hidden relative transform transition-transform duration-300 hover:scale-105"
               >
-                {product.salePrice && (
+                {product.discountPrice && (
                   <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
                     SALE
                   </div>
@@ -124,7 +151,7 @@ export default function OfferedProducts() {
                 <div className="p-4 flex flex-col items-center">
                   <div className="w-32 h-32 md:w-40 md:h-40 mb-4">
                     <img
-                      src={product.imageUrl}
+                      src={product.image}
                       alt={product.name}
                       className="w-full h-full rounded-full object-cover "
                     />
@@ -137,10 +164,10 @@ export default function OfferedProducts() {
                       {product.name}
                     </h2>
                     <div className="flex justify-center items-baseline space-x-2">
-                      {product.salePrice ? (
+                      {product.discountPrice ? (
                         <>
                           <p className="text-lg font-bold text-red-500">
-                            ${product.salePrice}
+                            ${product.discountPrice}
                           </p>
                           <p className="text-sm text-gray-400 line-through">
                             ${product.price}
@@ -155,6 +182,7 @@ export default function OfferedProducts() {
                     <div className="pt-3">
                        <Link
                         to={`/product/${product.id}`}
+                        state={{ product }}
                         className="w-full bg-gray-200 rounded-full py-2 px-4 font-semibold text-sm flex items-center justify-center space-x-2 transition-colors hover:bg-gray-700 hover:text-white"
                       >
                         <ShoppingCart size={16} />

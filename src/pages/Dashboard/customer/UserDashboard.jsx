@@ -1,0 +1,121 @@
+import {
+  ChevronLeft,
+  ChevronRight,
+  Grid3X3,
+  HelpCircle,
+  Menu,
+  MessageSquare,
+  Settings,
+  User,
+  X,
+} from "lucide-react";
+import { useState } from "react";
+import logo from "../../../assets/logo.png";
+import Logo from "../../../components/shared/Logo";
+
+export default function CustomerDashboard() {
+  const [isOpen, setIsOpen] = useState(false); // mobile menu open
+  const [collapsed, setCollapsed] = useState(false); // desktop collapsed
+  const menuItems = [
+    { name: "Dashboard", icon: Grid3X3, active: true },
+    { name: "Profile", icon: User },
+    { name: "Settings", icon: Settings },
+    { name: "Message", icon: MessageSquare },
+    { name: "Support", icon: HelpCircle },
+  ];
+
+  return (
+    <div className="flex h-screen bg-gray-50">
+      {/* Mobile Header (fixed so sidebar doesn't cover it) */}
+      <header className="fixed md:hidden top-0 left-0 right-0 h-14 flex items-center justify-between px-4 bg-white shadow z-50">
+        <Logo w="28" />
+        <button
+          aria-label="Toggle menu"
+          onClick={() => setIsOpen((s) => !s)}
+          className="p-1"
+        >
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </header>
+
+      {/* Sidebar */}
+      <aside
+        // On mobile: fixed and starts BELOW the header (top-14) and height excludes header
+        // On md+: static and full height
+        className={`fixed md:static left-0 z-50 transform transition-transform duration-300
+          ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
+          ${collapsed ? "w-20" : "w-64"} bg-white shadow
+          top-14 md:top-0 h-[calc(100vh-56px)] md:h-full`}
+      >
+        {/* Logo & collapse button */}
+        <div
+          className={`flex items-center border-b p-4 ${
+            collapsed ? "justify-center" : "justify-between"
+          }`}
+        >
+          {!collapsed && (
+            <img
+              className="w-32 cursor-pointer"
+              src={logo}
+              alt="uniMart logo"
+            />
+          )}
+          <button
+            onClick={() => setCollapsed((s) => !s)}
+            className="hidden md:inline-flex p-1 rounded hover:bg-gray-100"
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {collapsed ? (
+              <ChevronRight className="w-5 h-5" />
+            ) : (
+              <ChevronLeft className="w-5 h-5" />
+            )}
+          </button>
+        </div>
+
+        {/* Nav Items */}
+        <nav className="mt-4 space-y-1">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={item.name}
+                className={`flex items-center py-3 cursor-pointer transition-colors
+                  ${collapsed ? "justify-center" : "px-4"}
+                  ${
+                    item.active
+                      ? "bg-blue-50 border-r-4 border-blue-500 text-blue-600"
+                      : "text-gray-600 hover:bg-gray-50"
+                  }`}
+              >
+                <Icon className="w-5 h-5" />
+                {!collapsed && <span className="ml-3">{item.name}</span>}
+              </div>
+            );
+          })}
+        </nav>
+      </aside>
+
+      {/* Mobile overlay (doesn't cover the top header) */}
+      {isOpen && (
+        <div
+          className="fixed top-14 inset-x-0 bottom-0 bg-black bg-opacity-40 z-40 md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Main content
+          - add top padding on mobile (so header doesn't overlap)
+          - add left margin on md+ to account for sidebar width (changes with collapsed)
+      */}
+      <main
+        className={`flex-1 p-6 pt-14 mt-4 md:pt-0 transition-all duration-300 ${
+          collapsed ? "md:ml-20" : "md:ml-64"
+        }`}
+      >
+        <h1 className="text-xl font-semibold">Welcome to Dashboard</h1>
+        {/* ...rest of content */}
+      </main>
+    </div>
+  );
+}

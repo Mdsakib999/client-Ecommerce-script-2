@@ -1,4 +1,3 @@
-import logo from "../../assets/logo.png";
 import loginImage from "../../assets/login.jpg";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -7,6 +6,7 @@ import { Link } from "react-router";
 import googleLogo from "../../assets/googleLogo.png";
 import { useLoginMutation } from "../../redux/app/services/auth/authApi";
 import toast from "react-hot-toast";
+import Logo from "../../components/shared/Logo";
 
 export default function Login() {
   const {
@@ -58,9 +58,7 @@ export default function Login() {
       <div className="flex w-full md:w-1/2 items-center justify-center bg-white p-10">
         <div className="w-full max-w-md">
           {/* Logo */}
-          <Link to="/" className="flex flex-col mb-8">
-            <img className="w-32" src={logo} alt="UniMart logo" />
-          </Link>
+          <Logo w="32" />
 
           {/* Welcome Text */}
           <h1 className="text-3xl font-semibold text-slate-900 mb-3">

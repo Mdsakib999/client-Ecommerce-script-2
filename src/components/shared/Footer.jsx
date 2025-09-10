@@ -1,5 +1,6 @@
 import { Facebook, Youtube, Instagram, Twitter } from "lucide-react";
 import logo from "../../assets/footerLogo.png";
+import { Link } from "react-router";
 
 export default function Footer() {
   return (
@@ -7,7 +8,10 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-8 md:gap-8 lg:gap-0 text-left px-2">
         {/* Logo & Description */}
         <div className="space-y-4 pt-1 col-span-1 md:col-span-1 px-1">
-          <img className="w-44 mx-auto md:mx-0" src={logo} alt="UniMart" />
+          <Link to="/" className="mb-2">
+            <img src={logo} alt="UniMart logo" />
+          </Link>
+
           <p className="text-sm">
             <span className="text-lg font-semibold">
               UniMart Industries Ltd.
@@ -127,25 +131,25 @@ export default function Footer() {
             <div className="flex space-x-3 pt-2">
               <a
                 href="#"
-                className="bg-blue-500 hover:bg-blue-400 rounded-full p-2"
+                className="bg-white text-blue-500 hover:bg-blue-500 hover:text-white duration-300 rounded-full p-2"
               >
                 <Facebook size={22} />
               </a>
               <a
                 href="#"
-                className="bg-red-500 hover:bg-red-400 rounded-full p-2"
+                className="bg-white text-red-600 hover:bg-red-500 hover:text-white duration-300 rounded-full p-2"
               >
                 <Youtube size={22} />
               </a>
               <a
                 href="#"
-                className="bg-blue-400 hover:bg-blue-500 rounded-full p-2"
+                className="bg-white text-blue-400 hover:bg-blue-400 hover:text-white duration-300 rounded-full p-2"
               >
                 <Twitter size={22} />
               </a>{" "}
               <a
                 href="#"
-                className="bg-rose-600 hover:bg-rose-700 rounded-full p-2"
+                className="bg-white text-rose-500 hover:bg-rose-600 hover:text-white duration-300 rounded-full p-2"
               >
                 <Instagram size={22} />
               </a>

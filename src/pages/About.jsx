@@ -11,20 +11,14 @@ export default function About() {
         <div className="absolute inset-0 bg-black opacity-60"></div>
         <div className="z-10 flex items-center flex-col gap-4 text-center">
           <h1 className="text-4xl sm:text-5xl md:text-6xl text-white capitalize">
-            About for Bacola
+            About for UniMart
           </h1>
           <p className="tracking-widest">WE CAN DO MORE FOR YOU</p>
         </div>
       </div>
       <div className="px-4 max-w-7xl mx-auto text-center mb-12">
         <p className="opacity-60">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+At UniMart, we are committed to making online shopping simple, enjoyable, and trustworthy. Our mission is to deliver high-quality products directly to your doorstep while providing exceptional customer service. Every item is carefully selected for quality, value, and style. We aim to build a community where customers feel supported, valued, and inspired. Your satisfaction drives everything we do, making every interaction seamless and memorable.
         </p>
       </div>
       <div className="grid gap-6 grid-cols-4 mb-16 max-w-7xl mx-auto">
