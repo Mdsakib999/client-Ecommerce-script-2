@@ -31,6 +31,12 @@ export default function SubHeader() {
               Track Order
             </Link>
             <Link
+              to="/faq"
+              className="hover:text-blue-600 transition-colors duration-200 font-medium"
+            >
+              FAQ
+            </Link>
+            <Link
               to="/contact"
               className="hover:text-blue-600 transition-colors duration-200 font-medium"
             >

@@ -54,37 +54,21 @@ export default function Faq() {
   };
 
   return (
-    <div className="p-10 mt-16 max-w-7xl mx-auto">
-      <h2 className="text-2xl md:text-4xl font-semibold">Popular Questions...!</h2>
-      <div className="flex flex-col lg:flex-row justify-center items-center w-full gap-10">
-        {/* Left side content */}
-        <div className="lg:w-1/2 space-y-2">
-          <div className="flex-col justify-center items-center">
-            <img
-              className="w-96"
-              src="https://i.ibb.co.com/HfQZVvvc/question-mark-1019820-1920.jpg"
-              alt=""
-            />
-            <h2 className="font-semibold text-gray-900 text-2xl py-3">
-              Everything You Need to Know About Our Products
-            </h2>
-            <p className="text-gray-700 opacity-70">
-              Here you can find answers to common questions about our electronic
-              accessories, se aim to provide a smooth shopping experience for
-              all our customers.
-            </p>
-          </div>
-        </div>
-
+    <div className="p-10 my-16 max-w-7xl mx-auto">
+      <h2 className="text-2xl mb-10 md:text-4xl font-semibold">
+        Popular Questions...!
+      </h2>
+      <div className=" w-full gap-10">
+        
         {/* Right side FAQ */}
-        <div className="lg:w-1/2 space-y-3">
+        <div className=" space-y-3">
           {faqs.map((faq, index) => (
             <div
               key={index}
               className="border border-gray-300 rounded-lg overflow-hidden shadow-sm"
             >
               <button
-                className="w-full flex justify-between items-center px-4 py-3 bg-gray-100 font-semibold focus:outline-none hover:bg-gray-200 transition-colors"
+                className="w-full cursor-pointer flex justify-between items-center px-4 py-3 bg-gray-100 font-semibold focus:outline-none hover:bg-gray-200 transition-colors"
                 onClick={() => toggleFaq(index)}
               >
                 {faq.question}
