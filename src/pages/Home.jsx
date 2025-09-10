@@ -1,6 +1,5 @@
 import Banner from "../components/Home/Banner";
 import Brands from "../components/Home/Brands";
-import Faq from "../components/Home/Faq";
 import Featured from "../components/Home/Featured";
 import Offer from "../components/Home/Offer";
 import OfferedProducts from "../components/Home/OfferedProducts";
@@ -19,7 +18,6 @@ export default function Home() {
         <PopularProduct />
         <Offer />
         <RecomendedProduct />
-        <Faq />
         <Brands />
       </div>
     </>

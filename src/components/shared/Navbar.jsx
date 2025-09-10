@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Link } from "react-router";
 import SearchBar from "../SearchBar";
 import CartSlider from "./CartSlider";
-import SubHeader from "./SubHeader";
 import Logo from "./Logo";
+import SubHeader from "./SubHeader";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -217,6 +217,12 @@ export default function Navbar() {
                 Quick Links
               </h3>
               <div className="space-y-3">
+                <Link
+                  to="/about"
+                  className="block text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium"
+                >
+                  About
+                </Link>
                 <a
                   href="#"
                   className="block text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium"
@@ -228,6 +234,12 @@ export default function Navbar() {
                   className="block text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium"
                 >
                   Help & Support
+                </a>
+                <a
+                  href="/faq"
+                  className="block text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium"
+                >
+                  FAQ
                 </a>
                 <a
                   href="#"

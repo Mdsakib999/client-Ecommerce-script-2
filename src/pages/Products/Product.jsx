@@ -22,7 +22,7 @@ export default function Product({ product }) {
               </div>
               <div className="w-full text-center">
                 <p className="text-sm text-gray-500 mb-1">{product.category}</p>
-                <h2 className="text-lg font-semibold text-gray-800 mb-2 ">
+                <h2 className="text-lg font-semibold text-gray-800 mb-2">
                   <Link to={`/product/${product.id}`}>{product.name}</Link>
                 </h2>
                 <div className="flex justify-center items-baseline space-x-2">

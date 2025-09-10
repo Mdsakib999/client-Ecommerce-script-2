@@ -4,38 +4,6 @@ import { useState } from "react";
 import { useLocation, useParams } from "react-router";
 
 const products = [
-  // {
-  //   id: 1,
-  //   name: "Apple iPhone 15 Pro Max",
-  //   brand: "Apple",
-  //   category: "Smartphones",
-  //   price: 1299.99,
-  //   discountPrice: 1199.99,
-  //   quantity: 1,
-  //   image:
-  //     "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=300&h=300&fit=crop",
-  //   color: ["Natural Titanium", "Blue", "Silver", "Black"],
-  //   rating: 4.8,
-  //   inStock: true,
-  //   description:
-  //     "The Apple iPhone 15 Pro Max is Apple’s most advanced smartphone yet, built with aerospace-grade titanium for strength and reduced weight. It features a stunning 6.7-inch Super Retina XDR display with ProMotion for smoother visuals and ultra-bright performance. Powered by the A17 Pro chip, it delivers unmatched speed, power efficiency, and graphics capabilities for gaming and multitasking. The advanced triple-camera system includes a 48MP main camera, telephoto lens, and ultra-wide, capturing breathtaking photos and videos in all lighting conditions. With 5G connectivity, iOS 17, and all-day battery life, the iPhone 15 Pro Max redefines premium smartphones for professionals and enthusiasts alike.",
-  // },
-  // {
-  //   id: 3,
-  //   name: "Google Pixel 8 Pro",
-  //   brand: "Google",
-  //   category: "Smartphones",
-  //   price: 1099.99,
-  //   discountPrice: 999.99,
-  //   quantity: 1,
-  //   image:
-  //     "https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=300&h=300&fit=crop",
-  //   color: ["Obsidian", "Porcelain", "Bay Blue"],
-  //   rating: 4.6,
-  //   inStock: true,
-  //   description:
-  //     "The Google Pixel 8 Pro is designed to deliver the best of Android with Google’s clean software and AI-driven performance. Equipped with the Google Tensor G3 chip, it offers cutting-edge AI features such as enhanced voice recognition, live translation, and advanced photo editing tools like Magic Eraser. Its 6.7-inch LTPO OLED display supports adaptive refresh rates up to 120Hz for smooth scrolling and vivid visuals. The Pixel 8 Pro’s triple camera system, led by a powerful 50MP sensor, captures incredible details, while Night Sight and Real Tone ensure accurate photos in any condition. With long software support, it’s built to last.",
-  // },
   {
     id: 1,
     name: "Apple iPhone 15 Pro Max",
