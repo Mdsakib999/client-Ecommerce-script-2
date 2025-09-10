@@ -38,7 +38,7 @@ const products = [
     id: 5,
     name: "Xiaomi 14 Pro",
     brand: "Xiaomi",
-    category: "Smartphones",
+    category: "Laptop",
     price: 849.99,
     discountPrice: 749.99,
     quantity: 1,
@@ -86,7 +86,7 @@ const products = [
     id: 10,
     name: "Motorola Edge 40 Pro",
     brand: "Motorola",
-    category: "Smartphones",
+    category: "Computer",
     price: 899.99,
     discountPrice: 799.99,
     quantity: 1,
@@ -101,40 +101,34 @@ const products = [
 ];
 
 export default function Products() {
-  const [selectedColor, setSelectedColor] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [sortOrder, setSortOrder] = useState("lowToHigh");
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Filter by color
-  const filteredByColor = products.filter((product) =>
-    selectedColor ? product.color.includes(selectedColor) : true
-  );
-
   // Filter by search term
-  const filteredProducts = filteredByColor.filter((product) =>
+  const filteredBySearch = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // filter by category
-  // const filteredByCategory = filteredByColor.filter((product) =>
-  // )
+  const filteredByCategory = selectedCategory
+    ? filteredBySearch.filter(
+        (product) => product.category === selectedCategory
+      )
+    : filteredBySearch;
 
   // Sort by discountPrice
-  const sortedProducts = filteredProducts.sort((a, b) =>
+  const sortedProducts = filteredByCategory.sort((a, b) =>
     sortOrder === "lowToHigh"
       ? a.discountPrice - b.discountPrice
       : b.discountPrice - a.discountPrice
   );
 
-  // Get unique colors for filter
-  const allColors = [...new Set(products.flatMap((product) => product.color))];
-
   return (
     <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 p-4">
       {/* Sidebar */}
       <div>
-        <aside className="bg-white p-5 rounded-xl shadow-md w-full md:w-64 space-y-4 h-60 mt-2 border border-amber-100">
+        <aside className="bg-white p-5 rounded-xl shadow-md w-full md:w-64 space-y-4 h-48 mt-2 border border-amber-100">
           {/* Section Title */}
           <div className="mb-3">
             <h3 className="text-lg font-bold tracking-tight">
@@ -155,26 +149,10 @@ export default function Products() {
             {/* ✅ Added search box */}
           </div>
 
-          {/* Filter by Color */}
-          <div>
-            <select
-              className="select select-bordered w-full border border-gray-300 px-2 py-1 rounded-xl"
-              value={selectedColor}
-              onChange={(e) => setSelectedColor(e.target.value)}
-            >
-              <option value="">All Colors</option>
-              {allColors.map((color) => (
-                <option key={color} value={color}>
-                  {color}
-                </option>
-              ))}
-            </select>
-          </div>
-
           {/* Sort by Price */}
           <div>
             <select
-              className="select select-bordered w-full border border-gray-300 px-2 py-1 rounded-xl "
+              className="select select-bordered cursor-pointer w-full border border-gray-300 px-2 py-1 rounded-xl "
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
             >
@@ -185,13 +163,52 @@ export default function Products() {
         </aside>
 
         {/* categries */}
-        <div>
-          <h1></h1>
+
+        <div className="bg-white p-5 rounded-xl shadow-md w-full md:w-64 space-y-4 mt-2 border border-amber-100">
+          {/* Section Title */}
+          <div className="mb-3">
+            <h3 className="text-lg opacity-70 font-bold tracking-tight">
+              Category
+            </h3>
+            <div className="h-[3px] w-10 bg-red-600 mt-1" />
+          </div>
+
+          {/* All Button */}
+          <button
+            onClick={() => setSelectedCategory("")}
+            className={`block text-left w-full px-3 cursor-pointer py-1 rounded-lg ${
+              selectedCategory === ""
+                ? "bg-gray-400 text-white"
+                : "hover:bg-gray-100"
+            }`}
+          >
+            All
+          </button>
+
+          {[...new Set(products.map((p) => p.category))].map(
+            (category, index) => (
+              <button
+                key={index}
+                onClick={() =>
+                  setSelectedCategory(
+                    selectedCategory === category ? "" : category // toggle
+                  )
+                }
+                className={`block text-left w-full px-3 py-1 rounded-lg cursor-pointer ${
+                  selectedCategory === category
+                    ? "bg-gray-400 text-white"
+                    : "hover:bg-gray-100"
+                }`}
+              >
+                {category}
+              </button>
+            )
+          )}
         </div>
       </div>
 
       {/* Products Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 flex-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 flex-1">
         {sortedProducts.map((product) => (
           <Product key={product.id} product={product} />
         ))}
