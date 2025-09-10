@@ -1,11 +1,11 @@
 import banner from "../assets/about-banner.jpg";
-import Countup from '../components/shared/Countup'
+import Countup from "../components/shared/Countup";
 import AboutSection from "../components/shared/AboutSection";
 export default function About() {
   return (
     <div className="">
       <div
-        className="relative mb-12 min-h-[600px] bg-no-repeat bg-cover bg-center flex items-center justify-center text-white"
+        className="relative mb-12 min-h-[650px] bg-no-repeat bg-cover bg-center flex items-center justify-center text-white"
         style={{ backgroundImage: `url(${banner})` }}
       >
         <div className="absolute inset-0 bg-black opacity-60"></div>
@@ -18,33 +18,43 @@ export default function About() {
       </div>
       <div className="px-4 max-w-7xl mx-auto text-center mb-12">
         <p className="opacity-60">
-At UniMart, we are committed to making online shopping simple, enjoyable, and trustworthy. Our mission is to deliver high-quality products directly to your doorstep while providing exceptional customer service. Every item is carefully selected for quality, value, and style. We aim to build a community where customers feel supported, valued, and inspired. Your satisfaction drives everything we do, making every interaction seamless and memorable.
+          At UniMart, we are committed to making online shopping simple,
+          enjoyable, and trustworthy. Our mission is to deliver high-quality
+          products directly to your doorstep while providing exceptional
+          customer service. Every item is carefully selected for quality, value,
+          and style. We aim to build a community where customers feel supported,
+          valued, and inspired. Your satisfaction drives everything we do,
+          making every interaction seamless and memorable.
         </p>
       </div>
       <div className="grid gap-6 grid-cols-4 mb-16 max-w-7xl mx-auto">
-        <div className="flex bg-gray-100 text-black flex-col gap-1 py-10 items-center justify-center text-center rounded-lg hover:bg-white hover:outline hover:outline-gray-600 transition">
-          <h1 className="text-4xl"> <Countup>800</Countup>+ </h1>
-          <p className="text-md">
-            Product Types
-          </p>
+        <div className="flex bg-gray-50 text-black shadow-md flex-col gap-1 py-10 items-center justify-center text-center rounded-lg hover:bg-white hover:shadow-lg transition">
+          <h1 className="text-4xl">
+            {" "}
+            <Countup>800</Countup>+{" "}
+          </h1>
+          <p className="text-md">Product Types</p>
         </div>
-        <div className="flex bg-gray-100 text-black flex-col gap-1 py-10 items-center justify-center text-center rounded-lg hover:bg-white hover:outline hover:outline-gray-600 transition">
-          <h1 className="text-4xl"> <Countup>12</Countup>+ </h1>
-          <p className="text-md">
-            Years Of Experiance
-          </p>
+        <div className="flex bg-gray-50 text-black shadow-md flex-col gap-1 py-10 items-center justify-center text-center rounded-lg hover:bg-white hover:shadow-lg transition">
+          <h1 className="text-4xl">
+            {" "}
+            <Countup>12</Countup>+{" "}
+          </h1>
+          <p className="text-md">Years Of Experience</p>
         </div>
-        <div className="flex bg-gray-100 text-black flex-col gap-1 py-10 items-center justify-center text-center rounded-lg hover:bg-white hover:outline hover:outline-gray-600 transition">
-          <h1 className="text-4xl"> <Countup>2500</Countup>+ </h1>
-          <p className="text-md">
-            Trust Customers
-          </p>
+        <div className="flex bg-gray-50 text-black shadow-md flex-col gap-1 py-10 items-center justify-center text-center rounded-lg hover:bg-white hover:shadow-lg transition">
+          <h1 className="text-4xl">
+            {" "}
+            <Countup>2500</Countup>+{" "}
+          </h1>
+          <p className="text-md">Trust Customers</p>
         </div>
-        <div className="flex bg-gray-100 text-black flex-col gap-1 py-10 items-center justify-center text-center rounded-lg hover:bg-white hover:outline hover:outline-gray-600 transition">
-          <h1 className="text-4xl"> <Countup>15</Countup>+ </h1>
-          <p className="text-md">
-            Stores Nationwide
-          </p>
+        <div className="flex bg-gray-50 text-black shadow-md flex-col gap-1 py-10 items-center justify-center text-center rounded-lg hover:bg-white hover:shadow-lg transition">
+          <h1 className="text-4xl">
+            {" "}
+            <Countup>15</Countup>+{" "}
+          </h1>
+          <p className="text-md">Stores Nationwide</p>
         </div>
       </div>
       <AboutSection
