@@ -9,11 +9,12 @@ import {
   User,
   X,
 } from "lucide-react";
-import { Link,Outlet } from "react-router";
+import { Link,Outlet, useLocation } from "react-router";
 import { useState } from "react";
 import Logo from "../../components/shared/Logo";
 
 export default function DashboardLayout() {
+    const location = useLocation();
   const [isOpen, setIsOpen] = useState(false); // mobile menu open
   const [collapsed, setCollapsed] = useState(false); // desktop collapsed
   const menuItems = [
@@ -73,13 +74,14 @@ export default function DashboardLayout() {
         <nav className="mt-4 space-y-1">
           {menuItems.map((item) => {
             const Icon = item.icon;
+            const isActive = location.pathname.startsWith(`/dashboard/${item.name}`);
             return (
               <Link
                 to={item.name}
                 className={`flex items-center py-3 cursor-pointer transition-colors
                   ${collapsed ? "justify-center" : "px-4"}
                   ${
-                    item.active
+                    isActive
                       ? "bg-blue-50 border-r-4 border-blue-500 text-blue-600"
                       : "text-gray-600 hover:bg-gray-50"
                   }`}
