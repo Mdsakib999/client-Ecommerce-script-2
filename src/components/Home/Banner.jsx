@@ -14,7 +14,7 @@ export default function Banner() {
       buttonText: "Shop Now",
       productImage:
         "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=1920&h=800&fit=crop&crop=center",
-      gradient: "from-amber-400/80 to-orange-500/80",
+      gradient: "from-blue-400/80 to-purple-500/80",
     },
     {
       id: 2,
@@ -24,7 +24,7 @@ export default function Banner() {
       buttonText: "Discover",
       productImage:
         "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=1920&h=800&fit=crop&crop=center",
-      gradient: "from-blue-400/80 to-purple-500/80",
+      gradient: "from-rose-400/80 to-orange-500/80",
     },
     {
       id: 3,
@@ -69,17 +69,19 @@ export default function Banner() {
           {slides.map((slide) => (
             <div
               key={slide.id}
-              className="min-w-full relative min-h-[600px]"
+              className="min-w-full relative min-h-[650px]"
               style={{
                 backgroundImage: `url(${slide.productImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
               }}
             >
               {/* Gradient Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-r ${slide.gradient}`}></div>
-              
+              <div
+                className={`absolute inset-0 bg-gradient-to-r ${slide.gradient}`}
+              ></div>
+
               {/* Dark Overlay for Better Text Readability */}
               <div className="absolute inset-0 bg-black/30"></div>
 
