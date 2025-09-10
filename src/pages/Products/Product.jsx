@@ -8,7 +8,7 @@ export default function Product({ product }) {
         <div className="p-3">
           <div className="bg-white border border-gray-300 rounded-2xl shadow-md overflow-hidden relative transform transition-transform duration-300 hover:scale-105">
             {product.discountPrice && (
-              <div className="absolute top-1 left-0 opacity-85 bg-red-800 text-white text-xs font-bold px-3 py-1 m-2 rounded-full">
+              <div className="absolute top-1 left-0 bg-red-500 text-white text-xs font-bold px-3 py-1 m-2 rounded-full">
                 SALE
               </div>
             )}
@@ -21,10 +21,11 @@ export default function Product({ product }) {
                 />
               </div>
               <div className="w-full text-center">
+                <p className="text-sm text-gray-500 mb-1">{product.category}</p>
                 <h2 className="text-lg font-semibold text-gray-800 mb-2">
-                  {product.name}
+                  <Link to={`/product/${product.id}`}>{product.name}</Link>
                 </h2>
-                <div className="flex justify-center items-baseline space-x-2 ">
+                <div className="flex justify-center items-baseline space-x-2">
                   {product.discountPrice ? (
                     <>
                       <p className="text-lg font-bold text-red-500">
@@ -40,20 +41,11 @@ export default function Product({ product }) {
                     </p>
                   )}
                 </div>
-                <div className="pt-3 flex gap-2">
-                  {/* Add to Cart Button */}
-                  <button className="w-1/2 bg-gray-200 rounded-full py-2 px-2 font-semibold cursor-pointer text-sm flex items-center justify-center space-x-2 transition-colors hover:bg-gray-700 hover:text-white">
+                <div className="pt-3">
+                  <button className="w-full cursor-pointer bg-gray-200 rounded-full py-2 px-4 font-semibold text-sm flex items-center justify-center space-x-2 transition-colors hover:bg-gray-700 hover:text-white">
                     <ShoppingCart size={16} />
                     <span>Add to Cart</span>
                   </button>
-
-                  <Link
-                    to={`/product/${product.id}`}
-                    state={{ product }}
-                    className="w-1/2 bg-blue-500 text-white rounded-full cursor-pointer py-2 px-2 font-semibold text-sm flex items-center justify-center space-x-2 transition-colors hover:bg-blue-600"
-                  >
-                    <span>Details</span>
-                  </Link>
                 </div>
               </div>
             </div>
