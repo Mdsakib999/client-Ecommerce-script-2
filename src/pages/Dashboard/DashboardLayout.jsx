@@ -1,69 +1,117 @@
-import { Outlet, Link } from "react-router-dom";
-const user = "admin" ;
+import {
+  ChevronLeft,
+  ChevronRight,
+  Grid3X3,
+  HelpCircle,
+  Menu,
+  MessageSquare,
+  Settings,
+  User,
+  X,
+} from "lucide-react";
+import { Link,Outlet } from "react-router";
+import { useState } from "react";
+import Logo from "../../components/shared/Logo";
+
 export default function DashboardLayout() {
+  const [isOpen, setIsOpen] = useState(false); // mobile menu open
+  const [collapsed, setCollapsed] = useState(false); // desktop collapsed
+  const menuItems = [
+    { name: "manage-orders", icon: Grid3X3, active: true },
+    { name: "products", icon: User },
+    { name: "users", icon: Settings },
+    { name: "orders", icon: MessageSquare },
+    { name: "profile", icon: HelpCircle },
+  ];
+
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex h-screen bg-gray-50">
+      {/* Mobile Header (fixed so sidebar doesn't cover it) */}
+      <header className="fixed md:hidden top-0 left-0 right-0 h-14 flex items-center justify-between px-4 bg-white shadow z-50">
+        <Logo w="28" />
+        <button
+          aria-label="Toggle menu"
+          onClick={() => setIsOpen((s) => !s)}
+          className="p-1"
+        >
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </header>
+
       {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-md flex flex-col">
-        <div className="p-6 border-b">
-          <h1 className="text-xl font-bold text-gray-800">Dashboard</h1>
-          <p className="text-sm text-gray-500">Role: {user.role}</p>
-        </div>
-
-        {/* Menu */}
-        <nav className="flex-1 p-4 space-y-2">
-          {user.role === "admin" ? (
-            <>
-              <Link
-                to="manage-orders"
-                className="block px-4 py-2 rounded-lg hover:bg-gray-100"
-              >
-                Manage Orders
-              </Link>
-              <Link
-                to="products"
-                className="block px-4 py-2 rounded-lg hover:bg-gray-100"
-              >
-                Manage Products
-              </Link>
-              <Link
-                to="users"
-                className="block px-4 py-2 rounded-lg hover:bg-gray-100"
-              >
-                Manage Users
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link
-                to="orders"
-                className="block px-4 py-2 rounded-lg hover:bg-gray-100"
-              >
-                My Orders
-              </Link>
-              <Link
-                to="profile"
-                className="block px-4 py-2 rounded-lg hover:bg-gray-100"
-              >
-                My Profile
-              </Link>
-            </>
+      <aside
+        // On mobile: fixed and starts BELOW the header (top-14) and height excludes header
+        // On md+: static and full height
+        className={`fixed md:static left-0 z-50 transform transition-transform duration-300
+          ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
+          ${collapsed ? "w-20" : "w-64"} bg-white shadow
+          top-14 md:top-0 h-[calc(100vh-56px)] md:h-full`}
+      >
+        {/* Logo & collapse button */}
+        <div
+          className={`flex items-center border-b p-4 ${
+            collapsed ? "justify-center" : "justify-between"
+          }`}
+        >
+          {!collapsed && (
+            <Logo w='32' />
           )}
-        </nav>
-
-        {/* Footer */}
-        <div className="p-4 border-t">
-          <button className="w-full px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600">
-            Logout
+          <button
+            onClick={() => setCollapsed((s) => !s)}
+            className="hidden md:inline-flex p-1 rounded hover:bg-gray-100"
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {collapsed ? (
+              <ChevronRight className="w-5 h-5" />
+            ) : (
+              <ChevronLeft className="w-5 h-5" />
+            )}
           </button>
         </div>
+
+        {/* Nav Items */}
+        <nav className="mt-4 space-y-1">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link
+                to={item.name}
+                className={`flex items-center py-3 cursor-pointer transition-colors
+                  ${collapsed ? "justify-center" : "px-4"}
+                  ${
+                    item.active
+                      ? "bg-blue-50 border-r-4 border-blue-500 text-blue-600"
+                      : "text-gray-600 hover:bg-gray-50"
+                  }`}
+              >
+                <Icon className="w-5 h-5" />
+                {!collapsed && <span className="ml-3">{item.name}</span>}
+              </Link>
+            );
+          })}
+        </nav>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 p-6">
-        <div className="bg-white rounded-xl shadow-sm p-6 min-h-screen">
-          <Outlet /> {/* 🔹 Renders child route */}
-        </div>
+      {/* Mobile overlay (doesn't cover the top header) */}
+      {isOpen && (
+        <div
+          className="fixed top-14 inset-x-0 bottom-0 bg-black bg-opacity-40 z-40 md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Main content
+          - add top padding on mobile (so header doesn't overlap)
+          - add left margin on md+ to account for sidebar width (changes with collapsed)
+      */}
+      <main
+        className={`flex-1 p-6 pt-14 mt-4 md:pt-0 transition-all duration-300 ${
+          collapsed ? "md:ml-20" : "md:ml-64"
+        }`}
+      >
+        <h1 className="text-xl font-semibold">Welcome to Dashboard</h1>
+        {/* ...rest of content */}
+        <Outlet />
       </main>
     </div>
   );
