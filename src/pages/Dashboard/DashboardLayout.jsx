@@ -19,8 +19,8 @@ export default function DashboardLayout() {
   const [collapsed, setCollapsed] = useState(false); // desktop collapsed
   const menuItems = [
     { name: "manage-orders", icon: ClipboardList, active: true },
-    { name: "products", icon: Package },
-    { name: "users", icon: Users },
+    { name: "manage-products", icon: Package },
+    { name: "manage-users", icon: Users },
     { name: "orders", icon: ShoppingCart },
     { name: "profile", icon: UserCircle },
   ];
@@ -30,7 +30,7 @@ export default function DashboardLayout() {
   }
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-full bg-gray-50">
       {/* Mobile Header (fixed so sidebar doesn't cover it) */}
       <header className="fixed md:hidden top-0 left-0 right-0 h-14 flex items-center justify-between px-4 bg-white shadow z-50">
         <Logo w="28" />
@@ -50,7 +50,7 @@ export default function DashboardLayout() {
         className={`fixed md:static left-0 z-50 transform transition-transform duration-300
           ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
           ${collapsed ? "w-20" : "w-64"} bg-white shadow
-          top-14 md:top-0 h-[calc(100vh-56px)] md:h-full`}
+          top-14 md:top-0 h-[calc(100vh-56px)] md:min-h-screen`}
       >
         {/* Logo & collapse button */}
         <div
@@ -112,7 +112,7 @@ export default function DashboardLayout() {
       */}
       <main
         className={`flex-1 p-6 pt-14 mt-4 md:pt-0 transition-all duration-300 ${
-          collapsed ? "md:ml-20" : "md:ml-40"
+          collapsed ? "md:ml-10" : "md:ml-20"
         }`}
       >
         <h1 className="text-xl font-semibold">Welcome to Dashboard</h1>
