@@ -9,7 +9,7 @@ export default function Footer() {
         {/* Logo & Description */}
         <div className="space-y-4 pt-1 col-span-1 md:col-span-1 px-1">
           <Link to="/" className="mb-2">
-            <img src={logo} alt="UniMart logo" />
+            <img className="w-48 sm:w-full" src={logo} alt="UniMart logo" />
           </Link>
 
           <p className="text-sm">

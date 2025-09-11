@@ -141,7 +141,7 @@ export default function Banner() {
         {/* Navigation Arrows - Sides */}
         <button
           onClick={prevSlide}
-          className="absolute opacity-0 sm:opacity-100 left-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-4 rounded-full transition-all duration-300 hover:scale-110 z-20 border border-white/20"
+          className="absolute hidden sm:block  left-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-4 rounded-full transition-all duration-300 hover:scale-110 z-20 border border-white/20"
           aria-label="Previous slide"
         >
           <ChevronLeft size={24} />
@@ -149,7 +149,7 @@ export default function Banner() {
 
         <button
           onClick={nextSlide}
-          className="absolute opacity-0 sm:opacity-100 right-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-4 rounded-full transition-all duration-300 hover:scale-110 z-20 border border-white/20"
+          className="absolute  hidden sm:block right-6 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-4 rounded-full transition-all duration-300 hover:scale-110 z-20 border border-white/20"
           aria-label="Next slide"
         >
           <ChevronRight size={24} />
