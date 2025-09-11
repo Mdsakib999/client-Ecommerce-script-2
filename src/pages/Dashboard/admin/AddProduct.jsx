@@ -1,4 +1,4 @@
-import { Check, Edit, Plus, Save, Trash2, X } from "lucide-react";
+import { Check, Edit, Plus, Save, Trash2, X, Image as ImageIcon } from "lucide-react";
 import { useState } from "react";
 
 export default function AddProduct() {
@@ -34,7 +34,11 @@ export default function AddProduct() {
   };
 
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
+    const files = Array.from(e.target.files).slice(0, 4); // Limit to 4 images
+    if (files.length > 4) {
+      alert("You can upload a maximum of 4 images.");
+      return;
+    }
     setProduct((prev) => ({ ...prev, images: files }));
   };
 
@@ -88,7 +92,7 @@ export default function AddProduct() {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center p-6 ">
+    <div className="fixed inset-0 flex items-center justify-center p-6">
       <form
         onSubmit={handleSubmit}
         className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
@@ -209,15 +213,32 @@ export default function AddProduct() {
             {/* Product Images */}
             <div className="sm:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Product Images
+                Product Images (Max 4)
               </label>
-              <input
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={handleImageChange}
-                className="w-full"
-              />
+              <div className="relative">
+                <label
+                  htmlFor="image-upload"
+                  className="flex items-center gap-2 w-full px-3 py-2 border border-gray-300 rounded-lg focus-within:ring-2 focus-within:ring-blue-500 outline-none cursor-pointer hover:bg-gray-50 bg-white"
+                >
+                  <ImageIcon className="w-5 h-5 text-gray-500" />
+                  <span className="text-gray-500">
+                    {product.images.length > 0
+                      ? `${product.images.length} image(s) selected`
+                      : "Choose images (up to 4)"}
+                  </span>
+                </label>
+                <input
+                  id="image-upload"
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Upload up to 4 images in JPG, PNG, or GIF format.
+              </p>
               <div className="flex flex-wrap mt-2 gap-2">
                 {product.images.map((file, idx) => (
                   <div
@@ -226,7 +247,7 @@ export default function AddProduct() {
                   >
                     <img
                       src={URL.createObjectURL(file)}
-                      alt="preview"
+                      alt={`preview-${idx}`}
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -271,7 +292,7 @@ export default function AddProduct() {
 
       {/* Category Management Modal */}
       {isCategoryModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center p-6  z-50">
+        <div className="fixed inset-0 flex items-center justify-center p-6 z-50">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6 border border-gray-300">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-black">
