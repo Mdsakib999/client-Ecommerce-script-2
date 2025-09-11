@@ -10,7 +10,7 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
-import { Link, Outlet, useLocation,Navigate } from "react-router";
+import { Link, Navigate, Outlet, useLocation } from "react-router";
 import Logo from "../../components/shared/Logo";
 
 export default function DashboardLayout() {
@@ -33,7 +33,7 @@ export default function DashboardLayout() {
     <div className="flex h-full bg-gray-50">
       {/* Mobile Header (fixed so sidebar doesn't cover it) */}
       <header className="fixed md:hidden top-0 left-0 right-0 h-14 flex items-center justify-between px-4 bg-white shadow z-50">
-        <Logo w="28" />
+        <Logo w="36" />
         <button
           aria-label="Toggle menu"
           onClick={() => setIsOpen((s) => !s)}
@@ -54,7 +54,7 @@ export default function DashboardLayout() {
       >
         {/* Logo & collapse button */}
         <div
-          className={`flex items-center border-b p-4 ${
+          className={`hidden sm:flex items-center  border-b p-4 ${
             collapsed ? "justify-center" : "justify-between"
           }`}
         >
@@ -82,7 +82,7 @@ export default function DashboardLayout() {
             return (
               <Link
                 to={item.name}
-                className={`flex items-center py-3 cursor-pointer transition-colors
+                className={`flex capitalize items-center py-3 cursor-pointer transition-colors
                   ${collapsed ? "justify-center" : "px-4"}
                   ${
                     isActive
