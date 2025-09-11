@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 export default function TopBanner() {
   return (
     <>
-      <div className="md:flex gap-4 hidden">
+      <div className="md:flex gap-4 hidden max-w-7xl mx-auto">
         <div className="w-3/5 h-[80vh] flex flex-col gap-4">
           <img
             className="h-[392px] w-full object-cover"
