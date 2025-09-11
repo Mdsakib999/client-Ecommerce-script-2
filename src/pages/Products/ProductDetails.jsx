@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ShoppingCart, Star } from "lucide-react";
 import { useState } from "react";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 
 const products = [
   {
@@ -12,10 +12,14 @@ const products = [
     price: 1299.99,
     discountPrice: 1199.99,
     quantity: 1,
-    image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=300&h=300&fit=crop",
-    image1: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-pro-max-1?w=300",
-    image2: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-pro-max-2?w=300",
-    image3: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-pro-max-3?w=300",
+    image:
+      "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=300&h=300&fit=crop",
+    image1:
+      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-pro-max-1?w=300",
+    image2:
+      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-pro-max-2?w=300",
+    image3:
+      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-pro-max-3?w=300",
     color: ["Natural Titanium", "Blue", "Silver", "Black"],
     rating: 4.8,
     inStock: true,
@@ -33,9 +37,11 @@ const products = [
     price: 1099.99,
     discountPrice: 999.99,
     quantity: 1,
-    image: "https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=300&h=300&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=300&h=300&fit=crop",
     image1: "https://i.ibb.co.com/KxvJM3mP/pexels-fotios-photos-1092644.jpg",
-    image2: "https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=300&h=300&fi",
+    image2:
+      "https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=300&h=300&fi",
     color: ["Obsidian", "Porcelain", "Bay Blue"],
     rating: 4.6,
     inStock: true,
@@ -310,16 +316,6 @@ export default function ProductDetails() {
           >
             Reviews ({reviews.length})
           </button>
-          <button
-            onClick={() => setActiveTab("additionalInfo")}
-            className={`pb-2 font-semibold cursor-pointer ${
-              activeTab === "additionalInfo"
-                ? "border-b-2 border-red-600 text-black"
-                : "text-gray-500"
-            }`}
-          >
-            Additional Info
-          </button>
         </div>
 
         {/* Tab Content */}
@@ -414,29 +410,6 @@ export default function ProductDetails() {
               </div>
             </div>
           )}
-
-          {/* Additional Info Tab */}
-          {activeTab === "additionalInfo" && (
-            <div className="bg-white rounded-2xl shadow-md p-6 space-y-6">
-              <h2 className="text-2xl font-bold text-gray-800">
-                Additional Information
-              </h2>
-              <ul className="space-y-3 text-gray-700 text-[15px]">
-                <li>
-                  <span className="font-semibold">Warranty:</span>{" "}
-                  {product.warranty}
-                </li>
-                <li>
-                  <span className="font-semibold">Delivery Time:</span>{" "}
-                  {product.deliveryTime}
-                </li>
-                <li>
-                  <span className="font-semibold">Delivery Charge:</span>{" "}
-                  {product.deliveryCharge}
-                </li>
-              </ul>
-            </div>
-          )}
         </div>
       </div>
 
@@ -463,16 +436,15 @@ export default function ProductDetails() {
                 <div className="flex items-center space-x-2">
                   {p.discountPrice ? (
                     <>
-                      <p className="text-red-500 font-bold">${p.discountPrice}</p>
+                      <p className="text-red-500 font-bold">
+                        ${p.discountPrice}
+                      </p>
                       <p className="text-gray-400 line-through">${p.price}</p>
                     </>
                   ) : (
                     <p className="text-gray-800 font-bold">${p.price}</p>
                   )}
                 </div>
-                {/* <button className="bg-gray-300 opacity-85 hover:bg-blue-800 text-white py-1 md:py-1 px-4 rounded-full flex items-center justify-center space-x-1 transition">
-                  <span>Details</span>
-                </button> */}
                 <button className="bg-gray-200 rounded-full py-2  w-4/5 font-semibold cursor-pointer text-sm flex items-center justify-center space-x-2 transition-colors hover:bg-gray-700 hover:text-white">
                   <span>Details</span>
                 </button>
