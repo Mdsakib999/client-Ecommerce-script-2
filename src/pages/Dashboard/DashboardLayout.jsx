@@ -17,13 +17,16 @@ export default function DashboardLayout() {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false); // mobile menu open
   const [collapsed, setCollapsed] = useState(false); // desktop collapsed
+  
   const menuItems = [
-    { name: "profile", icon: UserCircle },
-    { name: "manage-orders", icon: ClipboardList, active: true },
-    { name: "manage-products", icon: Package },
-    { name: "manage-users", icon: Users },
-    { name: "orders", icon: ShoppingCart },
-  ];
+  { name: "Manage Orders", icon: ClipboardList, path: "manage-orders" },
+  { name: "Manage Products", icon: Package, path: "manage-products" },
+  { name: "Add Product", icon: Package, path: "add-product" },
+  { name: "Manage Users", icon: Users, path: "manage-users" },
+  { name: "My Orders", icon: ShoppingCart, path: "orders" },
+  { name: "Profile", icon: UserCircle, path: "profile" },
+];
+
 
   if (location.pathname === "/dashboard") {
     return <Navigate to="/dashboard/profile" replace />;
@@ -80,9 +83,9 @@ export default function DashboardLayout() {
               `/dashboard/${item.name}`
             );
             return (
-              <Link onClick={!collapsed}
-                to={item.name}
-                className={`flex capitalize items-center py-3 cursor-pointer transition-colors
+              <Link
+                 to={item.path}
+                className={`flex items-center py-3 cursor-pointer transition-colors
                   ${collapsed ? "justify-center" : "px-4"}
                   ${
                     isActive
@@ -106,10 +109,7 @@ export default function DashboardLayout() {
         />
       )}
 
-      {/* Main content
-          - add top padding on mobile (so header doesn't overlap)
-          - add left margin on md+ to account for sidebar width (changes with collapsed)
-      */}
+      
       <main
         className={`flex-1 p-6 pt-14 mt-4 md:pt-0 transition-all duration-300 ${
           collapsed ? "md:ml-20" : "md:ml-64"
