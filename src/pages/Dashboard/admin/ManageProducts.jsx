@@ -219,11 +219,11 @@ const ManageProducts = () => {
     <div className="p-6 bg-gray-50 min-h-screen">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
-        <div>
+        <div className="w-1/3">
           <h1 className="text-3xl font-bold text-black mb-2">Product Management</h1>
           <p className="text-gray-600">Manage your product catalog and inventory</p>
         </div>
-        <div className="flex gap-3 mt-4 lg:mt-0">
+        <div className="flex justify-end flex-col-reverse sm:flex-row w-2/12 sm:w-full gap-3 mt-4 lg:mt-0">
           <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
             <Upload className="w-4 h-4" />
             Import
@@ -232,18 +232,11 @@ const ManageProducts = () => {
             <Download className="w-4 h-4" />
             Export
           </button>
-          <button 
-            onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            Add Product
-          </button>
         </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid w-4/12 sm:w-full md:w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {stats.map((stat, index) => (
           <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             <div className="flex items-center justify-between">
@@ -281,7 +274,7 @@ const ManageProducts = () => {
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div className="flex flex-col sm:flex-row gap-4 flex-1">
             {/* Search */}
-            <div className="relative flex-1 max-w-md">
+            <div className="relative w-2/12 flex-1 md:max-w-md">
               <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
               <input
                 type="text"
@@ -294,7 +287,7 @@ const ManageProducts = () => {
 
             {/* Category Filter */}
             <select
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white"
+              className="px-4 py-2 w-2/12 sm:w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white"
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
             >
@@ -306,7 +299,7 @@ const ManageProducts = () => {
 
             {/* Status Filter */}
             <select
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white"
+              className="px-4 py-2 w-2/12 sm:w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >

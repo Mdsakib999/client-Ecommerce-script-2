@@ -10,7 +10,7 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
-import { Link, Outlet, useLocation,Navigate } from "react-router";
+import { Link, Navigate, Outlet, useLocation } from "react-router";
 import Logo from "../../components/shared/Logo";
 
 export default function DashboardLayout() {
@@ -36,7 +36,7 @@ export default function DashboardLayout() {
     <div className="flex h-full bg-gray-50">
       {/* Mobile Header (fixed so sidebar doesn't cover it) */}
       <header className="fixed md:hidden top-0 left-0 right-0 h-14 flex items-center justify-between px-4 bg-white shadow z-50">
-        <Logo w="28" />
+        <Logo w="32" />
         <button
           aria-label="Toggle menu"
           onClick={() => setIsOpen((s) => !s)}
@@ -50,14 +50,14 @@ export default function DashboardLayout() {
       <aside
         // On mobile: fixed and starts BELOW the header (top-14) and height excludes header
         // On md+: static and full height
-        className={`fixed md:static left-0 z-50 transform transition-transform duration-300
+        className={`fixed left-0 z-50 transform transition-transform duration-300
           ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
           ${collapsed ? "w-20" : "w-64"} bg-white shadow
           top-14 md:top-0 h-[calc(100vh-56px)] md:min-h-screen`}
       >
         {/* Logo & collapse button */}
         <div
-          className={`flex items-center border-b p-4 ${
+          className={`hidden sm:flex items-center  border-b p-4 ${
             collapsed ? "justify-center" : "justify-between"
           }`}
         >
@@ -112,7 +112,7 @@ export default function DashboardLayout() {
       
       <main
         className={`flex-1 p-6 pt-14 mt-4 md:pt-0 transition-all duration-300 ${
-          collapsed ? "md:ml-10" : "md:ml-20"
+          collapsed ? "md:ml-20" : "md:ml-64"
         }`}
       >
         <h1 className="text-xl font-semibold">Welcome to Dashboard</h1>
