@@ -29,7 +29,7 @@ export default function Profile() {
     <div className="max-w-7xl mx-auto mt-6 px-4">
       <div className="bg-white shadow-lg rounded-2xl overflow-hidden flex flex-col md:flex-row">
         {/* Left sidebar */}
-        <div className="w-full md:w-1/3 bg-gray-50 flex flex-col items-center p-6">
+        <div className="w-full md:w-1/3 bg-gray-100 flex flex-col items-center p-6">
           <img
             className="w-24 h-24 md:w-28 md:h-28 rounded-full shadow-md"
             src="https://i.ibb.co.com/KpXYj7mF/2025.jpg"
