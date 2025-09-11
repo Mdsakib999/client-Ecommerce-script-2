@@ -1,13 +1,13 @@
 import {
-  X,
-  Minus,
-  Plus,
-  Trash2,
-  ShoppingBag,
   ArrowRight,
   Heart,
-  Star,
+  Minus,
+  Plus,
+  ShoppingBag,
   ShoppingCart,
+  Star,
+  Trash2,
+  X,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -16,6 +16,7 @@ import {
   updateQuantity,
 } from "../../redux/app/features/cart/cartSlice";
 import confirmToast from "../../utils/confirmToast";
+import {Link} from 'react-router'
 
 export default function CartSlider({ isOpen, toggleCart }) {
   const cartItems = useSelector((state) => state.cart.items);
@@ -255,10 +256,12 @@ export default function CartSlider({ isOpen, toggleCart }) {
             )}
 
             {/* Checkout Button */}
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-semibold flex items-center justify-center space-x-2 transition-all duration-200 hover:shadow-lg">
-              <span>Proceed to Checkout</span>
-              <ArrowRight className="w-5 h-5" />
-            </button>
+            <Link to="dashboard/checkout">
+              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-semibold flex items-center justify-center space-x-2 transition-all duration-200 hover:shadow-lg">
+                <span>Proceed to Checkout</span>
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </Link>
 
             <button
               onClick={toggleCart}

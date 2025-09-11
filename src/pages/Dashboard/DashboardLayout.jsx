@@ -18,11 +18,11 @@ export default function DashboardLayout() {
   const [isOpen, setIsOpen] = useState(false); // mobile menu open
   const [collapsed, setCollapsed] = useState(false); // desktop collapsed
   const menuItems = [
+    { name: "profile", icon: UserCircle },
     { name: "manage-orders", icon: ClipboardList, active: true },
     { name: "manage-products", icon: Package },
     { name: "manage-users", icon: Users },
     { name: "orders", icon: ShoppingCart },
-    { name: "profile", icon: UserCircle },
   ];
 
   if (location.pathname === "/dashboard") {
@@ -33,7 +33,7 @@ export default function DashboardLayout() {
     <div className="flex h-full bg-gray-50">
       {/* Mobile Header (fixed so sidebar doesn't cover it) */}
       <header className="fixed md:hidden top-0 left-0 right-0 h-14 flex items-center justify-between px-4 bg-white shadow z-50">
-        <Logo w="36" />
+        <Logo w="32" />
         <button
           aria-label="Toggle menu"
           onClick={() => setIsOpen((s) => !s)}

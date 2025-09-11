@@ -9,6 +9,7 @@ import ManageOrders from "../pages/Dashboard/admin/ManageOrders";
 import ManageProducts from "../pages/Dashboard/admin/ManageProducts";
 import ManageUsers from "../pages/Dashboard/admin/ManageUsers";
 import Profile from "../pages/Dashboard/common/Profile";
+import Checkout from "../pages/Dashboard/customer/Checkout";
 import MyOrders from "../pages/Dashboard/customer/MyOrders";
 import ErrorPage from "../pages/ErrorPage";
 import Faq from "../pages/Faq";
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
       { path: "manage-orders", Component: ManageOrders },
       { path: "manage-products", Component: ManageProducts },
       { path: "manage-users", Component: ManageUsers },
+      {
+        path: "checkout",
+        Component: Checkout,
+      },
     ],
   },
   { path: "/login", Component: Login },
