@@ -23,8 +23,8 @@ const brands = [
 
 export default function Brands() {
   return (
-    <div className="py-8 max-w-7xl mx-auto">
-      <h2 className="text-2xl md:text-4xl font-semibold mb-12">Our Brands</h2>
+    <div className="py-4 md:py-8 max-w-7xl mx-auto">
+      <h2 className="text-2xl md:text-4xl font-semibold mb-6 md:mb-12">Our Brands</h2>
       <Swiper
         modules={[Autoplay]}
         spaceBetween={30}
@@ -44,7 +44,7 @@ export default function Brands() {
       >
         {brands.map((brand) => (
           <SwiperSlide key={brand.id}>
-            <div className="flex items-center justify-center bg-white shadow-md rounded-lg p-4 text-lg font-semibold">
+            <div className="flex items-center justify-center bg-white shadow-md rounded-lg p-1 md:p-4 text-lg font-semibold">
               {brand.name}
             </div>
           </SwiperSlide>

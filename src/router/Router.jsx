@@ -62,8 +62,8 @@ const router = createBrowserRouter([
 
       // Admin routes
       { path: "manage-orders", Component: ManageOrders },
-      { path: "products", Component: ManageProducts },
-      { path: "users", Component: ManageUsers },
+      { path: "manage-products", Component: ManageProducts },
+      { path: "manage-users", Component: ManageUsers },
     ],
   },
   { path: "/login", Component: Login },
