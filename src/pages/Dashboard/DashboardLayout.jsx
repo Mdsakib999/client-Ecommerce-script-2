@@ -47,7 +47,7 @@ export default function DashboardLayout() {
       <aside
         // On mobile: fixed and starts BELOW the header (top-14) and height excludes header
         // On md+: static and full height
-        className={`fixed md:static left-0 z-50 transform transition-transform duration-300
+        className={`fixed left-0 z-50 transform transition-transform duration-300
           ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
           ${collapsed ? "w-20" : "w-64"} bg-white shadow
           top-14 md:top-0 h-[calc(100vh-56px)] md:min-h-screen`}
@@ -80,7 +80,7 @@ export default function DashboardLayout() {
               `/dashboard/${item.name}`
             );
             return (
-              <Link
+              <Link onClick={!collapsed}
                 to={item.name}
                 className={`flex capitalize items-center py-3 cursor-pointer transition-colors
                   ${collapsed ? "justify-center" : "px-4"}
@@ -112,7 +112,7 @@ export default function DashboardLayout() {
       */}
       <main
         className={`flex-1 p-6 pt-14 mt-4 md:pt-0 transition-all duration-300 ${
-          collapsed ? "md:ml-10" : "md:ml-20"
+          collapsed ? "md:ml-20" : "md:ml-64"
         }`}
       >
         <h1 className="text-xl font-semibold">Welcome to Dashboard</h1>
