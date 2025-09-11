@@ -3,6 +3,7 @@ import Featured from "../components/Home/Featured";
 import Offer from "../components/Home/Offer";
 import OfferedProducts from "../components/Home/OfferedProducts";
 import PopularProduct from "../components/Home/PopularProduct";
+import Pride from "../components/Home/Pride";
 import RecomendedProduct from "../components/Home/RecomendedProduct";
 import TopBanner from "../components/Home/TopBanner";
 
@@ -17,6 +18,7 @@ export default function Home() {
         <Offer />
         <RecomendedProduct />
         <TopBanner />
+        <Pride />
       </div>
     </>
   );
