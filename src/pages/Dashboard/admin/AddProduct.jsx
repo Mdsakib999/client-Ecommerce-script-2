@@ -88,21 +88,14 @@ export default function AddProduct() {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center p-6 z-50">
+    <div className="fixed inset-0 flex items-center justify-center p-6 ">
       <form
         onSubmit={handleSubmit}
         className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-xl font-bold text-black">Add New Product</h2>
-          <button
-            type="button"
-            onClick={() => {}}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
+        <div className="text-center p-6 border-b border-gray-200">
+          <h2 className="text-2xl font-bold text-black">Add New Product</h2>
         </div>
 
         {/* Form Body */}
@@ -278,8 +271,8 @@ export default function AddProduct() {
 
       {/* Category Management Modal */}
       {isCategoryModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center p-6 bg-black/50 z-50">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
+        <div className="fixed inset-0 flex items-center justify-center p-6  z-50">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6 border border-gray-300">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-black">
                 Manage Categories
