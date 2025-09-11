@@ -19,12 +19,12 @@ export default function DashboardLayout() {
   const [collapsed, setCollapsed] = useState(false); // desktop collapsed
   
   const menuItems = [
+  { name: "Profile", icon: UserCircle, path: "profile" },
   { name: "Manage Orders", icon: ClipboardList, path: "manage-orders" },
   { name: "Manage Products", icon: Package, path: "manage-products" },
   { name: "Add Product", icon: Package, path: "add-product" },
   { name: "Manage Users", icon: Users, path: "manage-users" },
   { name: "My Orders", icon: ShoppingCart, path: "orders" },
-  { name: "Profile", icon: UserCircle, path: "profile" },
 ];
 
 
