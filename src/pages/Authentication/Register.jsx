@@ -2,7 +2,7 @@ import registerImage from "../../assets/register.jpg";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useRegisterUserMutation } from "../../redux/app/services/user/userApi";
 import toast from "react-hot-toast";
 import googleLogo from "../../assets/googleLogo.png";
@@ -18,8 +18,16 @@ export default function Register() {
   } = useForm();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
+  const handleGoogleLogin = () => {
+    setIsGoogleLoading(true);
+    window.open(`${import.meta.env.VITE_SERVER_URL}/auth/google`, "_self");
+  };
 
   const [registerUser, { isLoading }] = useRegisterUserMutation();
+
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -41,12 +49,22 @@ export default function Register() {
           password: "",
           confirmPassword: "",
         });
+        navigate("/");
       }
+
       if (result.error) {
-        toast.error(result.error?.data?.message);
+        toast.error(
+          <p className="text-center font-serif">
+            {result.error?.data?.message}
+          </p>,
+          { position: "bottom-right" }
+        );
       }
     } catch (error) {
       console.log(error);
+      toast.error(`${error.data.message}`, {
+        position: "bottom-right",
+      });
     }
   };
 
@@ -174,22 +192,19 @@ export default function Register() {
               {isLoading ? "Signing up..." : "Sign Up"}
             </button>
             <button
-              onClick={() =>
-                window.open(
-                  `${import.meta.env.VITE_SERVER_URL}/auth/google`,
-                  "_self"
-                )
-              }
+              onClick={handleGoogleLogin}
               type="submit"
-              disabled={isLoading}
+              disabled={isGoogleLoading}
               className={`flex items-center justify-center w-full gap-3 px-4 py-3 rounded-xl font-medium transition-colors duration-200 ${
-                isLoading
+                isGoogleLoading
                   ? "bg-gray-300 cursor-not-allowed text-gray-500"
                   : "bg-white text-gray-800 hover:bg-gray-100 border border-gray-300"
               }`}
             >
               <img src={googleLogo} alt="google" className="w-5 h-5" />
-              <span>{isLoading ? "Signing up..." : "Sign Up with Google"}</span>
+              <span>
+                {isGoogleLoading ? "Signing up..." : "Sign Up with Google"}
+              </span>
             </button>
           </form>
 

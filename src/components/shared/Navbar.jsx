@@ -11,10 +11,12 @@ import {
 } from "../../redux/app/services/auth/authApi";
 import { useDispatch } from "react-redux";
 import SubHeader from "./SubHeader";
+import toast from "react-hot-toast";
 
 export default function Navbar() {
   const { data: userInfo } = useUserInfoQuery();
   const user = userInfo?.data;
+  console.log("user", user);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
@@ -55,6 +57,9 @@ export default function Navbar() {
     await logout();
     dispatch(authApi.util.resetApiState());
     closeDropdowns();
+    toast.success(<p>Logged out successfully!</p>, {
+      position: "bottom-right",
+    });
   };
 
   // Close dropdowns when clicking outside

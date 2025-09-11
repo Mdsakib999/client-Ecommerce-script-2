@@ -15,30 +15,45 @@ export default function Login() {
     formState: { errors },
   } = useForm();
   const [showPassword, setShowPassword] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
+  const handleGoogleLogin = () => {
+    setIsGoogleLoading(true);
+    window.open(`${import.meta.env.VITE_SERVER_URL}/auth/google`, "_self");
+  };
 
   const [login, { isLoading }] = useLoginMutation();
 
   const onSubmit = async (data) => {
+    console.log(data);
     try {
       const res = await login(data).unwrap();
       console.log("res-->", res);
       if (res.success) {
-        toast.success("Logged in successfully");
-        // navigate("/");
+        toast.success(
+          <p className="text-center font-serif">Logged in successfully</p>
+        );
       }
     } catch (err) {
       console.error(err);
 
       if (err.data.message === "Password does not match") {
-        toast.error("Invalid credentials");
+        toast.error("Invalid credentials", {
+          position: "bottom-right",
+        });
       }
 
       if (err.data.message === "User is not verified") {
-        toast.error("Your account is not verified");
-        // navigate("/verify", { state: data.email });
+        toast.error("Your account is not verified", {
+          position: "bottom-right",
+        });
       }
       if (err.data.message === "You have authenticated through Google login!") {
         toast.error("You are authenticated through google!", {
+          position: "bottom-right",
+        });
+      } else {
+        toast.error(`${err.data.message}`, {
           position: "bottom-right",
         });
       }
@@ -117,30 +132,30 @@ export default function Login() {
             </div>
 
             <button
+              disabled={isLoading}
               type="submit"
-              className="cursor-pointer w-full bg-black text-white py-4 rounded-xl font-medium hover:bg-slate-800 transition-colors shadow-lg hover:shadow-xl"
+              className={`cursor-pointer w-full bg-black text-white py-4 rounded-xl font-medium hover:bg-slate-800 transition-colors shadow-lg hover:shadow-xl ${
+                isLoading
+                  ? "bg-slate-500 cursor-not-allowed text-slate-950 border-slate-200"
+                  : "text-slate-700 hover:bg-slate-50 border-slate-300 shadow-sm hover:shadow-md"
+              }`}
             >
               Sign In
             </button>
 
             <button
-              onClick={() =>
-                window.open(
-                  `${import.meta.env.VITE_SERVER_URL}/auth/google`,
-                  "_self"
-                )
-              }
+              onClick={handleGoogleLogin}
               type="button"
-              disabled={isLoading}
+              disabled={isGoogleLoading}
               className={`cursor-pointer flex items-center justify-center w-full gap-3 px-4 py-4 rounded-xl font-medium transition-colors duration-200 border ${
-                isLoading
+                isGoogleLoading
                   ? "bg-slate-100 cursor-not-allowed text-slate-400 border-slate-200"
                   : "bg-white text-slate-700 hover:bg-slate-50 border-slate-300 shadow-sm hover:shadow-md"
               }`}
             >
               <img src={googleLogo} alt="google" className="w-5 h-5" />
               <span>
-                {isLoading ? "Signing up..." : "Continue with Google"}
+                {isGoogleLoading ? "Signing up..." : "Continue with Google"}
               </span>
             </button>
           </form>
