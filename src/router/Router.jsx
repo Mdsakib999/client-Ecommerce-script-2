@@ -8,13 +8,13 @@ import DashboardLayout from "../pages/Dashboard/DashboardLayout";
 import ManageOrders from "../pages/Dashboard/admin/ManageOrders";
 import ManageProducts from "../pages/Dashboard/admin/ManageProducts";
 import ManageUsers from "../pages/Dashboard/admin/ManageUsers";
+import Profile from "../pages/Dashboard/common/Profile";
 import MyOrders from "../pages/Dashboard/customer/MyOrders";
-import UserProfile from "../pages/Dashboard/customer/UserProfile";
 import ErrorPage from "../pages/ErrorPage";
+import Faq from "../pages/Faq";
 import Home from "../pages/Home";
 import ProductDetails from "../pages/Products/ProductDetails";
 import Products from "../pages/Products/Products";
-import Faq from "../pages/Faq";
 
 const router = createBrowserRouter([
   {
@@ -44,8 +44,8 @@ const router = createBrowserRouter([
         Component: ProductDetails,
       },
       {
-        path:"faq",
-        Component: Faq
+        path: "faq",
+        Component: Faq,
       },
     ],
   },
@@ -54,8 +54,11 @@ const router = createBrowserRouter([
     Component: DashboardLayout,
     children: [
       // User routes
+      {
+        path: "profile",
+        Component: Profile,
+      },
       { path: "orders", Component: MyOrders },
-      { path: "profile", Component: UserProfile },
 
       // Admin routes
       { path: "manage-orders", Component: ManageOrders },
