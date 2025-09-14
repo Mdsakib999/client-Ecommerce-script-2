@@ -27,7 +27,7 @@ export default function DashboardLayout() {
   { name: "Manage Orders", icon: ClipboardList, path: "manage-orders" },
   { name: "Manage Products", icon: Package, path: "manage-products" },
   { name: "Add Product", icon: SquarePlus , path: "add-product" },
-  { name: "Manage Category", icon: LayoutDashboard, path: "manage-products" },
+  { name: "Manage Category", icon: LayoutDashboard, path: "manage-category" },
   { name: "Manage Users", icon: Users, path: "manage-users" },
   { name: "My Orders", icon: ShoppingCart, path: "orders" },
   { name: "Profile", icon: UserCircle, path: "profile" },
