@@ -9,7 +9,7 @@ import {
   useLogoutMutation,
   useUserInfoQuery,
 } from "../../redux/app/services/auth/authApi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SubHeader from "./SubHeader";
 import toast from "react-hot-toast";
 
@@ -22,7 +22,7 @@ export default function Navbar() {
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isPictureLoaded, setIsPictureLoaded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [cartCount] = useState(3);
+  const cartCount = useSelector((state) => state.cart.items.length);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -95,8 +95,14 @@ export default function Navbar() {
             {/* Right side icons */}
             <div className="flex items-center space-x-1 sm:space-x-2">
               {/* Shopping Cart */}
-              <div className="mt-3 cursor-pointer relative p-1 sm:p-2.5 hover:bg-gray-50 rounded-xl transition-all duration-200 group">
+              <div
+                className="mt-3 cursor-pointer relative p-1 sm:p-2.5 hover:bg-gray-50 rounded-xl transition-all duration-200 group"
+                onClick={toggleCart}
+              >
+                {/* Cart content */}
                 <CartSlider isOpen={isOpen} toggleCart={toggleCart} />
+
+                {/* Cart count badge */}
                 {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold shadow-sm">
                     {cartCount}

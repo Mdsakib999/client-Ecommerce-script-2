@@ -16,7 +16,7 @@ export default function Home() {
         <OfferedProducts />
         <PopularProduct />
         <Offer />
-        <RecomendedProduct />
+        <RecommendedProduct />
         <TopBanner />
         <Solution />
       </div>
