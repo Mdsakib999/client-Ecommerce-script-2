@@ -36,9 +36,7 @@ export default function CartSlider({ isOpen, toggleCart }) {
       onConfirm: () => {
         dispatch(removeFromCart(productId));
       },
-      onCancel: () => {
-        console.log("Cancelled");
-      },
+      onCancel: () => {},
     });
   };
 

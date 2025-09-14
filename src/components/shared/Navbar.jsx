@@ -16,7 +16,6 @@ import toast from "react-hot-toast";
 export default function Navbar() {
   const { data: userInfo } = useUserInfoQuery();
   const user = userInfo?.data;
-  console.log("user", user);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
@@ -24,7 +23,8 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const cartCount = useSelector((state) => state.cart.items.length);
 
-  const toggleMenu = () => {
+  const toggleMenu = (event) => {
+    event.stopPropagation();
     setIsMenuOpen(!isMenuOpen);
     if (isUserDropdownOpen) setIsUserDropdownOpen(false);
   };
@@ -180,30 +180,16 @@ export default function Navbar() {
                           className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200"
                           onClick={closeDropdowns}
                         >
-                          User Dashboard
+                          Dashboard
                         </Link>
                       )}
                       <hr className="my-1 border-gray-100" />
-                      <Link
-                        to="/orders"
-                        className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200"
-                        onClick={closeDropdowns}
-                      >
-                        My Orders
-                      </Link>
                       <Link
                         to="/profile"
                         className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200"
                         onClick={closeDropdowns}
                       >
                         My Profile
-                      </Link>
-                      <Link
-                        to="/settings"
-                        className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200"
-                        onClick={closeDropdowns}
-                      >
-                        Settings
                       </Link>
                       <hr className="my-1 border-gray-100" />
                       <button
@@ -273,7 +259,7 @@ export default function Navbar() {
               : "max-h-0 opacity-0 -translate-y-2"
           }`}
         >
-          <div className="px-4 py-4 space-y-4">
+          <div className="px-4 py-4 space-y-2">
             {/* User Info Section */}
             {user ? (
               <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
@@ -339,28 +325,11 @@ export default function Navbar() {
                   >
                     My Profile
                   </Link>
-
-                  <button className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-all duration-200 text-gray-700 font-medium w-full text-left">
-                    <Heart className="w-5 h-5" />
-                    <span>Wishlist</span>
-                    <span className="ml-auto bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full font-semibold">
-                      2
-                    </span>
-                  </button>
-
-                  <Link
-                    to="/settings"
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-all duration-200 text-gray-700 font-medium"
-                    onClick={closeDropdowns}
-                  >
-                    Settings
-                  </Link>
-
-                  <hr className="my-2 border-gray-200" />
+                  <hr className="mt-2 border-gray-200" />
 
                   <button
                     onClick={handleLogout}
-                    className="cursor-pointer flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 transition-all duration-200 text-red-600 font-semibold w-full text-left"
+                    className="cursor-pointer flex items-center p-3 rounded-lg hover:bg-red-50 transition-all duration-200 text-red-600 font-semibold w-full text-left"
                   >
                     Logout
                   </button>
