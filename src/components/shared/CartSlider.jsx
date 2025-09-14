@@ -32,7 +32,7 @@ export default function CartSlider({ isOpen, toggleCart }) {
 
   const handleRemoveFromCart = (productId) => {
     confirmToast({
-      message: "Do you really want to delete this product?",
+      message: "Do you really want to remove this product?",
       onConfirm: () => {
         dispatch(removeFromCart(productId));
       },
