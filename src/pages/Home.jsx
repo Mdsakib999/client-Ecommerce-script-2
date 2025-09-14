@@ -4,7 +4,7 @@ import Offer from "../components/Home/Offer";
 import OfferedProducts from "../components/Home/OfferedProducts";
 import PopularProduct from "../components/Home/PopularProduct";
 import Pride from "../components/Home/Pride";
-import RecomendedProduct from "../components/Home/RecomendedProduct";
+import RecommendedProduct from "../components/Home/RecommendedProduct";
 import TopBanner from "../components/Home/TopBanner";
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
         <OfferedProducts />
         <PopularProduct />
         <Offer />
-        <RecomendedProduct />
+        <RecommendedProduct />
         <TopBanner />
         <Pride />
       </div>

@@ -11,20 +11,15 @@ import {
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  // addToCart,
   removeFromCart,
   updateQuantity,
 } from "../../redux/app/features/cart/cartSlice";
 import confirmToast from "../../utils/confirmToast";
-import {Link} from 'react-router'
+import { Link } from "react-router";
 
 export default function CartSlider({ isOpen, toggleCart }) {
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
-
-  // const handleAddToCart = (product) => {
-  //   dispatch(addToCart(product));
-  // };
 
   const handleRemoveFromCart = (productId) => {
     confirmToast({
@@ -72,6 +67,7 @@ export default function CartSlider({ isOpen, toggleCart }) {
 
       {/* Cart Slider */}
       <div
+        onClick={(e) => e.stopPropagation()}
         className={`fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-out flex flex-col ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}

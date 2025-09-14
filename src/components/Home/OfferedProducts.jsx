@@ -1,6 +1,8 @@
 import { ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router";
+import { addToCart } from "../../redux/app/features/cart/cartSlice";
 
 export default function OfferedProducts() {
   const targetDate = new Date("September 25, 2025 00:00:00").getTime();
@@ -77,6 +79,12 @@ export default function OfferedProducts() {
         "The Xiaomi 14 Pro combines high-end performance with sleek design at a competitive price point. Featuring a large AMOLED display with vibrant colors and a 120Hz refresh rate, it ensures immersive visuals whether for gaming, streaming, or browsing. Powered by the Snapdragon 8 Gen 3 chipset, it offers blazing-fast performance and efficient multitasking. The advanced Leica-engineered camera system includes a 50MP primary lens, telephoto zoom, and ultra-wide sensor for professional-grade photography. With fast charging, long-lasting battery, and MIUI optimization, the Xiaomi 14 Pro balances premium features with affordability, making it an excellent choice for users seeking flagship performance without breaking the bank.",
     },
   ];
+
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
 
   return (
     <div className="max-w-7xl px-4 w-full mx-auto">
@@ -178,6 +186,7 @@ export default function OfferedProducts() {
                     </div>
                     <div className="pt-3">
                       <button
+                        onClick={() => handleAddToCart(product)}
                         state={{ product }}
                         className="w-full cursor-pointer bg-gray-200 rounded-full py-2 px-4 font-semibold text-sm flex items-center justify-center space-x-2 transition-colors hover:bg-gray-700 hover:text-white"
                       >
