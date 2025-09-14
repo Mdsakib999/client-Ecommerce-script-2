@@ -18,7 +18,6 @@ import ProductDetails from "../pages/Products/ProductDetails";
 import Products from "../pages/Products/Products";
 import AddProduct from "../pages/Dashboard/admin/AddProduct";
 import ManageCategory from "../pages/Dashboard/admin/ManageCategory";
-import AddProductPage from "../pages/Dashboard/admin/AddProductPage";
 
 const router = createBrowserRouter([
   {
@@ -67,7 +66,7 @@ const router = createBrowserRouter([
 
       // Admin routes
       { path: "manage-orders", Component: ManageOrders },
-      {path: "add-product", Component: AddProductPage},
+      {path: "add-product", Component: AddProduct},
       {path: "manage-category", Component: ManageCategory},
       { path: "manage-products", Component: ManageProducts },
       { path: "manage-users", Component: ManageUsers },
