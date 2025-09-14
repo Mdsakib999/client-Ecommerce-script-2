@@ -39,7 +39,7 @@ export default function DashboardLayout() {
   }
 
   return (
-    <div className="flex h-full ">
+    <div className="flex h-full">
       {/* Mobile Header (fixed so sidebar doesn't cover it) */}
       <header className="fixed md:hidden top-0 left-0 right-0 h-14 flex items-center justify-between px-4 bg-white shadow z-50">
         <Logo w="32" />
@@ -63,7 +63,7 @@ export default function DashboardLayout() {
       >
         {/* Logo & collapse button */}
         <div
-          className={`hidden sm:flex items-center  border-b p-4 ${
+          className={`${isOpen ? "hidden":"flex"} items-center  border-b p-4 ${
             collapsed ? "justify-center" : "justify-between"
           }`}
         >
@@ -110,14 +110,14 @@ export default function DashboardLayout() {
       {/* Mobile overlay (doesn't cover the top header) */}
       {isOpen && (
         <div
-          className="fixed top-14 inset-x-0 bottom-0 bg-black bg-opacity-40 z-40 md:hidden"
+          className="fixed top-14 inset-x-0 bottom-0 z-40 md:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       
       <main
-        className={`flex-1 p-6 pt-14 mt-4 md:pt-0 transition-all duration-300 ${
+        className={`flex-1 p-6 pt-14 mt-4 md:pt-0 transition-all duration-300 ${isOpen ? "opacity-20":"opacity-100"} ${
           collapsed ? "md:ml-20" : "md:ml-64"
         }`}
       >
