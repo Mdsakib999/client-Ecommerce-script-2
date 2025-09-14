@@ -89,7 +89,7 @@ export default function DashboardLayout() {
               `/dashboard/${item.name}`
             );
             return (
-              <Link
+              <Link  onClick={() => setIsOpen((s) => !s)}
                  to={item.path}
                 className={`flex items-center py-3 cursor-pointer transition-colors
                   ${collapsed ? "justify-center" : "px-4"}
