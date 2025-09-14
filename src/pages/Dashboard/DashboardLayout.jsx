@@ -9,9 +9,8 @@ import {
   Users,
   X,
   SquarePlus,
-  LayoutDashboard
+  LayoutDashboard,
 } from "lucide-react";
-
 
 import { useState } from "react";
 import { Link, Navigate, Outlet, useLocation } from "react-router";
@@ -21,18 +20,16 @@ export default function DashboardLayout() {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false); // mobile menu open
   const [collapsed, setCollapsed] = useState(false); // desktop collapsed
-  
-  
-  const menuItems = [
-  { name: "Manage Orders", icon: ClipboardList, path: "manage-orders" },
-  { name: "Manage Products", icon: Package, path: "manage-products" },
-  { name: "Add Product", icon: SquarePlus , path: "add-product" },
-  { name: "Manage Category", icon: LayoutDashboard, path: "manage-category" },
-  { name: "Manage Users", icon: Users, path: "manage-users" },
-  { name: "My Orders", icon: ShoppingCart, path: "orders" },
-  { name: "Profile", icon: UserCircle, path: "profile" },
-];
 
+  const menuItems = [
+    { name: "Manage Orders", icon: ClipboardList, path: "manage-orders" },
+    { name: "Manage Products", icon: Package, path: "manage-products" },
+    { name: "Add Product", icon: SquarePlus, path: "add-product" },
+    { name: "Manage Category", icon: LayoutDashboard, path: "manage-category" },
+    { name: "Manage Users", icon: Users, path: "manage-users" },
+    { name: "My Orders", icon: ShoppingCart, path: "orders" },
+    { name: "Profile", icon: UserCircle, path: "profile" },
+  ];
 
   if (location.pathname === "/dashboard") {
     return <Navigate to="/dashboard/profile" replace />;
@@ -115,7 +112,6 @@ export default function DashboardLayout() {
         />
       )}
 
-      
       <main
         className={`flex-1 p-6 pt-14 mt-4 md:pt-0 transition-all duration-300 ${isOpen ? "opacity-20":"opacity-100"} ${
           collapsed ? "md:ml-20" : "md:ml-64"
