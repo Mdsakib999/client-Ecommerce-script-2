@@ -1,38 +1,51 @@
-import { useState } from "react";
-import { Plus, Search, Edit, Trash2, Save, X } from "lucide-react";
+import { Edit, Plus, Save, Trash2, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
-export default function ManageCategory({ categories, setCategories }) {
+export default function ManageCategory() {
+  const defaultCategories = [
+    { id: 1, name: "Electronics" },
+    { id: 2, name: "Fashion" },
+    { id: 3, name: "Health & Beauty" },
+    { id: 4, name: "Home & Living" },
+    { id: 5, name: "Sports" },
+  ];
+
+  const [categories, setCategories] = useState(() => {
+    return JSON.parse(localStorage.getItem("categories")) || defaultCategories;
+  });
+
   const [newCategory, setNewCategory] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editingName, setEditingName] = useState("");
 
-  // Add Category
+  useEffect(() => {
+    localStorage.setItem("categories", JSON.stringify(categories));
+  }, [categories]);
+
   const handleAddCategory = () => {
     if (!newCategory.trim()) return alert("Category name required!");
     const exists = categories.find(
       (cat) => cat.name.toLowerCase() === newCategory.toLowerCase()
     );
     if (exists) return alert("Category already exists!");
-
-    setCategories([...categories, { id: Date.now(), name: newCategory.trim() }]);
+    setCategories([
+      ...categories,
+      { id: Date.now(), name: newCategory.trim() },
+    ]);
     setNewCategory("");
   };
 
-  // Delete Category
   const handleDeleteCategory = (id) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       setCategories(categories.filter((cat) => cat.id !== id));
     }
   };
 
-  // Start Edit
   const handleEditCategory = (id, name) => {
     setEditingId(id);
     setEditingName(name);
   };
 
-  // Save Edit
   const handleSaveEdit = (id) => {
     if (!editingName.trim()) return;
     setCategories(
@@ -44,13 +57,9 @@ export default function ManageCategory({ categories, setCategories }) {
     setEditingName("");
   };
 
-  const filteredCategories = categories.filter((cat) =>
-    cat.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-2xl shadow-md">
-      <h2 className="text-xl font-bold mb-4">Manage Categories</h2>
+    <div className=" p-6 w-[500px] mx-auto mt-10  rounded-2xl shadow-md">
+      <h2 className="text-2xl font-semibold mb-4">Manage Categories</h2>
 
       {/* Add Category */}
       <div className="flex gap-2 mb-4">
@@ -69,21 +78,9 @@ export default function ManageCategory({ categories, setCategories }) {
         </button>
       </div>
 
-      {/* Search */}
-      <div className="flex items-center gap-2 mb-4">
-        <Search className="w-4 h-4 text-gray-500" />
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search categories"
-          className="flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
       {/* Category List */}
       <ul className="space-y-3">
-        {filteredCategories.map((cat) => (
+        {categories.map((cat) => (
           <li
             key={cat.id}
             className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50"
