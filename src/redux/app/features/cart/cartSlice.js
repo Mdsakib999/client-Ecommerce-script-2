@@ -1,49 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  items: [
-    {
-      id: 1,
-      name: "Apple iPhone 15 Pro Max",
-      brand: "Apple",
-      price: 1199.99,
-      originalPrice: 1299.99,
-      quantity: 1,
-      image:
-        "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=300&h=300&fit=crop",
-      color: "Natural Titanium",
-      storage: "256GB",
-      rating: 4.8,
-      inStock: true,
-    },
-    {
-      id: 2,
-      name: "Sony WH-1000XM5 Wireless Headphones",
-      brand: "Sony",
-      price: 349.99,
-      originalPrice: 399.99,
-      quantity: 2,
-      image:
-        "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=300&h=300&fit=crop",
-      color: "Midnight Black",
-      rating: 4.9,
-      inStock: true,
-    },
-    {
-      id: 3,
-      name: "MacBook Air M2 13-inch",
-      brand: "Apple",
-      price: 1099.99,
-      originalPrice: 1199.99,
-      quantity: 1,
-      image:
-        "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300&h=300&fit=crop",
-      color: "Space Gray",
-      storage: "256GB SSD",
-      rating: 4.7,
-      inStock: false,
-    },
-  ],
+  items: [],
   totalQuantity: 0,
   totalPrice: 0,
 };

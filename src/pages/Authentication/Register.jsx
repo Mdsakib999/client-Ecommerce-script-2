@@ -30,7 +30,6 @@ export default function Register() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       const result = await registerUser(data);
       console.log(result);
@@ -62,7 +61,7 @@ export default function Register() {
       }
     } catch (error) {
       console.log(error);
-      toast.error(`${error.data.message}`, {
+      toast.error(`${error?.data?.message}`, {
         position: "bottom-right",
       });
     }
