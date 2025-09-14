@@ -3,7 +3,7 @@ import Featured from "../components/Home/Featured";
 import Offer from "../components/Home/Offer";
 import OfferedProducts from "../components/Home/OfferedProducts";
 import PopularProduct from "../components/Home/PopularProduct";
-import RecomendedProduct from "../components/Home/RecomendedProduct";
+import RecommendedProduct from "../components/Home/RecommendedProduct";
 import Solution from "../components/Home/Solution";
 import TopBanner from "../components/Home/TopBanner";
 
