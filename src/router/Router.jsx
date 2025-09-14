@@ -19,6 +19,7 @@ import ProductDetails from "../pages/Products/ProductDetails";
 import Products from "../pages/Products/Products";
 import withAuth from "../utils/withAuth";
 import withPublic from "../utils/withPublic";
+import AddProductPage from "../pages/Dashboard/admin/AddProductPage";
 
 const router = createBrowserRouter([
   {
@@ -70,7 +71,7 @@ const router = createBrowserRouter([
 
       // Admin routes
       { path: "manage-orders", Component: ManageOrders },
-      { path: "add-product", Component: AddProduct },
+      { path: "add-product", Component: AddProductPage },
       { path: "manage-products", Component: ManageProducts },
       { path: "manage-users", Component: ManageUsers },
     ],
