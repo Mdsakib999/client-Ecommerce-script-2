@@ -1,4 +1,4 @@
-import { ChevronDown, X } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 export default function Checkout() {
@@ -60,31 +60,10 @@ export default function Checkout() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Side - Billing Details */}
           <div className="space-y-6">
-            {/* Subscription Checkbox */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <div className="flex items-center space-x-3">
-                <input
-                  type="checkbox"
-                  id="subscription"
-                  name="subscription"
-                  checked={formData.subscription}
-                  onChange={handleInputChange}
-                  className="w-5 h-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
-                />
-                <label
-                  htmlFor="subscription"
-                  className="text-lg font-semibold text-gray-900 uppercase tracking-wide"
-                >
-                  SUBSCRIPTION
-                </label>
-              </div>
-            </div>
-
             {/* Billing Details */}
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h2 className="text-xl font-bold text-gray-900 mb-6 uppercase tracking-wide">
@@ -92,79 +71,74 @@ export default function Checkout() {
               </h2>
 
               <div className="space-y-6">
-                {/* Name */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-2">
-                    Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="Name"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
-                  />
-                </div>
-
-                {/* District */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-2">
-                    District <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <select
-                      name="district"
-                      value={formData.district}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  {/* name & email */}
+                  {/* Name */}
+                  <div className="w-full sm:w-1/2">
+                    <label className="block text-sm font-medium text-gray-600 mb-2">
+                      Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none text-gray-900 bg-white"
-                    >
-                      {districts.map((district) => (
-                        <option key={district} value={district}>
-                          {district}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                      placeholder="Name"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                    />
+                  </div>
+                  {/* Email */}
+                  <div className="w-full sm:w-1/2">
+                    <label className="block text-sm font-medium text-gray-600 mb-2">
+                      Email (optional)
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
                   </div>
                 </div>
 
-                {/* Your Zone */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-2">
-                    Your Zone <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <select
-                      name="zone"
-                      value={formData.zone}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none text-gray-500 bg-white"
-                    >
-                      <option value="">Select..</option>
-                      {zones.map((zone) => (
-                        <option key={zone} value={zone}>
-                          {zone}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                <div className="flex flex-col sm:flex-row gap-4">
+                  {/* district & address  */}
+                  {/* District */}
+                  <div className="w-full sm:w-2/7">
+                    <label className="block text-sm font-medium text-gray-600 mb-2">
+                      District <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <select
+                        name="district"
+                        value={formData.district}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none text-gray-900 bg-white"
+                      >
+                        {districts.map((district) => (
+                          <option key={district} value={district}>
+                            {district}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+                    </div>
                   </div>
-                </div>
-
-                {/* Street Address */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-2">
-                    Street address <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="streetAddress"
-                    value={formData.streetAddress}
-                    onChange={handleInputChange}
-                    placeholder="House number and street name"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-500"
-                  />
+                  {/* Street Address */}
+                  <div className="w-full sm:w-5/7">
+                    <label className="block text-sm font-medium text-gray-600 mb-2">
+                      Address <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="streetAddress"
+                      value={formData.streetAddress}
+                      onChange={handleInputChange}
+                      placeholder="House number and street name"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-500"
+                    />
+                  </div>
                 </div>
 
                 {/* Mobile Number */}
@@ -176,20 +150,6 @@ export default function Checkout() {
                     type="tel"
                     name="mobileNumber"
                     value={formData.mobileNumber}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-
-                {/* Email */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-2">
-                    Email (optional)
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
@@ -351,15 +311,6 @@ export default function Checkout() {
                   </span>
                 </div>
               </div>
-
-              {/* Payment Security */}
-              <div className="mt-6 flex items-center justify-center space-x-2 text-sm text-gray-600">
-                <span>Pay Online</span>
-                <div className="bg-blue-600 text-white px-2 py-1 rounded text-xs font-semibold">
-                  Verified by SSL COMMERZ
-                </div>
-              </div>
-
               {/* Terms Notice */}
               <div className="mt-4 text-center">
                 <p className="text-sm text-gray-600">
