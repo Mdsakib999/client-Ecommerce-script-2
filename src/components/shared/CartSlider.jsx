@@ -15,11 +15,20 @@ import {
   updateQuantity,
 } from "../../redux/app/features/cart/cartSlice";
 import confirmToast from "../../utils/confirmToast";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
+import { useEffect } from "react";
 
 export default function CartSlider({ isOpen, toggleCart }) {
+  const location = useLocation();
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isOpen) {
+      toggleCart();
+    }
+    // eslint-disable-next-line
+  }, [location.pathname]);
 
   const handleRemoveFromCart = (productId) => {
     confirmToast({
@@ -261,7 +270,7 @@ export default function CartSlider({ isOpen, toggleCart }) {
 
             <button
               onClick={toggleCart}
-              className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-3 px-4 rounded-xl font-semibold transition-colors duration-200"
+              className="mt-3 w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-3 px-4 rounded-xl font-semibold transition-colors duration-200"
             >
               Continue Shopping
             </button>

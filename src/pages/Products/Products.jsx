@@ -162,7 +162,7 @@ export default function Products() {
           </div>
         </aside>
 
-        {/* categries */}
+        {/* categories */}
 
         <div className="bg-white p-5 rounded-xl shadow-md w-full md:w-64 space-y-4 mt-2 border border-amber-100">
           {/* Section Title */}

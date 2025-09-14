@@ -17,6 +17,8 @@ import Faq from "../pages/Faq";
 import Home from "../pages/Home";
 import ProductDetails from "../pages/Products/ProductDetails";
 import Products from "../pages/Products/Products";
+import withAuth from "../utils/withAuth";
+import withPublic from "../utils/withPublic";
 
 const router = createBrowserRouter([
   {
@@ -51,13 +53,13 @@ const router = createBrowserRouter([
       },
       {
         path: "checkout",
-        Component: Checkout,
+        Component: withAuth(Checkout),
       },
     ],
   },
   {
     path: "/dashboard",
-    Component: DashboardLayout,
+    Component: withAuth(DashboardLayout),
     children: [
       // User routes
       {
@@ -73,8 +75,8 @@ const router = createBrowserRouter([
       { path: "manage-users", Component: ManageUsers },
     ],
   },
-  { path: "/login", Component: Login },
-  { path: "/register", Component: Register },
+  { path: "/login", Component: withPublic(Login) },
+  { path: "/register", Component: withPublic(Register) },
 ]);
 
 export default router;
