@@ -6,7 +6,7 @@ export default function Checkout() {
     register,
     handleSubmit,
     control,
-    watch,
+    // watch,
     formState: { errors, isSubmitting }
   } = useForm({
     defaultValues: {
