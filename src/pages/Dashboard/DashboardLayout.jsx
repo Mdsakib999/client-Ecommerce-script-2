@@ -27,7 +27,7 @@ export default function DashboardLayout() {
   { name: "Manage Orders", icon: ClipboardList, path: "manage-orders" },
   { name: "Manage Products", icon: Package, path: "manage-products" },
   { name: "Add Product", icon: SquarePlus , path: "add-product" },
-  { name: "Manage Category", icon: LayoutDashboard, path: "manage-products" },
+  { name: "Manage Category", icon: LayoutDashboard, path: "manage-category" },
   { name: "Manage Users", icon: Users, path: "manage-users" },
   { name: "My Orders", icon: ShoppingCart, path: "orders" },
   { name: "Profile", icon: UserCircle, path: "profile" },
@@ -39,7 +39,7 @@ export default function DashboardLayout() {
   }
 
   return (
-    <div className="flex h-full bg-gray-50">
+    <div className="flex h-full ">
       {/* Mobile Header (fixed so sidebar doesn't cover it) */}
       <header className="fixed md:hidden top-0 left-0 right-0 h-14 flex items-center justify-between px-4 bg-white shadow z-50">
         <Logo w="32" />

@@ -3,8 +3,8 @@ import Featured from "../components/Home/Featured";
 import Offer from "../components/Home/Offer";
 import OfferedProducts from "../components/Home/OfferedProducts";
 import PopularProduct from "../components/Home/PopularProduct";
-import Pride from "../components/Home/Pride";
 import RecommendedProduct from "../components/Home/RecommendedProduct";
+import Solution from "../components/Home/Solution";
 import TopBanner from "../components/Home/TopBanner";
 
 export default function Home() {
@@ -18,7 +18,7 @@ export default function Home() {
         <Offer />
         <RecommendedProduct />
         <TopBanner />
-        <Pride />
+        <Solution />
       </div>
     </>
   );
