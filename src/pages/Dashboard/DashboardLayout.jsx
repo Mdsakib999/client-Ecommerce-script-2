@@ -8,7 +8,11 @@ import {
   UserCircle,
   Users,
   X,
+  SquarePlus,
+  LayoutDashboard
 } from "lucide-react";
+
+
 import { useState } from "react";
 import { Link, Navigate, Outlet, useLocation } from "react-router";
 import Logo from "../../components/shared/Logo";
@@ -18,10 +22,12 @@ export default function DashboardLayout() {
   const [isOpen, setIsOpen] = useState(false); // mobile menu open
   const [collapsed, setCollapsed] = useState(false); // desktop collapsed
   
+  
   const menuItems = [
   { name: "Manage Orders", icon: ClipboardList, path: "manage-orders" },
   { name: "Manage Products", icon: Package, path: "manage-products" },
-  { name: "Add Product", icon: Package, path: "add-product" },
+  { name: "Add Product", icon: SquarePlus , path: "add-product" },
+  { name: "Manage Category", icon: LayoutDashboard, path: "manage-products" },
   { name: "Manage Users", icon: Users, path: "manage-users" },
   { name: "My Orders", icon: ShoppingCart, path: "orders" },
   { name: "Profile", icon: UserCircle, path: "profile" },

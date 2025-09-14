@@ -252,7 +252,7 @@ export default function CartSlider({ isOpen, toggleCart }) {
             )}
 
             {/* Checkout Button */}
-            <Link to="dashboard/checkout">
+            <Link to="/checkout">
               <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-semibold flex items-center justify-center space-x-2 transition-all duration-200 hover:shadow-lg">
                 <span>Proceed to Checkout</span>
                 <ArrowRight className="w-5 h-5" />
