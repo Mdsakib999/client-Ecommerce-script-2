@@ -11,20 +11,24 @@ import {
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  // addToCart,
   removeFromCart,
   updateQuantity,
 } from "../../redux/app/features/cart/cartSlice";
 import confirmToast from "../../utils/confirmToast";
-import {Link} from 'react-router'
+import { Link, useLocation } from "react-router";
+import { useEffect } from "react";
 
 export default function CartSlider({ isOpen, toggleCart }) {
+  const location = useLocation();
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
 
-  // const handleAddToCart = (product) => {
-  //   dispatch(addToCart(product));
-  // };
+  useEffect(() => {
+    if (isOpen) {
+      toggleCart();
+    }
+    // eslint-disable-next-line
+  }, [location.pathname]);
 
   const handleRemoveFromCart = (productId) => {
     confirmToast({
@@ -72,6 +76,7 @@ export default function CartSlider({ isOpen, toggleCart }) {
 
       {/* Cart Slider */}
       <div
+        onClick={(e) => e.stopPropagation()}
         className={`fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-out flex flex-col ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
@@ -256,7 +261,7 @@ export default function CartSlider({ isOpen, toggleCart }) {
             )}
 
             {/* Checkout Button */}
-            <Link to="dashboard/checkout">
+            <Link to="/checkout">
               <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-semibold flex items-center justify-center space-x-2 transition-all duration-200 hover:shadow-lg">
                 <span>Proceed to Checkout</span>
                 <ArrowRight className="w-5 h-5" />
@@ -265,7 +270,7 @@ export default function CartSlider({ isOpen, toggleCart }) {
 
             <button
               onClick={toggleCart}
-              className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-3 px-4 rounded-xl font-semibold transition-colors duration-200"
+              className="mt-3 w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-3 px-4 rounded-xl font-semibold transition-colors duration-200"
             >
               Continue Shopping
             </button>

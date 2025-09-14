@@ -2,7 +2,7 @@ import loginImage from "../../assets/login.jpg";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import googleLogo from "../../assets/googleLogo.png";
 import { useLoginMutation } from "../../redux/app/services/auth/authApi";
 import toast from "react-hot-toast";
@@ -24,38 +24,38 @@ export default function Login() {
 
   const [login, { isLoading }] = useLoginMutation();
 
+  const navigate = useNavigate();
+
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       const res = await login(data).unwrap();
       console.log("res-->", res);
-      if (res.success) {
+      if (res?.success) {
         toast.success(
           <p className="text-center font-serif">Logged in successfully</p>
         );
+        navigate("/");
       }
     } catch (err) {
       console.error(err);
 
-      if (err.data.message === "Password does not match") {
-        toast.error("Invalid credentials", {
-          position: "bottom-right",
-        });
-      }
+      const errorMessage =
+        err?.data?.message || err?.message || "Something went wrong";
 
-      if (err.data.message === "User is not verified") {
+      if (errorMessage === "Password does not match") {
+        toast.error("Invalid credentials", { position: "bottom-right" });
+      } else if (errorMessage === "User is not verified") {
         toast.error("Your account is not verified", {
           position: "bottom-right",
         });
-      }
-      if (err.data.message === "You have authenticated through Google login!") {
-        toast.error("You are authenticated through google!", {
+      } else if (
+        errorMessage === "You have authenticated through Google login!"
+      ) {
+        toast.error("You are authenticated through Google!", {
           position: "bottom-right",
         });
       } else {
-        toast.error(`${err.data.message}`, {
-          position: "bottom-right",
-        });
+        toast.error(errorMessage, { position: "bottom-right" });
       }
     }
   };
@@ -132,7 +132,7 @@ export default function Login() {
             </div>
 
             <button
-              disabled={isLoading}
+              disabled={isLoading || isGoogleLoading}
               type="submit"
               className={`cursor-pointer w-full bg-black text-white py-4 rounded-xl font-medium hover:bg-slate-800 transition-colors shadow-lg hover:shadow-xl ${
                 isLoading
@@ -140,13 +140,13 @@ export default function Login() {
                   : "text-slate-700 hover:bg-slate-50 border-slate-300 shadow-sm hover:shadow-md"
               }`}
             >
-              Sign In
+              {isLoading ? "signing in..." : "Sign In"}
             </button>
 
             <button
               onClick={handleGoogleLogin}
               type="button"
-              disabled={isGoogleLoading}
+              disabled={isGoogleLoading || isLoading}
               className={`cursor-pointer flex items-center justify-center w-full gap-3 px-4 py-4 rounded-xl font-medium transition-colors duration-200 border ${
                 isGoogleLoading
                   ? "bg-slate-100 cursor-not-allowed text-slate-400 border-slate-200"
