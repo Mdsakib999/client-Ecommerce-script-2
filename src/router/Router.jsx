@@ -3,13 +3,14 @@ import App from "../App";
 import About from "../pages/About";
 import Login from "../pages/Authentication/Login";
 import Register from "../pages/Authentication/Register";
+import Checkout from "../pages/Checkout";
 import ContactPage from "../pages/ContactPage";
 import DashboardLayout from "../pages/Dashboard/DashboardLayout";
+import AddProduct from "../pages/Dashboard/admin/AddProduct";
 import ManageOrders from "../pages/Dashboard/admin/ManageOrders";
 import ManageProducts from "../pages/Dashboard/admin/ManageProducts";
 import ManageUsers from "../pages/Dashboard/admin/ManageUsers";
 import Profile from "../pages/Dashboard/common/Profile";
-import Checkout from "../pages/Dashboard/customer/Checkout";
 import MyOrders from "../pages/Dashboard/customer/MyOrders";
 import ErrorPage from "../pages/ErrorPage";
 import Faq from "../pages/Faq";
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
         path: "faq",
         Component: Faq,
       },
+      {
+        path: "checkout",
+        Component: Checkout,
+      },
     ],
   },
   {
@@ -63,12 +68,9 @@ const router = createBrowserRouter([
 
       // Admin routes
       { path: "manage-orders", Component: ManageOrders },
+      { path: "add-product", Component: AddProduct },
       { path: "manage-products", Component: ManageProducts },
       { path: "manage-users", Component: ManageUsers },
-      {
-        path: "checkout",
-        Component: Checkout,
-      },
     ],
   },
   { path: "/login", Component: Login },
