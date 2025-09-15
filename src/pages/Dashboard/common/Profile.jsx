@@ -1,21 +1,21 @@
-import { UserPen, X } from "lucide-react";
+import { Plus, UserPen, X } from "lucide-react";
 import { useState } from "react";
-import { authApi,useLogoutMutation, useUserInfoQuery } from "../../../redux/app/services/auth/authApi";
+import { useUserInfoQuery } from "../../../redux/app/services/auth/authApi";
 
 export default function Profile() {
   const [openModal, setOpenModal] = useState(false);
 
   const { data: userInfo } = useUserInfoQuery();
-  const user = userInfo?.data;
+  const user = userInfo?.data || {};
 
-  console.log(user);
+  const { name = "", email = "", picture = "" } = user;
 
-  // Fake user data (normally from API/backend)
   const [profile, setProfile] = useState({
-    fullName: "Nur Mohammad Imon",
-    email: "imon@gmail.com",
-    phone: "+880 17XXXXXX",
-    address: "GEC More, Chattogram",
+    name,
+    email,
+    picture,
+    phone: "",
+    address: "",
     password: "",
     confirmPassword: "",
   });
@@ -32,7 +32,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 max-w-5xl mx-auto mt-10">
       <div className="bg-white shadow-lg rounded-2xl overflow-hidden">
         {/* Profile Card */}
         <div className="flex justify-center items-center bg-gray-100">
@@ -40,17 +40,15 @@ export default function Profile() {
             <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
               <img
                 className="w-24 h-24 md:w-28 md:h-28 lg:w-24 lg:h-24 rounded-full shadow-md"
-                src="https://i.ibb.co.com/KpXYj7mF/2025.jpg"
+                src={picture}
                 alt="Profile"
               />
             </div>
             <div className="text-center md:text-left">
               <h4 className="text-lg font-semibold text-gray-800 mb-2">
-                {profile.fullName}
+                {profile.name}
               </h4>
               <p className="text-sm text-gray-600 mb-1">{profile.email}</p>
-              <p className="text-sm text-gray-600 mb-2">{profile.phone}</p>
-              <p className="text-sm text-gray-700">{profile.address}</p>
             </div>
           </div>
         </div>
@@ -76,14 +74,27 @@ export default function Profile() {
               <div>
                 <h2 className="text-sm font-medium text-gray-500">Full Name</h2>
                 <p className="text-lg font-semibold text-gray-800">
-                  {profile.fullName}
+                  {profile.name}
                 </p>
               </div>
               <div>
                 <h2 className="text-sm font-medium text-gray-500">Address</h2>
-                <p className="text-lg text-gray-700">{profile.address}</p>
+
+                {profile.address ? (
+                  <p className="text-lg font-semibold text-gray-800">
+                    {profile.address}
+                  </p>
+                ) : (
+                  <button
+                    onClick={() => setOpenModal(true)}
+                    className="text-md font-semibold text-gray-700 cursor-pointer flex items-center gap-1"
+                  >
+                    <Plus size={16} /> Add Address
+                  </button>
+                )}
               </div>
             </div>
+
             {/* Right side */}
             <div className="space-y-4">
               <div>
@@ -94,7 +105,18 @@ export default function Profile() {
                 <h2 className="text-sm font-medium text-gray-500">
                   Phone Number
                 </h2>
-                <p className="text-lg text-gray-700">{profile.phone}</p>
+                {profile.phone ? (
+                  <p className="text-lg font-semibold text-gray-800">
+                    {profile.phone}
+                  </p>
+                ) : (
+                  <button
+                    onClick={() => setOpenModal(true)}
+                    className="text-md font-semibold text-gray-700 cursor-pointer flex items-center gap-1"
+                  >
+                    <Plus size={16} /> Add Number
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -125,8 +147,8 @@ export default function Profile() {
                 </label>
                 <input
                   type="text"
-                  name="fullName"
-                  value={profile.fullName}
+                  name="name"
+                  value={profile.name}
                   onChange={handleChange}
                   className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 />
