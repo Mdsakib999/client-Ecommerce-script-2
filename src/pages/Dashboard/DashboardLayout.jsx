@@ -20,7 +20,7 @@ import { useUserInfoQuery } from "../../redux/app/services/auth/authApi";
 import Loader from "../../utils/Loader";
 
 export default function DashboardLayout() {
-  const { data } = useUserInfoQuery();
+  const { data, isLoading } = useUserInfoQuery();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
