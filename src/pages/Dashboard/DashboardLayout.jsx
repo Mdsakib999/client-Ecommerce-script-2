@@ -19,7 +19,7 @@ import Logo from "../../components/shared/Logo";
 import { useUserInfoQuery } from "../../redux/app/services/auth/authApi";
 
 export default function DashboardLayout() {
-  const { data, isLoading } = useUserInfoQuery();
+  const { data } = useUserInfoQuery();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false); // mobile menu open
   const [collapsed, setCollapsed] = useState(false); // desktop collapsed
