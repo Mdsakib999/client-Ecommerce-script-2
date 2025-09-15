@@ -7,7 +7,7 @@ export default function withPublic(Component) {
     const { data, isLoading } = useUserInfoQuery();
 
     if (!isLoading && data?.data?.email) {
-      return <Navigate to="/dashboard/profile" replace />;
+      return <Navigate to="/" replace />;
     }
 
     return <Component />;
