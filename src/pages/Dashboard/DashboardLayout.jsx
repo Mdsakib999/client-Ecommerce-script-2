@@ -2,37 +2,53 @@ import {
   ChevronLeft,
   ChevronRight,
   ClipboardList,
+  LayoutDashboard,
   Menu,
   Package,
   ShoppingCart,
+  SquarePlus,
   UserCircle,
   Users,
   X,
-  SquarePlus,
-  LayoutDashboard,
 } from "lucide-react";
 
 import { useState } from "react";
 import { Link, Navigate, Outlet, useLocation } from "react-router";
+
 import Logo from "../../components/shared/Logo";
+import { useUserInfoQuery } from "../../redux/app/services/auth/authApi";
 
 export default function DashboardLayout() {
+  const { data, isLoading } = useUserInfoQuery();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false); // mobile menu open
   const [collapsed, setCollapsed] = useState(false); // desktop collapsed
-
-  const menuItems = [
+let menuItems = [];
+  if(data?.data?.role ==="CUSTOMER") {
+   menuItems = [
+    { name: "Profile", icon: UserCircle, path: "profile" },
+    { name: "My Orders", icon: ShoppingCart, path: "orders" },
+  ];
+   
+  }
+  else {
+   menuItems = [
+    { name: "Profile", icon: UserCircle, path: "profile" },
     { name: "Manage Orders", icon: ClipboardList, path: "manage-orders" },
     { name: "Manage Products", icon: Package, path: "manage-products" },
     { name: "Add Product", icon: SquarePlus, path: "add-product" },
     { name: "Manage Category", icon: LayoutDashboard, path: "manage-category" },
     { name: "Manage Users", icon: Users, path: "manage-users" },
-    { name: "My Orders", icon: ShoppingCart, path: "orders" },
-    { name: "Profile", icon: UserCircle, path: "profile" },
   ];
+  }
 
-  if (location.pathname === "/dashboard") {
-    return <Navigate to="/dashboard/profile" replace />;
+
+
+  if (location.pathname === "/dashboard/user") {
+    return <Navigate to="/dashboard/user/profile" replace />;
+  }
+  if (location.pathname === "/dashboard/admin") {
+    return <Navigate to="/dashboard/admin/profile" replace />;
   }
 
   return (
@@ -60,7 +76,9 @@ export default function DashboardLayout() {
       >
         {/* Logo & collapse button */}
         <div
-          className={`${isOpen ? "hidden":"flex"} items-center  border-b p-4 ${
+          className={`${
+            isOpen ? "hidden" : "flex"
+          } items-center  border-b p-4 ${
             collapsed ? "justify-center" : "justify-between"
           }`}
         >
@@ -83,11 +101,16 @@ export default function DashboardLayout() {
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname.startsWith(
-              `/dashboard/${item.name}`
+              `/dashboard/${item.path}`
             );
             return (
-              <Link  onClick={() => setIsOpen((s) => !s)}
-                 to={item.path}
+              <Link
+                onClick={() => {
+                  if (window.innerWidth <= 640) {
+                    setIsOpen((s) => !s); // only toggle in sm and below
+                  }
+                }}
+                to={item.path}
                 className={`flex items-center py-3 cursor-pointer transition-colors
                   ${collapsed ? "justify-center" : "px-4"}
                   ${
@@ -113,9 +136,9 @@ export default function DashboardLayout() {
       )}
 
       <main
-        className={`flex-1 p-6 pt-14 mt-4 md:pt-0 transition-all duration-300 ${isOpen ? "opacity-20":"opacity-100"} ${
-          collapsed ? "md:ml-20" : "md:ml-64"
-        }`}
+        className={`flex-1 p-6 pt-14 mt-4 md:pt-0 transition-all duration-300 ${
+          isOpen ? "opacity-20" : "opacity-100"
+        } ${collapsed ? "md:ml-20" : "md:ml-64"}`}
       >
         <h1 className="text-xl font-semibold">Welcome to Dashboard</h1>
         {/* ...rest of content */}
