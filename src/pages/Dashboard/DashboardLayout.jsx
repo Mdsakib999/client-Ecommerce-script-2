@@ -14,25 +14,41 @@ import {
 
 import { useState } from "react";
 import { Link, Navigate, Outlet, useLocation } from "react-router";
+
 import Logo from "../../components/shared/Logo";
+import { useUserInfoQuery } from "../../redux/app/services/auth/authApi";
 
 export default function DashboardLayout() {
+  const { data, isLoading } = useUserInfoQuery();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false); // mobile menu open
   const [collapsed, setCollapsed] = useState(false); // desktop collapsed
-
-  const menuItems = [
+let menuItems = [];
+  if(data?.data?.role ==="CUSTOMER") {
+   menuItems = [
+    { name: "Profile", icon: UserCircle, path: "profile" },
+    { name: "My Orders", icon: ShoppingCart, path: "orders" },
+  ];
+   
+  }
+  else {
+   menuItems = [
+    { name: "Profile", icon: UserCircle, path: "profile" },
     { name: "Manage Orders", icon: ClipboardList, path: "manage-orders" },
     { name: "Manage Products", icon: Package, path: "manage-products" },
     { name: "Add Product", icon: SquarePlus, path: "add-product" },
     { name: "Manage Category", icon: LayoutDashboard, path: "manage-category" },
     { name: "Manage Users", icon: Users, path: "manage-users" },
-    { name: "My Orders", icon: ShoppingCart, path: "orders" },
-    { name: "Profile", icon: UserCircle, path: "profile" },
   ];
+  }
+
+
 
   if (location.pathname === "/dashboard/user") {
     return <Navigate to="/dashboard/user/profile" replace />;
+  }
+  if (location.pathname === "/dashboard/admin") {
+    return <Navigate to="/dashboard/admin/profile" replace />;
   }
 
   return (
@@ -85,7 +101,7 @@ export default function DashboardLayout() {
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname.startsWith(
-              `/dashboard/${item.name}`
+              `/dashboard/${item.path}`
             );
             return (
               <Link
