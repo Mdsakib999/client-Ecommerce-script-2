@@ -9,6 +9,7 @@ import {
   SquarePlus,
   UserCircle,
   Users,
+  Star,
   X,
 } from "lucide-react";
 
@@ -42,7 +43,7 @@ export default function DashboardLayout() {
         path: "manage-category",
       },
       { name: "Manage Users", icon: Users, path: "manage-users" },
-      { name: "Manage Reviews", icon: Users, path: "manage-reviews" },
+      { name: "Manage Reviews", icon: Star, path: "manage-reviews" },
     ];
   }
 
