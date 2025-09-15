@@ -17,38 +17,44 @@ import { Link, Navigate, Outlet, useLocation } from "react-router";
 
 import Logo from "../../components/shared/Logo";
 import { useUserInfoQuery } from "../../redux/app/services/auth/authApi";
+import Loader from "../../utils/Loader";
 
 export default function DashboardLayout() {
   const { data, isLoading } = useUserInfoQuery();
+
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false); // mobile menu open
-  const [collapsed, setCollapsed] = useState(false); // desktop collapsed
-let menuItems = [];
-  if(data?.data?.role ==="CUSTOMER") {
-   menuItems = [
-    { name: "Profile", icon: UserCircle, path: "profile" },
-    { name: "My Orders", icon: ShoppingCart, path: "orders" },
-  ];
-   
+  const [isOpen, setIsOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+  let menuItems = [];
+  if (data?.data?.role === "CUSTOMER") {
+    menuItems = [
+      { name: "Profile", icon: UserCircle, path: "profile" },
+      { name: "My Orders", icon: ShoppingCart, path: "orders" },
+    ];
+  } else {
+    menuItems = [
+      { name: "Profile", icon: UserCircle, path: "profile" },
+      { name: "Manage Orders", icon: ClipboardList, path: "manage-orders" },
+      { name: "Manage Products", icon: Package, path: "manage-products" },
+      { name: "Add Product", icon: SquarePlus, path: "add-product" },
+      {
+        name: "Manage Category",
+        icon: LayoutDashboard,
+        path: "manage-category",
+      },
+      { name: "Manage Users", icon: Users, path: "manage-users" },
+    ];
   }
-  else {
-   menuItems = [
-    { name: "Profile", icon: UserCircle, path: "profile" },
-    { name: "Manage Orders", icon: ClipboardList, path: "manage-orders" },
-    { name: "Manage Products", icon: Package, path: "manage-products" },
-    { name: "Add Product", icon: SquarePlus, path: "add-product" },
-    { name: "Manage Category", icon: LayoutDashboard, path: "manage-category" },
-    { name: "Manage Users", icon: Users, path: "manage-users" },
-  ];
-  }
-
-
 
   if (location.pathname === "/dashboard/user") {
     return <Navigate to="/dashboard/user/profile" replace />;
   }
   if (location.pathname === "/dashboard/admin") {
     return <Navigate to="/dashboard/admin/profile" replace />;
+  }
+
+  if (isLoading) {
+    return <Loader />;
   }
 
   return (
