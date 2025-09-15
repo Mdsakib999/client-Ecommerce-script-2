@@ -21,7 +21,6 @@ import Loader from "../../utils/Loader";
 
 export default function DashboardLayout() {
   const { data, isLoading } = useUserInfoQuery();
-
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
