@@ -6,7 +6,8 @@ import Register from "../pages/Authentication/Register";
 import Checkout from "../pages/Checkout";
 import ContactPage from "../pages/ContactPage";
 import DashboardLayout from "../pages/Dashboard/DashboardLayout";
-import AddProduct from "../pages/Dashboard/admin/AddProduct";
+import AddProductPage from "../pages/Dashboard/admin/AddProductPage";
+import ManageCategory from "../pages/Dashboard/admin/ManageCategory";
 import ManageOrders from "../pages/Dashboard/admin/ManageOrders";
 import ManageProducts from "../pages/Dashboard/admin/ManageProducts";
 import ManageUsers from "../pages/Dashboard/admin/ManageUsers";
@@ -58,19 +59,24 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/dashboard",
-    Component: withAuth(DashboardLayout),
+    path: "/dashboard/user",
+    Component: withAuth(DashboardLayout, "CUSTOMER"),
     children: [
       // User routes
-      {
-        path: "profile",
-        Component: Profile,
-      },
+      { index: true, path: "profile", Component: Profile },
       { path: "orders", Component: MyOrders },
-
+    ],
+  },
+  {
+    path: "/dashboard/admin",
+    Component: withAuth(DashboardLayout, "ADMIN"),
+    children: [
       // Admin routes
+      { index: true, path: "profile", Component: Profile },
+      { path: "orders", Component: MyOrders },
       { path: "manage-orders", Component: ManageOrders },
-      { path: "add-product", Component: AddProduct },
+      { path: "add-product", Component: AddProductPage },
+      { path: "manage-category", Component: ManageCategory },
       { path: "manage-products", Component: ManageProducts },
       { path: "manage-users", Component: ManageUsers },
     ],

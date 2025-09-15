@@ -68,7 +68,7 @@ export default function ManageCategory() {
           value={newCategory}
           onChange={(e) => setNewCategory(e.target.value)}
           placeholder="Enter new category"
-          className="flex-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          className="flex-1 px-3 py-2 border border-gray-400 rounded-lg focus:ring-2 "
         />
         <button
           onClick={handleAddCategory}
@@ -83,7 +83,7 @@ export default function ManageCategory() {
         {categories.map((cat) => (
           <li
             key={cat.id}
-            className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50"
+            className="flex items-center justify-between p-3 border border-gray-400 rounded-lg hover:bg-gray-50"
           >
             {editingId === cat.id ? (
               <div className="flex-1 flex gap-2">
@@ -91,7 +91,7 @@ export default function ManageCategory() {
                   type="text"
                   value={editingName}
                   onChange={(e) => setEditingName(e.target.value)}
-                  className="flex-1 px-2 py-1 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 px-2 py-1 border border-gray-400 rounded-lg focus:ring-2 "
                 />
                 <button
                   onClick={() => handleSaveEdit(cat.id)}

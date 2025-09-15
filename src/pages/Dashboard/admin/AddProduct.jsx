@@ -26,11 +26,8 @@ export default function AddProduct({ categories = [] }) {
   const fileInputRef = useRef(null);
 
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files).slice(0, 4); // max 4 at a time
-    setSelectedImages((prev) => {
-      const combined = [...prev, ...files].slice(0, 4);
-      return combined;
-    });
+    const files = Array.from(e.target.files).slice(0, 4);
+    setSelectedImages((prev) => [...prev, ...files].slice(0, 4));
   };
 
   const removeImage = (index) => {
@@ -38,13 +35,9 @@ export default function AddProduct({ categories = [] }) {
   };
 
   const onSubmit = (data) => {
-    // Add selected images to form data
     data.images = selectedImages;
-
     console.log("Product Data:", data);
     alert("Product added successfully!");
-
-    // Reset form and images
     reset();
     setSelectedImages([]);
     if (fileInputRef.current) fileInputRef.current.value = null;
@@ -67,6 +60,7 @@ export default function AddProduct({ categories = [] }) {
           </label>
           <input
             {...register("name", { required: "Product name is required" })}
+            placeholder="Enter product name"
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
           />
           {errors.name && (
@@ -81,6 +75,7 @@ export default function AddProduct({ categories = [] }) {
           </label>
           <input
             {...register("brand")}
+            placeholder="Enter brand name"
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
           />
         </div>
@@ -94,7 +89,7 @@ export default function AddProduct({ categories = [] }) {
             {...register("category", { required: "Category is required" })}
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white"
           >
-            <option value="">-- Select Category --</option>
+            <option value="">Select Category</option>
             {categories.map((cat) => (
               <option key={cat.id} value={cat.name}>
                 {cat.name}
@@ -117,6 +112,7 @@ export default function AddProduct({ categories = [] }) {
             type="number"
             step="0.01"
             {...register("price")}
+            placeholder="Enter price"
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
           />
         </div>
@@ -130,6 +126,7 @@ export default function AddProduct({ categories = [] }) {
             type="number"
             step="0.01"
             {...register("discountPrice")}
+            placeholder="Enter discount price"
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
           />
         </div>
@@ -142,6 +139,7 @@ export default function AddProduct({ categories = [] }) {
           <input
             type="number"
             {...register("quantity")}
+            placeholder="Enter stock quantity"
             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
           />
         </div>
@@ -158,8 +156,6 @@ export default function AddProduct({ categories = [] }) {
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Product Images (Max 4)
         </label>
-
-        {/* Upload Box */}
         <div
           onClick={() => fileInputRef.current && fileInputRef.current.click()}
           className="cursor-pointer w-full p-4 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center gap-2 hover:border-blue-500 transition-colors"
@@ -167,8 +163,6 @@ export default function AddProduct({ categories = [] }) {
           <ImageIcon className="w-6 h-6 text-gray-500" />
           <span className="text-gray-500">Click to upload images</span>
         </div>
-
-        {/* Hidden file input */}
         <input
           type="file"
           multiple
@@ -178,8 +172,6 @@ export default function AddProduct({ categories = [] }) {
           onChange={handleImageChange}
           className="hidden"
         />
-
-        {/* Preview */}
         {selectedImages.length > 0 && (
           <div className="flex flex-wrap mt-2 gap-2">
             {selectedImages.map((file, idx) => (
@@ -213,6 +205,7 @@ export default function AddProduct({ categories = [] }) {
         <textarea
           rows="4"
           {...register("description")}
+          placeholder="Enter product description"
           className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
         />
       </div>

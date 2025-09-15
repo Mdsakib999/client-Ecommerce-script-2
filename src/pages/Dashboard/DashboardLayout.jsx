@@ -31,8 +31,8 @@ export default function DashboardLayout() {
     { name: "Profile", icon: UserCircle, path: "profile" },
   ];
 
-  if (location.pathname === "/dashboard") {
-    return <Navigate to="/dashboard/profile" replace />;
+  if (location.pathname === "/dashboard/user") {
+    return <Navigate to="/dashboard/user/profile" replace />;
   }
 
   return (
