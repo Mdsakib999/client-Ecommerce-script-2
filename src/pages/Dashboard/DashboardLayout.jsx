@@ -106,8 +106,11 @@ export default function DashboardLayout() {
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname.startsWith(
-              `/dashboard/${item.path}`
+              data?.data?.role === "CUSTOMER"
+                ? `/dashboard/user/${item.path}`
+                : `/dashboard/admin/${item.path}`
             );
+
             return (
               <Link
                 onClick={() => {
