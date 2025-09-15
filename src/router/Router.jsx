@@ -73,7 +73,6 @@ const router = createBrowserRouter([
     children: [
       // Admin routes
       { index: true, path: "profile", Component: Profile },
-      { path: "orders", Component: MyOrders },
       { path: "manage-orders", Component: ManageOrders },
       { path: "add-product", Component: AddProductPage },
       { path: "manage-category", Component: ManageCategory },
