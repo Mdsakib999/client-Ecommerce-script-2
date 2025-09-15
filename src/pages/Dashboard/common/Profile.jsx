@@ -1,8 +1,14 @@
 import { UserPen, X } from "lucide-react";
 import { useState } from "react";
+import { authApi,useLogoutMutation, useUserInfoQuery } from "../../../redux/app/services/auth/authApi";
 
 export default function Profile() {
   const [openModal, setOpenModal] = useState(false);
+
+  const { data: userInfo } = useUserInfoQuery();
+  const user = userInfo?.data;
+
+  console.log(user);
 
   // Fake user data (normally from API/backend)
   const [profile, setProfile] = useState({
