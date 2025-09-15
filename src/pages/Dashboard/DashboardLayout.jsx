@@ -42,6 +42,7 @@ export default function DashboardLayout() {
         path: "manage-category",
       },
       { name: "Manage Users", icon: Users, path: "manage-users" },
+      { name: "Manage Reviews", icon: Users, path: "manage-reviews" },
     ];
   }
 

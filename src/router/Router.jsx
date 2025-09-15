@@ -21,6 +21,7 @@ import Products from "../pages/Products/Products";
 import TrackOrder from "../pages/TrackOrder";
 import withAuth from "../utils/withAuth";
 import withPublic from "../utils/withPublic";
+import ManageReviews from "../pages/Dashboard/admin/ManageReview";
 
 const router = createBrowserRouter([
   {
@@ -83,6 +84,7 @@ const router = createBrowserRouter([
       { path: "manage-category", Component: ManageCategory },
       { path: "manage-products", Component: ManageProducts },
       { path: "manage-users", Component: ManageUsers },
+      { path: "manage-reviews", Component: ManageReviews },
     ],
   },
   { path: "/login", Component: withPublic(Login) },
