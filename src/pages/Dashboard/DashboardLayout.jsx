@@ -2,14 +2,14 @@ import {
   ChevronLeft,
   ChevronRight,
   ClipboardList,
+  LayoutDashboard,
   Menu,
   Package,
   ShoppingCart,
+  SquarePlus,
   UserCircle,
   Users,
   X,
-  SquarePlus,
-  LayoutDashboard,
 } from "lucide-react";
 
 import { useState } from "react";
@@ -60,7 +60,9 @@ export default function DashboardLayout() {
       >
         {/* Logo & collapse button */}
         <div
-          className={`${isOpen ? "hidden":"flex"} items-center  border-b p-4 ${
+          className={`${
+            isOpen ? "hidden" : "flex"
+          } items-center  border-b p-4 ${
             collapsed ? "justify-center" : "justify-between"
           }`}
         >
@@ -86,8 +88,13 @@ export default function DashboardLayout() {
               `/dashboard/${item.name}`
             );
             return (
-              <Link  onClick={() => setIsOpen((s) => !s)}
-                 to={item.path}
+              <Link
+                onClick={() => {
+                  if (window.innerWidth <= 640) {
+                    setIsOpen((s) => !s); // only toggle in sm and below
+                  }
+                }}
+                to={item.path}
                 className={`flex items-center py-3 cursor-pointer transition-colors
                   ${collapsed ? "justify-center" : "px-4"}
                   ${
@@ -113,9 +120,9 @@ export default function DashboardLayout() {
       )}
 
       <main
-        className={`flex-1 p-6 pt-14 mt-4 md:pt-0 transition-all duration-300 ${isOpen ? "opacity-20":"opacity-100"} ${
-          collapsed ? "md:ml-20" : "md:ml-64"
-        }`}
+        className={`flex-1 p-6 pt-14 mt-4 md:pt-0 transition-all duration-300 ${
+          isOpen ? "opacity-20" : "opacity-100"
+        } ${collapsed ? "md:ml-20" : "md:ml-64"}`}
       >
         <h1 className="text-xl font-semibold">Welcome to Dashboard</h1>
         {/* ...rest of content */}
