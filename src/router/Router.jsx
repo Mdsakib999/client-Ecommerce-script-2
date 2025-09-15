@@ -18,6 +18,7 @@ import Faq from "../pages/Faq";
 import Home from "../pages/Home";
 import ProductDetails from "../pages/Products/ProductDetails";
 import Products from "../pages/Products/Products";
+import TrackOrder from "../pages/TrackOrder";
 import withAuth from "../utils/withAuth";
 import withPublic from "../utils/withPublic";
 
@@ -49,8 +50,12 @@ const router = createBrowserRouter([
         Component: ProductDetails,
       },
       {
-        path: "faq",
+        path: "/faq",
         Component: Faq,
+      },
+      {
+        path: "/track-order",
+        Component: TrackOrder,
       },
       {
         path: "checkout",
