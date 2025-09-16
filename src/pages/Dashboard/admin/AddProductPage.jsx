@@ -1,11 +1,12 @@
+import { useGetAllCategoriesQuery } from "../../../redux/app/services/category/categoryApi";
 import AddProduct from "./AddProduct";
 
 export default function AddProductPage() {
-  const categories = JSON.parse(localStorage.getItem("categories")) || [];
+  const { data: categories } = useGetAllCategoriesQuery();
 
   return (
     <div className="p-6">
-      <AddProduct categories={categories} />
+      <AddProduct categories={categories.data} />
     </div>
   );
 }
