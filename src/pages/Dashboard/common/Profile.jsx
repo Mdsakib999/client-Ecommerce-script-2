@@ -60,6 +60,7 @@ export default function Profile() {
               />
               {profile.picture ? (
                 <img
+                  onClick={() => fileInputRef.current.click()}
                   className="w-24 h-24 md:w-28 md:h-28 lg:w-24 lg:h-24 rounded-full shadow-md cursor-pointer"
                   src={profile.picture}
                   alt="Profile"
