@@ -9,6 +9,7 @@ import {
   SquarePlus,
   UserCircle,
   Users,
+  Star,
   X,
 } from "lucide-react";
 import { useState } from "react";
@@ -19,7 +20,6 @@ import Loader from "../../utils/Loader";
 
 export default function DashboardLayout() {
   const { data, isLoading } = useUserInfoQuery();
-
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -41,6 +41,7 @@ export default function DashboardLayout() {
         path: "manage-category",
       },
       { name: "Manage Users", icon: Users, path: "manage-users" },
+      { name: "Manage Reviews", icon: Star, path: "manage-reviews" },
     ];
   }
 
@@ -106,8 +107,11 @@ export default function DashboardLayout() {
             {menuItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname.startsWith(
-                `/dashboard/${item.path}`
+                data?.data?.role === "CUSTOMER"
+                  ? `/dashboard/user/${item.path}`
+                  : `/dashboard/admin/${item.path}`
               );
+
               return (
                 <Link
                   key={item.path}

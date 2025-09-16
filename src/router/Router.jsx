@@ -17,9 +17,11 @@ import Faq from "../pages/Faq";
 import Home from "../pages/Home";
 import ProductDetails from "../pages/Products/ProductDetails";
 import Products from "../pages/Products/Products";
+import TrackOrder from "../pages/TrackOrder";
 import withAuth from "../utils/withAuth";
 import withPublic from "../utils/withPublic";
 import ManageProducts from "../pages/Dashboard/admin/ManageProducts/ManageProducts";
+import ManageReviews from "../pages/Dashboard/admin/ManageReview";
 
 const router = createBrowserRouter([
   {
@@ -49,8 +51,12 @@ const router = createBrowserRouter([
         Component: ProductDetails,
       },
       {
-        path: "faq",
+        path: "/faq",
         Component: Faq,
+      },
+      {
+        path: "/track-order",
+        Component: TrackOrder,
       },
       {
         path: "checkout",
@@ -78,6 +84,7 @@ const router = createBrowserRouter([
       { path: "manage-category", Component: ManageCategory },
       { path: "manage-products", Component: ManageProducts },
       { path: "manage-users", Component: ManageUsers },
+      { path: "manage-reviews", Component: ManageReviews },
     ],
   },
   { path: "/login", Component: withPublic(Login) },
