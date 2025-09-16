@@ -9,7 +9,6 @@ import DashboardLayout from "../pages/Dashboard/DashboardLayout";
 import AddProductPage from "../pages/Dashboard/admin/AddProductPage";
 import ManageCategory from "../pages/Dashboard/admin/ManageCategory";
 import ManageOrders from "../pages/Dashboard/admin/ManageOrders";
-import ManageProducts from "../pages/Dashboard/admin/ManageProducts";
 import ManageUsers from "../pages/Dashboard/admin/ManageUsers";
 import Profile from "../pages/Dashboard/common/Profile";
 import MyOrders from "../pages/Dashboard/customer/MyOrders";
@@ -20,6 +19,7 @@ import ProductDetails from "../pages/Products/ProductDetails";
 import Products from "../pages/Products/Products";
 import withAuth from "../utils/withAuth";
 import withPublic from "../utils/withPublic";
+import ManageProducts from "../pages/Dashboard/admin/ManageProducts/ManageProducts";
 
 const router = createBrowserRouter([
   {
