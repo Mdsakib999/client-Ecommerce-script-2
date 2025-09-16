@@ -1,24 +1,37 @@
-import { Plus, UserPen, X } from "lucide-react";
-import { useState } from "react";
+import { Plus, User, UserPen, X } from "lucide-react";
+import { useRef, useState } from "react";
 import { useUserInfoQuery } from "../../../redux/app/services/auth/authApi";
 
 export default function Profile() {
   const [openModal, setOpenModal] = useState(false);
+  const fileInputRef = useRef(null);
 
   const { data: userInfo } = useUserInfoQuery();
   const user = userInfo?.data || {};
+  const loginMethod = user.auths?.[0]?.provider;
 
-  const { name = "", email = "", picture = "" } = user;
+  const { name = "", email = "", picture = "", role } = user;
 
   const [profile, setProfile] = useState({
     name,
     email,
     picture,
+    role,
     phone: "",
     address: "",
     password: "",
     confirmPassword: "",
   });
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setProfile((prev) => ({ ...prev, picture: imageUrl }));
+
+      console.log("selected file", file);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,23 +45,43 @@ export default function Profile() {
   };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto mt-10">
+    <div className="p-6 max-w-2xl mx-auto mt-10">
       <div className="bg-white shadow-lg rounded-2xl overflow-hidden">
         {/* Profile Card */}
         <div className="flex justify-center items-center bg-gray-100">
           <div className="bg-gray-100 p-6 flex flex-col items-center md:flex-row md:items-center md:p-8 lg:p-6">
-            <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
-              <img
-                className="w-24 h-24 md:w-28 md:h-28 lg:w-24 lg:h-24 rounded-full shadow-md"
-                src={picture}
-                alt="Profile"
+            <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6 relative">
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                accept="image/*"
+                onChange={handleImageChange}
               />
+              {profile.picture ? (
+                <img
+                  className="w-24 h-24 md:w-28 md:h-28 lg:w-24 lg:h-24 rounded-full shadow-md cursor-pointer"
+                  src={profile.picture}
+                  alt="Profile"
+                />
+              ) : (
+                <button
+                  onClick={() => fileInputRef.current.click()}
+                  className="relative cursor-pointer w-24 h-24 border-2 border-gray-500 flex items-center justify-center md:w-28 md:h-28 lg:w-24 lg:h-24 rounded-full shadow-md"
+                >
+                  <User size={46} className="text-gray-500" />
+                </button>
+              )}
             </div>
+
             <div className="text-center md:text-left">
-              <h4 className="text-lg font-semibold text-gray-800 mb-2">
+              <h4 className="text-lg font-semibold text-gray-800">
                 {profile.name}
               </h4>
-              <p className="text-sm text-gray-600 mb-1">{profile.email}</p>
+              <p className="text-sm text-gray-500">
+                {role.charAt(0).toUpperCase() + role.slice(1).toLowerCase()}
+              </p>
+              <p className="text-sm text-gray-700">{profile.email}</p>
             </div>
           </div>
         </div>
@@ -61,7 +94,7 @@ export default function Profile() {
             </h1>
             <button
               onClick={() => setOpenModal(true)}
-              className="flex items-center gap-2 px-4 py-2 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+              className="flex items-center cursor-pointer gap-2 px-4 py-2 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
             >
               <UserPen size={18} />
               Edit
@@ -196,35 +229,41 @@ export default function Profile() {
                 />
               </div>
 
-              {/* New Password */}
-              <div>
-                <label className="block text-sm font-medium text-gray-600">
-                  New Password
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  value={profile.password}
-                  onChange={handleChange}
-                  placeholder="Enter new password"
-                  className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                />
-              </div>
-
-              {/* Confirm Password */}
-              <div>
-                <label className="block text-sm font-medium text-gray-600">
-                  Confirm Password
-                </label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  value={profile.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="Confirm new password"
-                  className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                />
-              </div>
+              {loginMethod === "google" ? (
+                <div></div>
+              ) : (
+                // new and confirm password filed
+                <div className="space-y-4">
+                  {/* New Password */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600">
+                      New Password
+                    </label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={profile.password}
+                      onChange={handleChange}
+                      placeholder="Enter new password"
+                      className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    />
+                  </div>
+                  {/* Confirm Password */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600">
+                      Confirm Password
+                    </label>
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      value={profile.confirmPassword}
+                      onChange={handleChange}
+                      placeholder="Confirm new password"
+                      className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    />
+                  </div>
+                </div>
+              )}
 
               {/* Buttons */}
               <div className="flex justify-end gap-3 mt-6">
