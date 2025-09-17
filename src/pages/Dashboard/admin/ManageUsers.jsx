@@ -101,7 +101,7 @@ export default function ManageUsers() {
           }).unwrap();
           toast.success(
             <h1 className="font-serif text-center">
-              {}`${user.name} has been unbanned`}
+              {`${user.name} has been unbanned`}
             </h1>
           );
         } catch (error) {
