@@ -23,6 +23,8 @@ export default function Profile() {
     confirmPassword: "",
   });
 
+  // console.log(profile.picture);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -59,12 +61,16 @@ export default function Profile() {
                 onChange={handleImageChange}
               />
               {profile.picture ? (
-                <img
+                <button
                   onClick={() => fileInputRef.current.click()}
-                  className="w-24 h-24 md:w-28 md:h-28 lg:w-24 lg:h-24 rounded-full shadow-md cursor-pointer"
-                  src={profile.picture}
-                  alt="Profile"
-                />
+                  className="w-24 h-24 md:w-28 md:h-28 lg:w-24 lg:h-24 rounded-full shadow-md cursor-pointer overflow-hidden"
+                >
+                  <img
+                    src={profile.picture}
+                    alt="Profile"
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                </button>
               ) : (
                 <button
                   onClick={() => fileInputRef.current.click()}
