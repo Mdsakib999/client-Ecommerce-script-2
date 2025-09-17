@@ -23,15 +23,24 @@ export default function ManageCategory() {
 
   // --- Handlers ---
   const handleAddCategory = async () => {
-    if (!newCategory.trim()) return toast.error("Category name required!");
+    if (!newCategory.trim())
+      return toast.error(
+        <h1 className="font-serif">Category name required</h1>
+      );
     try {
       const result = await addCategory({ name: newCategory.trim() }).unwrap();
       if (result.success) {
-        toast.success("New category added", { position: "top-right" });
+        toast.success(<h1 className="font-serif">New category added</h1>, {
+          position: "top-right",
+        });
         setNewCategory("");
       }
     } catch (err) {
-      toast.error(err?.data?.message || "Failed to add category");
+      toast.error(
+        <h1 className="font-serif">
+          {err?.data?.message || "Failed to add category"}
+        </h1>
+      );
     }
   };
 
@@ -41,9 +50,15 @@ export default function ManageCategory() {
       onConfirm: async () => {
         try {
           await deleteCategory(id).unwrap();
-          toast.success("Category deleted successfully");
+          toast.success(
+            <h1 className="font-serif">Category deleted successfully</h1>
+          );
         } catch (err) {
-          toast.error(err?.data?.message || "Failed to add category");
+          toast.error(
+            <h1 className="font-serif">
+              {err?.data?.message || "Failed to add category"}
+            </h1>
+          );
         }
       },
     });
@@ -63,13 +78,16 @@ export default function ManageCategory() {
       }).unwrap();
       setEditingId(null);
       setEditingName("");
-      toast.success("Category updated");
+      toast.success(<h1 className="font-serif">Category updated</h1>);
     } catch (err) {
-      toast.error(err?.data?.message || "Failed to add category");
+      toast.error(
+        <h1 className="font-serif">
+          {err?.data?.message || "Failed to add category"}
+        </h1>
+      );
     }
   };
 
-  // --- UI ---
   return (
     <div className="max-w-3xl mx-auto mt-12 p-6 bg-white rounded-2xl shadow-lg">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">

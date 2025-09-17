@@ -1,4 +1,4 @@
-export default function ProductPagination({ page, totalPage, onPageChange }) {
+export default function Pagination({ page, totalPage, onPageChange }) {
   return (
     <div className="flex items-center justify-center gap-2 my-6">
       <button

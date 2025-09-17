@@ -2,7 +2,7 @@ import { Eye, Edit, Trash2 } from "lucide-react";
 
 export default function ProductTable({ products, onView, onEdit, onDelete }) {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto text-center">
       <table className="w-full">
         <thead className="bg-gray-50 border-b border-gray-200 sticky top-0 z-10">
           <tr>
