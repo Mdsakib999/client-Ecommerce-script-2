@@ -151,7 +151,7 @@ export default function AddProduct({ categories = [] }) {
           >
             <option value="">Select Category</option>
             {categories.map((cat) => (
-              <option key={cat.id} value={cat.name}>
+              <option key={cat._id} value={cat.name}>
                 {cat.name}
               </option>
             ))}

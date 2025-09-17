@@ -28,7 +28,7 @@ export default function ManageUsers() {
   const [updateUser] = useUpdateUserMutation();
 
   const users = usersData?.data || [];
-  console.log(usersData);
+
   const meta = usersData?.meta || {
     page: 1,
     limit: 10,
@@ -54,7 +54,9 @@ export default function ManageUsers() {
             userId: user._id,
             userInfo: { role: newRole },
           }).unwrap();
-          toast.success(`${user.name} is now a ${roleText}`);
+          toast.success(
+            <h1 className="font-serif text-center">{`${user.name} is now a ${roleText}`}</h1>
+          );
         } catch (error) {
           toast.error(`{"Failed to update role" || ${error?.data?.message}}`);
         }
@@ -78,7 +80,9 @@ export default function ManageUsers() {
             userId: user._id,
             userInfo: { isBanned: true },
           }).unwrap();
-          toast.success(`${user.name} has been banned`);
+          toast.success(
+            <h1 className="font-serif text-center">{`${user.name} has been banned`}</h1>
+          );
         } catch (error) {
           toast.error(`{"Failed to ban user" || ${error?.data?.message}}`);
         }
@@ -95,7 +99,11 @@ export default function ManageUsers() {
             userId: user._id,
             userInfo: { isBanned: false },
           }).unwrap();
-          toast.success(`${user.name} has been unbanned`);
+          toast.success(
+            <h1 className="font-serif text-center">
+              {}`${user.name} has been unbanned`}
+            </h1>
+          );
         } catch (error) {
           toast.error(`{"Failed to unban user" || ${error?.data?.message}}`);
         }
