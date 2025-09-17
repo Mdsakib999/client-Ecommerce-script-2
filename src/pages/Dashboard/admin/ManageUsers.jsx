@@ -1,225 +1,315 @@
-import React, { useState } from "react";
-import { Search, User, Edit, Trash2, Ban, Eye } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Search, User, Ban, Shield, ShieldCheck } from "lucide-react";
+import toast from "react-hot-toast";
+import {
+  useGetAllUsersQuery,
+  useUpdateUserMutation,
+} from "../../../redux/app/services/user/userApi";
+import { useUserInfoQuery } from "../../../redux/app/services/auth/authApi";
+import confirmToast from "../../../utils/confirmToast";
+import Loader from "../../../utils/Loader";
+import Pagination from "../common/Pagination";
 
 export default function ManageUsers() {
-  const [search, setSearch] = useState("");
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "Nur Mohammad Imon",
-      email: "imon@gmail.com",
-      role: "Customer",
-      status: "Active",
-      joinDate: "2025-01-10",
-    },
-    {
-      id: 2,
-      name: "Admin User",
-      email: "admin@shop.com",
-      role: "Admin",
-      status: "Blocked",
-      joinDate: "2024-12-01",
-    },
-    {
-      id: 3,
-      name: "Sakib Hasan",
-      email: "sakib@example.com",
-      role: "Customer",
-      status: "Active",
-      joinDate: "2025-02-15",
-    },
-  ]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
 
-  const [viewUser, setViewUser] = useState(null);
-  const [editUser, setEditUser] = useState(null);
+  const { data: currentUserData } = useUserInfoQuery();
+  const currentUser = currentUserData?.data;
 
-  const filteredUsers = users.filter(
-    (user) =>
-      user.name.toLowerCase().includes(search.toLowerCase()) ||
-      user.email.toLowerCase().includes(search.toLowerCase())
-  );
+  const params = {
+    sort: "-createdAt",
+    page,
+    limit: 10,
+    ...(searchTerm && { searchTerm }),
+  };
 
-  // Delete user
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      setUsers(users.filter((u) => u.id !== id));
+  const { data: usersData, isLoading } = useGetAllUsersQuery(params);
+  const [updateUser] = useUpdateUserMutation();
+
+  const users = usersData?.data || [];
+
+  const meta = usersData?.meta || {
+    page: 1,
+    limit: 10,
+    total: 0,
+    totalPage: 1,
+  };
+
+  const handleRoleChange = (user, newRole) => {
+    const isOwnAccount = currentUser?._id === user._id;
+
+    if (isOwnAccount) {
+      toast.error("You cannot change your own role!");
+      return;
     }
+
+    const roleText = newRole === "ADMIN" ? "Admin" : "Customer";
+
+    confirmToast({
+      message: `Are you sure you want to make ${user.name} a ${roleText}?`,
+      onConfirm: async () => {
+        try {
+          await updateUser({
+            userId: user._id,
+            userInfo: { role: newRole },
+          }).unwrap();
+          toast.success(
+            <h1 className="font-serif text-center">{`${user.name} is now a ${roleText}`}</h1>
+          );
+        } catch (error) {
+          toast.error(`{"Failed to update role" || ${error?.data?.message}}`);
+        }
+      },
+    });
   };
 
-  // Toggle block/unblock
-  const handleToggleBlock = (id) => {
-    setUsers(
-      users.map((u) =>
-        u.id === id
-          ? { ...u, status: u.status === "Active" ? "Blocked" : "Active" }
-          : u
-      )
-    );
+  const handleBanUser = (user) => {
+    const isOwnAccount = currentUser?._id === user._id;
+
+    if (isOwnAccount) {
+      toast.error("You cannot ban yourself!");
+      return;
+    }
+
+    confirmToast({
+      message: `Are you sure you want to ban ${user.name}?`,
+      onConfirm: async () => {
+        try {
+          await updateUser({
+            userId: user._id,
+            userInfo: { isBanned: true },
+          }).unwrap();
+          toast.success(
+            <h1 className="font-serif text-center">{`${user.name} has been banned`}</h1>
+          );
+        } catch (error) {
+          toast.error(`{"Failed to ban user" || ${error?.data?.message}}`);
+        }
+      },
+    });
   };
 
-  // Update role
-  const handleRoleChange = (id, newRole) => {
-    setUsers(
-      users.map((u) => (u.id === id ? { ...u, role: newRole } : u))
-    );
-    setEditUser(null);
+  const handleUnBanUser = (user) => {
+    confirmToast({
+      message: `Are you sure you want to unban ${user.name}?`,
+      onConfirm: async () => {
+        try {
+          await updateUser({
+            userId: user._id,
+            userInfo: { isBanned: false },
+          }).unwrap();
+          toast.success(
+            <h1 className="font-serif text-center">
+              {`${user.name} has been unbanned`}
+            </h1>
+          );
+        } catch (error) {
+          toast.error(`{"Failed to unban user" || ${error?.data?.message}}`);
+        }
+      },
+    });
   };
+
+  useEffect(() => {
+    setPage(1);
+  }, [searchTerm]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
-    <div className="p-10 bg-gray-50 min-h-screen">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-xl font-bold">Manage Users</h1>
-        <div className="relative">
-          <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-500" />
-          <input
-            type="text"
-            placeholder="Search users..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+    <div className="p-4 sm:p-6 lg:p-8 min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Manage Users</h1>
+              <p className="text-gray-600 mt-1">{meta.total} users found</p>
+            </div>
+
+            <div className="relative">
+              <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search users..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 pr-4 py-2.5 w-full sm:w-80 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Users Table */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50 border-b border-gray-200">
+                <tr>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    User
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Email
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Role
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Joined
+                  </th>
+                  <th className="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {users.map((user) => {
+                  const isOwnAccount = currentUser?._id === user._id;
+
+                  return (
+                    <tr
+                      key={user._id}
+                      className={`hover:bg-gray-50 transition-colors ${
+                        isOwnAccount ? "bg-blue-50" : ""
+                      }`}
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center gap-3">
+                          <div className="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-blue-500 via-blue-400 to-blue-600 rounded-full flex items-center justify-center">
+                            <User className="w-5 h-5 text-white" />
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium text-gray-900 flex items-center gap-2">
+                              {user.name}
+                              {isOwnAccount && (
+                                <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                                  You
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                        {user.email}
+                      </td>
+
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <button
+                          title="Change Role"
+                          onClick={() =>
+                            handleRoleChange(
+                              user,
+                              user.role === "ADMIN" ? "CUSTOMER" : "ADMIN"
+                            )
+                          }
+                          disabled={isOwnAccount}
+                          className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-sm text-xs font-medium transition-all ${
+                            user.role === "ADMIN"
+                              ? "bg-blue-100 text-blue-800 hover:bg-blue-200"
+                              : "bg-green-100 text-green-800 hover:bg-green-200"
+                          } ${
+                            isOwnAccount
+                              ? "opacity-50 cursor-not-allowed"
+                              : "cursor-pointer"
+                          }`}
+                        >
+                          {user.role === "ADMIN" ? (
+                            <ShieldCheck className="w-3 h-3" />
+                          ) : (
+                            <Shield className="w-3 h-3" />
+                          )}
+                          {user.role}
+                        </button>
+                      </td>
+
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span
+                          className={`inline-flex px-3 py-1.5 text-xs font-medium rounded-sm ${
+                            user.isBanned
+                              ? "bg-red-200 text-red-800"
+                              : "bg-green-100 text-green-800"
+                          }`}
+                        >
+                          {user.isBanned ? "Banned" : "Active"}
+                        </span>
+                      </td>
+
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                        {new Date(user.createdAt).toLocaleDateString()}
+                      </td>
+
+                      <td className="px-6 py-4 whitespace-nowrap text-center">
+                        <div className="flex items-center justify-center gap-2">
+                          {user.isBanned ? (
+                            <button
+                              onClick={() => handleUnBanUser(user)}
+                              disabled={isOwnAccount}
+                              className={`p-2 rounded-lg bg-green-100 text-green-600 hover:bg-green-200 transition-colors ${
+                                isOwnAccount
+                                  ? "opacity-50 cursor-not-allowed"
+                                  : ""
+                              }`}
+                              title="UnBan user"
+                            >
+                              <ShieldCheck className="w-4 h-4" />
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => handleBanUser(user)}
+                              disabled={isOwnAccount}
+                              className={`p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-colors ${
+                                isOwnAccount
+                                  ? "opacity-50 cursor-not-allowed"
+                                  : ""
+                              }`}
+                              title="Ban user"
+                            >
+                              <Ban className="w-4 h-4" />
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          {users.length === 0 && (
+            <div className="text-center py-12">
+              <User className="mx-auto h-12 w-12 text-gray-400" />
+              <h3 className="mt-2 text-sm font-medium text-gray-900">
+                No users found
+              </h3>
+              <p className="mt-1 text-sm text-gray-500">
+                Try adjusting your search terms.
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Pagination */}
+        {meta.totalPage > 1 && users.length > 1 && (
+          <Pagination
+            page={page}
+            totalPage={meta.totalPage}
+            onPageChange={(newPage) => {
+              setPage(newPage);
+              window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+            }}
           />
-        </div>
+        )}
       </div>
-
-      {/* Users Table */}
-      <div className="overflow-x-auto bg-white shadow-md rounded-lg">
-        <table className="min-w-full border-collapse">
-          <thead className="bg-gray-100 text-gray-700 text-sm">
-            <tr>
-              <th className="p-3 text-left">#</th>
-              <th className="p-3 text-left">Name</th>
-              <th className="p-3 text-left">Email</th>
-              <th className="p-3 text-left">Role</th>
-              <th className="p-3 text-left">Status</th>
-              <th className="p-3 text-left">Joined</th>
-              <th className="p-3 text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredUsers.map((user, index) => (
-              <tr
-                key={user.id}
-                className="border-t hover:bg-gray-50 transition"
-              >
-                <td className="p-3">{index + 1}</td>
-                <td className="p-3 flex items-center gap-2">
-                  <User className="w-5 h-5 text-gray-500" />
-                  {user.name}
-                </td>
-                <td className="p-3">{user.email}</td>
-                <td className="p-3">{user.role}</td>
-                <td className="p-3">
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      user.status === "Active"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
-                    }`}
-                  >
-                    {user.status}
-                  </span>
-                </td>
-                <td className="p-3">{user.joinDate}</td>
-                <td className="p-3 flex justify-center gap-2">
-                  {/* View */}
-                  <button
-                    className="p-2 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200"
-                    onClick={() => setViewUser(user)}
-                  >
-                    <Eye className="w-4 h-4" />
-                  </button>
-
-                  {/* Edit */}
-                  <button
-                    className="p-2 rounded-lg bg-yellow-100 text-yellow-600 hover:bg-yellow-200"
-                    onClick={() => setEditUser(user)}
-                  >
-                    <Edit className="w-4 h-4" />
-                  </button>
-
-                  {/* Delete */}
-                  <button
-                    className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200"
-                    onClick={() => handleDelete(user.id)}
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-
-                  {/* Block/Unblock */}
-                  <button
-                    className={`p-2 rounded-lg ${
-                      user.status === "Active"
-                        ? "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                        : "bg-green-100 text-green-600 hover:bg-green-200"
-                    }`}
-                    onClick={() => handleToggleBlock(user.id)}
-                  >
-                    <Ban className="w-4 h-4" />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* View Modal */}
-      {viewUser && (
-        <div className="fixed inset-0 flex items-center justify-center  z-10 ">
-          <div className="bg-white border border-gray-300 p-6 rounded-xl shadow-lg w-full max-w-md mx-4">
-            <h2 className="text-xl font-bold mb-4">User Info</h2>
-            <p><strong>Name:</strong> {viewUser.name}</p>
-            <p><strong>Email:</strong> {viewUser.email}</p>
-            <p><strong>Role:</strong> {viewUser.role}</p>
-            <p><strong>Status:</strong> {viewUser.status}</p>
-            <p><strong>Joined:</strong> {viewUser.joinDate}</p>
-            <div className="flex justify-end mt-4">
-              <button
-                className="px-4 py-2 bg-gray-300 rounded-lg"
-                onClick={() => setViewUser(null)}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Edit Role Modal */}
-      {editUser && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md mx-4">
-            <h2 className="text-xl font-bold mb-4">Edit Role</h2>
-            <p className="mb-4">
-              Current Role: <strong>{editUser.role}</strong>
-            </p>
-            <div className="flex gap-4">
-              {editUser.role === "Customer" ? (
-                <button
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg"
-                  onClick={() => handleRoleChange(editUser.id, "Admin")}
-                >
-                  Make Admin
-                </button>
-              ) : (
-                <button
-                  className="px-4 py-2 bg-gray-600 text-white rounded-lg"
-                  onClick={() => handleRoleChange(editUser.id, "Customer")}
-                >
-                  Make Customer
-                </button>
-              )}
-              <button
-                className="px-4 py-2 bg-gray-300 rounded-lg"
-                onClick={() => setEditUser(null)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

@@ -39,9 +39,14 @@ export default function AddProduct({ categories = [] }) {
 
   const onSubmit = async (data) => {
     if (selectedImages.length === 0) {
-      toast.error("Please upload at least one product image.", {
-        position: "bottom-right",
-      });
+      toast.error(
+        <h1 className="font-serif">
+          Please upload at least one product image.
+        </h1>,
+        {
+          position: "bottom-right",
+        }
+      );
       return;
     }
 
@@ -59,18 +64,25 @@ export default function AddProduct({ categories = [] }) {
       const result = await addProduct(formData).unwrap();
 
       if (result.success) {
-        toast.success("Product added successfully!", {
-          position: "bottom-right",
-        });
+        toast.success(
+          <h1 className="font-serif">Product added successfully!</h1>,
+          {
+            position: "bottom-right",
+          }
+        );
         reset();
         setSelectedImages([]);
         if (fileInputRef.current) fileInputRef.current.value = null;
       } else {
-        toast.error(result.message || "Failed to add product");
+        toast.error(
+          <h1 className="font-serif">
+            {result.message || "Failed to add product"}
+          </h1>
+        );
       }
     } catch (error) {
       console.error(error);
-      toast.error("Failed to add product", {
+      toast.error(<h1 className="font-serif">Failed to add product</h1>, {
         position: "bottom-right",
       });
     }
@@ -139,7 +151,7 @@ export default function AddProduct({ categories = [] }) {
           >
             <option value="">Select Category</option>
             {categories.map((cat) => (
-              <option key={cat.id} value={cat.name}>
+              <option key={cat._id} value={cat.name}>
                 {cat.name}
               </option>
             ))}

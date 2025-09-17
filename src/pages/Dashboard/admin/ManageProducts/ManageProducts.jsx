@@ -3,10 +3,10 @@ import { useGetAllProductQuery } from "../../../../redux/app/services/product/pr
 import { Package, Search } from "lucide-react";
 import Loader from "../../../../utils/Loader";
 import ProductTable from "./ProductTable";
-import ProductPagination from "./ProductPagination";
 import ViewProductModal from "./ViewProductModal";
 import EditProductModal from "./EditProductModal";
 import DeleteConfirmModal from "./DeleteConfirmModal";
+import Pagination from "../../common/Pagination";
 
 export default function ManageProducts() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -39,7 +39,6 @@ export default function ManageProducts() {
     total: 0,
     totalPage: 1,
   };
-  console.log(meta);
 
   const handleView = (product) => {
     setSelectedProduct(product);
@@ -87,6 +86,10 @@ export default function ManageProducts() {
     return () => document.removeEventListener("keydown", handleKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setPage(1);
+  }, [searchTerm]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -163,14 +166,16 @@ export default function ManageProducts() {
               onEdit={handleEdit}
               onDelete={handleDelete}
             />
-            <ProductPagination
-              page={page}
-              totalPage={meta.totalPage}
-              onPageChange={(newPage) => {
-                setPage(newPage);
-                window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-              }}
-            />
+            {meta.totalPage > 1 && products.length > 1 && (
+              <Pagination
+                page={page}
+                totalPage={meta.totalPage}
+                onPageChange={(newPage) => {
+                  setPage(newPage);
+                  window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+                }}
+              />
+            )}
           </>
         ) : (
           <div className="p-8 text-center">

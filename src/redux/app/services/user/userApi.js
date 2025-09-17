@@ -8,8 +8,36 @@ export const userApi = baseApi.injectEndpoints({
         method: "POST",
         data: userInfo,
       }),
+      invalidatesTags: ["USER"],
+    }),
+    updateUser: build.mutation({
+      query: ({ userId, userInfo }) => ({
+        url: `/user/${userId}`,
+        method: "PUT",
+        data: userInfo,
+      }),
+      invalidatesTags: ["USER"],
+    }),
+    getAllUsers: build.query({
+      query: (params) => ({
+        url: "/user/all-users",
+        method: "GET",
+        params,
+      }),
+      providesTags: ["USER"],
+    }),
+    getSingleUser: build.query({
+      query: (userId) => ({
+        url: `/user/${userId}`,
+        method: "GET",
+      }),
     }),
   }),
 });
 
-export const { useRegisterUserMutation } = userApi;
+export const {
+  useRegisterUserMutation,
+  useUpdateUserMutation,
+  useGetAllUsersQuery,
+  useGetSingleUserQuery,
+} = userApi;

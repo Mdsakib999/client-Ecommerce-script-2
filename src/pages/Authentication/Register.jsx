@@ -61,7 +61,7 @@ export default function Register() {
       }
     } catch (error) {
       console.log(error);
-      toast.error(`${error?.data?.message}`, {
+      toast.error(<h1 className="font-serif">{`${error?.data?.message}`}</h1>, {
         position: "bottom-right",
       });
     }

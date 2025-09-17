@@ -1,5 +1,5 @@
 import loginImage from "../../assets/login.jpg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router";
@@ -26,14 +26,28 @@ export default function Login() {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get("error");
+
+    if (error) {
+      toast.error(<h1 className="font-serif">{error}</h1>, {
+        position: "bottom-right",
+      });
+
+      const newUrl = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, document.title, newUrl);
+    }
+  }, []);
+
   const onSubmit = async (data) => {
     try {
       const res = await login(data).unwrap();
-      console.log("res-->", res);
+
       if (res?.success) {
-        toast.success(
-          <p className="text-center font-serif">Logged in successfully</p>
-        );
+        toast.success(<p className="font-serif">Logged in successfully</p>, {
+          position: "bottom-right",
+        });
         navigate("/");
       }
     } catch (err) {
@@ -43,19 +57,29 @@ export default function Login() {
         err?.data?.message || err?.message || "Something went wrong";
 
       if (errorMessage === "Password does not match") {
-        toast.error("Invalid credentials", { position: "bottom-right" });
-      } else if (errorMessage === "User is not verified") {
-        toast.error("Your account is not verified", {
+        toast.error(<h1 className="font-serif">Invalid credentials</h1>, {
           position: "bottom-right",
         });
+      } else if (errorMessage === "User is not verified") {
+        toast.error(
+          <h1 className="font-serif">Your account is not verified</h1>,
+          {
+            position: "bottom-right",
+          }
+        );
       } else if (
         errorMessage === "You have authenticated through Google login!"
       ) {
-        toast.error("You are authenticated through Google!", {
+        toast.error(
+          <h1 className="font-serif">You are authenticated through Google!</h1>,
+          {
+            position: "bottom-right",
+          }
+        );
+      } else {
+        toast.error(<h1 className="font-serif">{errorMessage}</h1>, {
           position: "bottom-right",
         });
-      } else {
-        toast.error(errorMessage, { position: "bottom-right" });
       }
     }
   };
