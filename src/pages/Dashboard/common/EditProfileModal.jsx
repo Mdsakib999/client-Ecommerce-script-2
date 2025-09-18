@@ -1,6 +1,8 @@
 import { Plus, X } from "lucide-react";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useUpdateUserMutation } from "../../../redux/app/services/user/userApi";
+import toast from "react-hot-toast";
 
 export default function EditProfileModal({
   editProfile,
@@ -8,40 +10,97 @@ export default function EditProfileModal({
   loginMethod,
   openModal,
   setOpenModal,
-  setEditProfile,
   setEditImage,
   handleSave,
 }) {
   const fileInputRef = useRef(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
-    defaultValues: editProfile,
+    defaultValues: {
+      name: editProfile.name,
+      email: editProfile.email,
+      phone: editProfile.phone || "",
+      address: editProfile.address || "",
+      password: "",
+      confirmPassword: "",
+    },
   });
+
+  useEffect(() => {
+    reset({
+      name: editProfile.name,
+      email: editProfile.email,
+      phone: editProfile.phone || "",
+      address: editProfile.address || "",
+      password: "",
+      confirmPassword: "",
+    });
+  }, [editProfile, reset]);
 
   if (!openModal) return null;
 
-  // Handle image upload
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setEditImage(imageUrl);
+      setSelectedImage(file);
+      setEditImage(URL.createObjectURL(file));
     }
   };
 
-  const handleRemoveImage = () => setEditImage("");
+  const handleRemoveImage = () => {
+    setEditImage("");
+    setSelectedImage(null);
+  };
 
   const handleCancel = () => {
     setOpenModal(false);
     setEditImage(editProfile.picture);
   };
 
-  const onSubmit = (data) => {
-    setEditProfile(data);
-    handleSave(data);
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+
+    // Only append editable fields
+    if (data.name) formData.append("name", data.name);
+    if (data.phone) formData.append("phone", data.phone);
+    if (data.address) formData.append("address", data.address);
+    if (data.password) formData.append("password", data.password);
+
+    if (selectedImage) formData.append("image", selectedImage);
+
+    try {
+      const result = await updateUser({
+        userId: editProfile._id,
+        userInfo: formData,
+      }).unwrap();
+
+      if (result.success) {
+        handleSave({
+          ...editProfile,
+          ...data,
+          picture: editImage || editProfile.picture,
+        });
+        toast.success(
+          <h1 className="font-serif">Profile updated successfully</h1>,
+          {
+            position: "bottom-right",
+          }
+        );
+        setOpenModal(false);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(<h1 className="font-serif">Profile update failed</h1>, {
+        position: "bottom-right",
+      });
+    }
   };
 
   return (
@@ -50,6 +109,7 @@ export default function EditProfileModal({
         <button
           onClick={handleCancel}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition"
+          disabled={isLoading}
         >
           <X size={24} />
         </button>
@@ -67,10 +127,13 @@ export default function EditProfileModal({
               className="hidden"
               accept="image/*"
               onChange={handleImageChange}
+              disabled={isLoading}
             />
             <div
-              onClick={() => fileInputRef.current.click()}
-              className="w-28 h-28 rounded-full shadow-lg cursor-pointer overflow-hidden border-2 border-gray-200 hover:border-blue-400 transition transform hover:scale-105"
+              onClick={() => !isLoading && fileInputRef.current.click()}
+              className={`w-28 h-28 rounded-full shadow-lg cursor-pointer overflow-hidden border-2 border-gray-200 hover:border-blue-400 transition transform hover:scale-105 ${
+                isLoading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
               {editImage ? (
                 <img
@@ -87,13 +150,14 @@ export default function EditProfileModal({
                 type="button"
                 onClick={handleRemoveImage}
                 className="mt-3 text-sm text-gray-600 hover:text-red-500 transition"
+                disabled={isLoading}
               >
                 Remove Photo
               </button>
             )}
           </div>
 
-          {/* Full Name */}
+          {/* Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Full Name
@@ -106,13 +170,14 @@ export default function EditProfileModal({
                 },
               })}
               className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+              disabled={isLoading}
             />
             {errors.name && (
               <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
             )}
           </div>
 
-          {/* Email (Disabled) */}
+          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Email
@@ -138,6 +203,7 @@ export default function EditProfileModal({
                 },
               })}
               className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+              disabled={isLoading}
             />
             {errors.phone && (
               <p className="text-red-500 text-xs mt-1">
@@ -159,6 +225,7 @@ export default function EditProfileModal({
                 },
               })}
               className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+              disabled={isLoading}
             />
             {errors.address && (
               <p className="text-red-500 text-xs mt-1">
@@ -167,7 +234,7 @@ export default function EditProfileModal({
             )}
           </div>
 
-          {/* Password (if not Google login) */}
+          {/* Password */}
           {loginMethod !== "google" && (
             <>
               <div>
@@ -184,10 +251,11 @@ export default function EditProfileModal({
                     pattern: {
                       value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
                       message:
-                        "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+                        "Password must contain uppercase, lowercase & number",
                     },
                   })}
                   className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                  disabled={isLoading}
                 />
                 {errors.password && (
                   <p className="text-red-500 text-xs mt-1">
@@ -195,6 +263,7 @@ export default function EditProfileModal({
                   </p>
                 )}
               </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Confirm Password
@@ -206,6 +275,7 @@ export default function EditProfileModal({
                       value === password || "Passwords do not match",
                   })}
                   className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                  disabled={isLoading}
                 />
                 {errors.confirmPassword && (
                   <p className="text-red-500 text-xs mt-1">
@@ -216,20 +286,29 @@ export default function EditProfileModal({
             </>
           )}
 
-          {/* Action buttons */}
+          {/* Actions */}
           <div className="flex justify-end gap-4 mt-6">
             <button
               type="button"
               onClick={handleCancel}
               className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+              disabled={isLoading}
             >
               Cancel
             </button>
             <button
               type="submit"
               className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
+              disabled={isLoading}
             >
-              Save Changes
+              {isLoading ? (
+                <div className="flex items-center gap-x-2">
+                  <div className="w-4 h-4 border-2 border-t-white border-gray-200 rounded-full animate-spin"></div>
+                  <span>updating...</span>
+                </div>
+              ) : (
+                "Save Changes"
+              )}
             </button>
           </div>
         </form>

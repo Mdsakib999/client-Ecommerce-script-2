@@ -17,6 +17,22 @@ export const userApi = baseApi.injectEndpoints({
         data: userInfo,
       }),
       invalidatesTags: ["USER"],
+      // optimistic update
+      async onQueryStarted({ userId, userInfo }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          userApi.util.updateQueryData("getAllUsers", undefined, (draft) => {
+            const index = draft.findIndex((user) => user._id === userId);
+            if (index !== -1) {
+              draft[index] = { ...draft[index], ...userInfo };
+            }
+          })
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
     }),
     getAllUsers: build.query({
       query: (params) => ({
