@@ -19,7 +19,7 @@ export default function ErrorPage() {
 
       {/* Call-to-action button */}
       <Link
-        to="/"
+        to="/products"
         className="px-8 py-4 font-bold rounded-lg shadow-lg bg-white transition-transform transform hover:scale-105"
       >
         Back to Shop 🛒

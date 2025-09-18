@@ -12,7 +12,7 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const product = action.payload;
-      const existingItem = state.items.find((item) => item.id === product.id);
+      const existingItem = state.items.find((item) => item._id === product._id);
 
       if (existingItem) {
         existingItem.quantity += 1;
@@ -26,25 +26,26 @@ const cartSlice = createSlice({
       }
     },
     removeFromCart: (state, action) => {
-      const id = action.payload;
-      const existingItem = state.items.find((item) => item.id === id);
+      const _id = action.payload;
+      console.log(_id);
+      const existingItem = state.items.find((item) => item._id === _id);
 
       if (existingItem) {
         state.totalQuantity -= existingItem.quantity;
         state.totalPrice -= existingItem.totalPrice;
-        state.items = state.items.filter((item) => item.id !== id);
+        state.items = state.items.filter((item) => item._id !== _id);
       }
     },
     updateQuantity: (state, action) => {
-      const { productId, productPrice, quantity } = action.payload;
-      console.log(productId, productPrice, quantity);
-      const existingItem = state.items.find((item) => item.id === productId);
+      const { product_id, productPrice, quantity } = action.payload;
+      console.log(product_id, productPrice, quantity);
+      const existingItem = state.items.find((item) => item._id === product_id);
 
       if (existingItem) {
         existingItem.quantity += quantity;
 
         if (existingItem.quantity <= 0) {
-          state.items = state.items.filter((item) => item.id !== productId);
+          state.items = state.items.filter((item) => item._id !== product_id);
         }
       }
 

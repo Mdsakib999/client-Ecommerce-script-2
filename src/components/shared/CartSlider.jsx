@@ -117,14 +117,14 @@ export default function CartSlider({ isOpen, toggleCart }) {
           ) : (
             cartItems.map((item) => (
               <div
-                key={item.id}
+                key={item._id}
                 className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-all duration-200"
               >
                 <div className="flex space-x-4">
                   {/* Product Image */}
                   <div className="relative flex-shrink-0">
                     <img
-                      src={item.image}
+                      src={item.images[0]}
                       alt={item.name}
                       className="w-24 h-full object-cover rounded-lg"
                     />
@@ -145,7 +145,7 @@ export default function CartSlider({ isOpen, toggleCart }) {
                         {item.name.slice(0, 25)}
                       </h3>
                       <button
-                        onClick={() => handleRemoveFromCart(item.id)}
+                        onClick={() => handleRemoveFromCart(item._id)}
                         className="p-1 hover:bg-gray-100 rounded-full transition-colors duration-200"
                       >
                         <Trash2 className="w-4 h-4 text-gray-400 hover:text-red-500" />
@@ -268,7 +268,7 @@ export default function CartSlider({ isOpen, toggleCart }) {
 
             <button
               onClick={toggleCart}
-              className="mt-3 w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-3 px-4 rounded-xl font-semibold transition-colors duration-200"
+              className="mt-3 w-full bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 px-4 rounded-xl font-semibold transition-colors duration-200"
             >
               Continue Shopping
             </button>
