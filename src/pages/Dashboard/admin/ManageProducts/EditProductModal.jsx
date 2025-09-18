@@ -47,7 +47,8 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
       }).unwrap();
       console.log(result);
       toast.success(
-        <h1 className="font-serif">Product updated successfully!</h1>
+        <h1 className="font-serif">Product updated successfully!</h1>,
+        { position: "bottom-right" }
       );
 
       await onSave({ ...product, ...formData });

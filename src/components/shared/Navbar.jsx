@@ -57,7 +57,7 @@ export default function Navbar() {
     await logout();
     dispatch(authApi.util.resetApiState());
     closeDropdowns();
-    toast(<p className="font-serif">Logged out successfully!</p>, {
+    toast.success(<p className="font-serif">Logged out successfully</p>, {
       position: "bottom-right",
     });
   };
@@ -172,7 +172,7 @@ export default function Navbar() {
                           className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200"
                           onClick={closeDropdowns}
                         >
-                          Admin Dashboard
+                          Dashboard
                         </Link>
                       ) : (
                         <Link
@@ -183,7 +183,7 @@ export default function Navbar() {
                           Dashboard
                         </Link>
                       )}
-                      <hr className="my-1 border-gray-100" />
+                      <hr className="border-gray-100" />
                       {user?.role === "ADMIN" ? (
                         <Link
                           to="dashboard/admin/profile"
@@ -201,7 +201,7 @@ export default function Navbar() {
                           My Profile
                         </Link>
                       )}
-                      <hr className="my-1 border-gray-100" />
+                      <hr className="border-gray-100" />
                       <button
                         className="cursor-pointer w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-all duration-200 font-semibold"
                         onClick={handleLogout}

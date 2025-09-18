@@ -131,25 +131,25 @@ export default function Footer() {
             <div className="flex space-x-3 pt-2">
               <a
                 href="#"
-                className="bg-white text-blue-500 hover:bg-blue-500 hover:text-white duration-300 rounded-full p-2"
+                className="border-2 border-gray-600 hover:border-blue-500 bg-gray-900 text-gray-200 hover:bg-blue-500 hover:text-white duration-300 rounded-full p-2"
               >
                 <Facebook size={22} />
               </a>
               <a
                 href="#"
-                className="bg-white text-red-600 hover:bg-red-500 hover:text-white duration-300 rounded-full p-2"
+                className="border-2 border-gray-600 hover:border-red-500 bg-gray-900 text-gray-200 hover:bg-red-500 hover:text-white duration-300 rounded-full p-2"
               >
                 <Youtube size={22} />
               </a>
               <a
                 href="#"
-                className="bg-white text-blue-400 hover:bg-blue-400 hover:text-white duration-300 rounded-full p-2"
+                className="border-2 border-gray-600 hover:border-blue-400 bg-gray-900 text-gray-200 hover:bg-blue-400 hover:text-white duration-300 rounded-full p-2"
               >
                 <Twitter size={22} />
               </a>{" "}
               <a
                 href="#"
-                className="bg-white text-rose-500 hover:bg-rose-600 hover:text-white duration-300 rounded-full p-2"
+                className="border-2 border-gray-600 hover:border-rose-500 bg-gray-900 text-gray-200 hover:bg-rose-500 hover:text-white duration-300 rounded-full p-2"
               >
                 <Instagram size={22} />
               </a>

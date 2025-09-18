@@ -1,5 +1,6 @@
 import { Plus, X } from "lucide-react";
 import { useRef } from "react";
+import { useForm } from "react-hook-form";
 
 export default function EditProfileModal({
   editProfile,
@@ -12,16 +13,17 @@ export default function EditProfileModal({
   handleSave,
 }) {
   const fileInputRef = useRef(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: editProfile,
+  });
 
   if (!openModal) return null;
 
-  // Handle input change
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditProfile((prev) => ({ ...prev, [name]: value }));
-  };
-
-  // Image upload
+  // Handle image upload
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -37,20 +39,26 @@ export default function EditProfileModal({
     setEditImage(editProfile.picture);
   };
 
+  const onSubmit = (data) => {
+    setEditProfile(data);
+    handleSave(data);
+  };
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 px-4 animate-fadeIn">
-      <div className="bg-white rounded-2xl shadow-lg w-full max-w-lg p-6 relative animate-slideIn">
-        {/* Close button */}
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-900/60 z-50 px-4 animate-fadeIn">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 relative animate-slideIn">
         <button
           onClick={handleCancel}
-          className="absolute top-3 right-3 text-gray-600 hover:text-gray-900"
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition"
         >
-          <X size={22} />
+          <X size={24} />
         </button>
 
-        <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">Edit Profile</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+          Edit Profile
+        </h2>
 
-        <form onSubmit={handleSave} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           {/* Profile Image */}
           <div className="flex flex-col items-center">
             <input
@@ -62,7 +70,7 @@ export default function EditProfileModal({
             />
             <div
               onClick={() => fileInputRef.current.click()}
-              className="w-32 h-32 rounded-full shadow-md cursor-pointer overflow-hidden border-2 border-gray-300 flex items-center justify-center transition hover:scale-105"
+              className="w-28 h-28 rounded-full shadow-lg cursor-pointer overflow-hidden border-2 border-gray-200 hover:border-blue-400 transition transform hover:scale-105"
             >
               {editImage ? (
                 <img
@@ -71,14 +79,14 @@ export default function EditProfileModal({
                   className="w-full h-full object-cover rounded-full"
                 />
               ) : (
-                <Plus size={48} className="text-gray-400" />
+                <Plus size={40} className="text-gray-400" />
               )}
             </div>
             {editImage && (
               <button
                 type="button"
                 onClick={handleRemoveImage}
-                className="mt-2 text-gray-700 text-lg py-0 px-3 rounded-2xl border hover:bg-gray-100 cursor-pointer"
+                className="mt-3 text-sm text-gray-600 hover:text-red-500 transition"
               >
                 Remove Photo
               </button>
@@ -87,92 +95,139 @@ export default function EditProfileModal({
 
           {/* Full Name */}
           <div>
-            <label className="block text-sm font-medium text-gray-600">Full Name</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Full Name
+            </label>
             <input
-              type="text"
-              name="name"
-              value={editProfile.name}
-              onChange={handleChange}
-              className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              {...register("name", {
+                maxLength: {
+                  value: 50,
+                  message: "Name cannot exceed 50 characters",
+                },
+              })}
+              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
             />
+            {errors.name && (
+              <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+            )}
           </div>
 
-          {/* Email */}
+          {/* Email (Disabled) */}
           <div>
-            <label className="block text-sm font-medium text-gray-600">Email</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
             <input
               type="email"
-              name="email"
               value={editProfile.email}
-              onChange={handleChange}
-              className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              disabled
+              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-500 cursor-not-allowed"
             />
           </div>
 
           {/* Phone */}
           <div>
-            <label className="block text-sm font-medium text-gray-600">Phone Number</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Phone Number
+            </label>
             <input
-              type="text"
-              name="phone"
-              value={editProfile.phone}
-              onChange={handleChange}
-              className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              {...register("phone", {
+                pattern: {
+                  value: /^[0-9+\-\s()]*$/,
+                  message: "Invalid phone number",
+                },
+              })}
+              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
             />
+            {errors.phone && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.phone.message}
+              </p>
+            )}
           </div>
 
           {/* Address */}
           <div>
-            <label className="block text-sm font-medium text-gray-600">Address</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Address
+            </label>
             <input
-              type="text"
-              name="address"
-              value={editProfile.address}
-              onChange={handleChange}
-              className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              {...register("address", {
+                maxLength: {
+                  value: 100,
+                  message: "Address cannot exceed 100 characters",
+                },
+              })}
+              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
             />
+            {errors.address && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.address.message}
+              </p>
+            )}
           </div>
 
           {/* Password (if not Google login) */}
           {loginMethod !== "google" && (
             <>
               <div>
-                <label className="block text-sm font-medium text-gray-600">New Password</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  New Password
+                </label>
                 <input
                   type="password"
-                  name="password"
-                  value={editProfile.password}
-                  onChange={handleChange}
-                  placeholder="Enter new password"
-                  className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  {...register("password", {
+                    minLength: {
+                      value: 8,
+                      message: "Password must be at least 8 characters",
+                    },
+                    pattern: {
+                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+                      message:
+                        "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+                    },
+                  })}
+                  className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                 />
+                {errors.password && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-600">Confirm Password</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Confirm Password
+                </label>
                 <input
                   type="password"
-                  name="confirmPassword"
-                  value={editProfile.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="Confirm new password"
-                  className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  {...register("confirmPassword", {
+                    validate: (value, { password }) =>
+                      value === password || "Passwords do not match",
+                  })}
+                  className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                 />
+                {errors.confirmPassword && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
               </div>
             </>
           )}
 
           {/* Action buttons */}
-          <div className="flex justify-end gap-3 mt-6">
+          <div className="flex justify-end gap-4 mt-6">
             <button
               type="button"
               onClick={handleCancel}
-              className="px-4 py-2 rounded-lg border text-gray-700 hover:bg-gray-100 transition"
+              className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
+              className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
             >
               Save Changes
             </button>
