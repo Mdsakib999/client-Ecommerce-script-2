@@ -20,8 +20,8 @@ export default function ManageUsers() {
   const params = {
     sort: "-createdAt",
     page,
-    limit: 10,
-    ...(searchTerm && { searchTerm }),
+    limit: 6,
+    ...(searchTerm.trim() && { searchTerm: searchTerm.trim() }),
   };
 
   const { data: usersData, isLoading } = useGetAllUsersQuery(params);
@@ -299,9 +299,11 @@ export default function ManageUsers() {
         </div>
 
         {/* Pagination */}
-        {meta.totalPage > 1 && users.length > 1 && (
+        {meta.totalPage > 1 && (
           <Pagination
             page={page}
+            available={meta.limit}
+            total={meta.total}
             totalPage={meta.totalPage}
             onPageChange={(newPage) => {
               setPage(newPage);

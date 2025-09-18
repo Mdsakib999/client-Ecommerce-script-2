@@ -17,18 +17,12 @@ export default function ManageProducts() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  // params
-  const params = {};
-  if (searchTerm) {
-    params.searchTerm = searchTerm;
-  }
-  if (sort) {
-    params.sort = sort;
-  }
-  if (page) {
-    params.page = page;
-  }
-  params.limit = 10;
+  const params = {
+    sort: sort,
+    page: page,
+    limit: 10,
+    ...(searchTerm.trim() && { searchTerm: searchTerm.trim() }),
+  };
 
   const { data: productsData, isLoading } = useGetAllProductQuery(params);
 
@@ -169,6 +163,8 @@ export default function ManageProducts() {
             {meta.totalPage > 1 && products.length > 1 && (
               <Pagination
                 page={page}
+                available={meta.limit}
+                total={meta.total}
                 totalPage={meta.totalPage}
                 onPageChange={(newPage) => {
                   setPage(newPage);

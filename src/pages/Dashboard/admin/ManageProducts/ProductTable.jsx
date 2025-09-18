@@ -10,6 +10,9 @@ export default function ProductTable({ products, onView, onEdit, onDelete }) {
             <th className="py-4 px-6 font-semibold text-gray-900">Name</th>
             <th className="py-4 px-6 font-semibold text-gray-900">Brand</th>
             <th className="py-4 px-6 font-semibold text-gray-900">Category</th>
+            <th className="py-4 px-6 font-semibold text-gray-900">
+              Added Time
+            </th>
             <th className="py-4 px-6 font-semibold text-gray-900">Price</th>
             <th className="py-4 px-6 font-semibold text-gray-900">Stock</th>
             <th className="py-4 px-6 font-semibold text-gray-900">Status</th>
@@ -36,6 +39,17 @@ export default function ProductTable({ products, onView, onEdit, onDelete }) {
               </td>
               <td className="py-4 px-6 text-gray-600">{product.brand}</td>
               <td className="py-4 px-6 text-gray-600">{product.category}</td>
+              <td className="py-4 px-6 text-gray-600">
+                {new Date(product.createdAt).toLocaleString(undefined, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "2-digit",
+                  hour12: true,
+                })}
+              </td>
+
               <td className="py-4 px-6 font-semibold text-gray-900">
                 ${product.price}
               </td>
