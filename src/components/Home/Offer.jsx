@@ -75,10 +75,10 @@ const Offer = () => {
       <Swiper
         slidesPerView={1}
         modules={[Pagination, Autoplay]}
-                breakpoints={{
-          640: { slidesPerView: 1 },   // mobile
-          768: { slidesPerView: 2 },   // tablet
-          1024: { slidesPerView: 4 },  // desktop
+        breakpoints={{
+          640: { slidesPerView: 1 }, // mobile
+          768: { slidesPerView: 2 }, // tablet
+          1024: { slidesPerView: 4 }, // desktop
         }}
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 group"
         pagination={{ clickable: true }}
@@ -116,14 +116,16 @@ const Offer = () => {
             </h3>
 
             {/* Shop Now Button */}
-            <button
-              className={` shopBtn text-center mx-auto
+            <Link to="/products">
+              <button
+                className={` shopBtn text-center mx-auto
               px-8 py-3 block rounded-lg font-medium text-sm transition-colors border border-gray-300 hover:border-[#1a1a2c] duration-200
               ${offer.buttonStyle}
             `}
-            >
-              Shop Now
-            </button>
+              >
+                Shop Now
+              </button>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>
