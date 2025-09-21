@@ -6,7 +6,7 @@ export default function Pagination({
   onPageChange,
 }) {
   return (
-    <div className="flex items-center justify-between gap-4 px-4 py-6 border-t border-gray-200">
+    <div className="flex flex-col md:flex-row items-center justify-between gap-4 px-4 py-6 border-gray-200">
       {/* Result Info */}
       <p className="text-sm text-gray-500">
         <span className="text-gray-800 font-semibold">{available}</span> of{" "}
@@ -25,7 +25,7 @@ export default function Pagination({
         </button>
 
         {/* Current Page Indicator */}
-        <span className="px-4 py-2 text-sm font-semibold text-blue-600 bg-blue-50 border border-blue-200 rounded-md">
+        <span className="px-4 py-2 text-sm text-center font-semibold text-blue-600 bg-blue-50 border border-blue-200 rounded-md">
           Page {page} of {totalPage}
         </span>
 

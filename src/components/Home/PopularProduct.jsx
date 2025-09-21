@@ -10,14 +10,13 @@ export default function PopularProduct() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(4);
 
-  // Update visibleCount dynamically on window resize
   useEffect(() => {
     const updateVisibleCount = () => {
       const width = window.innerWidth;
-      if (width >= 1280) setVisibleCount(4); // xl
-      else if (width >= 1024) setVisibleCount(3); // lg
-      else if (width >= 768) setVisibleCount(2); // md
-      else setVisibleCount(1); // sm
+      if (width >= 1280) setVisibleCount(4);
+      else if (width >= 1024) setVisibleCount(3);
+      else if (width >= 768) setVisibleCount(2);
+      else setVisibleCount(1);
     };
 
     updateVisibleCount(); // initial call
@@ -38,6 +37,7 @@ export default function PopularProduct() {
   const dispatch = useDispatch();
 
   const handleAddToCart = (product) => {
+    console.log(product);
     dispatch(addToCart(product));
   };
 
@@ -84,7 +84,7 @@ export default function PopularProduct() {
           >
             {products.map((product) => (
               <div
-                key={product.id}
+                key={product._id}
                 className="px-2 flex-shrink-0"
                 style={{ width: `${100 / visibleCount}%` }}
               >

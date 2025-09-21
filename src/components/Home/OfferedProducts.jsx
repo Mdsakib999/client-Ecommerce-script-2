@@ -107,7 +107,7 @@ export default function OfferedProducts() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.map((product) => (
               <div
-                key={product.id}
+                key={product._id}
                 className="bg-white border border-gray-300 rounded-2xl shadow-md overflow-hidden relative transform transition-transform duration-300 hover:scale-105"
               >
                 {product.discountPrice && (

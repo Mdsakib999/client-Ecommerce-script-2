@@ -41,6 +41,7 @@ export default function CartSlider({ isOpen, toggleCart }) {
   };
 
   const handleQuantity = (productId, productPrice, quantity) => {
+    console.log(productId, productPrice, quantity);
     dispatch(updateQuantity({ productId, productPrice, quantity }));
   };
 
@@ -185,7 +186,7 @@ export default function CartSlider({ isOpen, toggleCart }) {
                       <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
                         <button
                           onClick={() =>
-                            handleQuantity(item.id, item.price, -1)
+                            handleQuantity(item._id, item.price, -1)
                           }
                           className="p-1.5 hover:bg-gray-100 transition-colors duration-200 disabled:opacity-50"
                           disabled={item.quantity <= 1}
@@ -196,7 +197,9 @@ export default function CartSlider({ isOpen, toggleCart }) {
                           {item.quantity}
                         </span>
                         <button
-                          onClick={() => handleQuantity(item.id, item.price, 1)}
+                          onClick={() =>
+                            handleQuantity(item._id, item.price, 1)
+                          }
                           className="p-1.5 hover:bg-gray-100 transition-colors duration-200"
                         >
                           <Plus className="w-3 h-3 text-gray-600" />
