@@ -58,7 +58,7 @@ export default function DashboardLayout() {
 
   return (
     <>
-      <div className="flex h-full">
+      <div className="flex h-full font-montserrat">
         {/* Mobile Header (fixed so sidebar doesn't cover it) */}
         <header className="fixed md:hidden top-0 left-0 right-0 h-14 flex items-center justify-between px-4 bg-white shadow z-50">
           <Logo w="32" />

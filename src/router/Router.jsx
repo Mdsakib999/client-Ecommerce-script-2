@@ -22,6 +22,7 @@ import withAuth from "../utils/withAuth";
 import withPublic from "../utils/withPublic";
 import ManageProducts from "../pages/Dashboard/admin/ManageProducts/ManageProducts";
 import ManageReviews from "../pages/Dashboard/admin/ManageReview";
+import OrderSuccess from "../pages/OrderSuccess";
 
 const router = createBrowserRouter([
   {
@@ -89,6 +90,7 @@ const router = createBrowserRouter([
   },
   { path: "/login", Component: withPublic(Login) },
   { path: "/register", Component: withPublic(Register) },
+  { path: "/order-success", Component: OrderSuccess },
 ]);
 
 export default router;
