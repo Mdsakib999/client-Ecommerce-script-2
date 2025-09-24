@@ -1,28 +1,49 @@
-import { ChevronDown } from "lucide-react";
 import { useForm, Controller } from "react-hook-form";
+import {
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  AlertCircle,
+  CreditCard,
+  ShoppingCart,
+  Loader2,
+  Check,
+} from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { useUserInfoQuery } from "../redux/app/services/auth/authApi";
+import toast from "react-hot-toast";
+import { useCreateOrderMutation } from "../redux/app/services/order/orderApi";
+import { clearCart } from "../redux/app/features/cart/cartSlice";
+import { useNavigate } from "react-router";
 
 export default function Checkout() {
+  const { data: userInfo } = useUserInfoQuery();
+
+  const orderItems = useSelector((state) => state.cart.items);
+
+  const subtotal = orderItems.reduce(
+    (sum, item) => sum + (item.discountPrice ?? item.price) * item.quantity,
+    0
+  );
+  const shippingCost = 0;
+  const total = subtotal + shippingCost;
+
   const {
     register,
     handleSubmit,
     control,
-    // watch,
-    formState: { errors, isSubmitting }
+
+    formState: { errors },
   } = useForm({
     defaultValues: {
-      subscription: false,
-      name: "",
-      email: "",
+      name: userInfo?.data?.name || "",
+      email: userInfo?.data?.email || "",
       district: "Dhaka",
-      zone: "",
-      streetAddress: "",
-      mobileNumber: "",
-      paymentMethod: "stripe",
-      cardNumber: "",
-      expiryDate: "",
-      cvc: "",
-      cardholderName: ""
-    }
+      streetAddress: userInfo?.data?.address || "",
+      mobileNumber: userInfo?.data?.phone || "",
+      paymentMethod: "COD",
+    },
   });
 
   const districts = [
@@ -35,301 +56,342 @@ export default function Checkout() {
     "Rangpur",
   ];
 
-
-  // const selectedDistrict = watch("district");
-
-  const orderItems = [
-    {
-      name: "Beef (গরুর মাংস) (+_50 gm/KG)",
-      shipDate: "Sep 11, 2025",
-      quantity: 2,
-      price: 1600,
-    },
-    {
-      name: "Buffalo Meat (Bone in) - 1 Kg",
-      shipDate: "Sep 18, 2025",
-      quantity: 2,
-      price: 1700,
-    },
-  ];
-
-  const subtotal = orderItems.reduce((sum, item) => sum + item.price, 0);
-  const shippingCost = 0;
-  const total = subtotal + shippingCost;
+  const [createOrder, { isLoading }] = useCreateOrderMutation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
+    const orders = orderItems.map((item) => ({
+      product: item._id,
+      quantity: item.quantity,
+      price: item.discountPrice,
+      totalPrice: item.discountPrice * item.quantity,
+    }));
+
+    const total = orders.reduce((sum, item) => sum + item.totalPrice, 0);
+
+    const finalOrder = { ...data, orders, user: userInfo?.data?._id, total };
+
     try {
-      console.log("Form data:", data);
-      // Handle form submission here
-      // You can integrate with Stripe API or your payment processor
-      alert("Order placed successfully!");
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      alert("Error placing order. Please try again.");
+      const result = await createOrder(finalOrder).unwrap();
+      if (result.success) {
+        console.log("result", result);
+        dispatch(clearCart());
+        toast.success(
+          <h1 className="font-serif text-center">
+            Order placed successfully!
+          </h1>,
+          {
+            position: "bottom-right",
+            duration: 3000,
+          }
+        );
+        navigate("/order-success", { state: { order: result.data } });
+      }
+    } catch {
+      toast.error(
+        <h1 className="font-serif text-center">
+          Failed to place order! Please try again
+        </h1>,
+        {
+          position: "bottom-right",
+          duration: 3000,
+        }
+      );
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 py-6 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Left Side - Billing Details */}
-            <div className="space-y-6">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="tracking-wide text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+            Checkout
+          </h1>
+          <p className="text-gray-600 tracking-wider">Complete your purchase</p>
+        </div>
 
-              {/* Billing Details */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-6 uppercase tracking-wide">
-                  BILLING DETAILS
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+            {/* Billing Details */}
+            <div className="lg:col-span-2">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                  <User className="w-5 h-5 mr-2 text-gray-500" />
+                  Billing Details
                 </h2>
 
-                <div className="space-y-6">
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    {/* Name */}
-                    <div className="w-full sm:w-1/2">
-                      <label className="block text-sm font-medium text-gray-600 mb-2">
-                        Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        {...register("name", {
-                          required: "Name is required",
-                          minLength: {
-                            value: 2,
-                            message: "Name must be at least 2 characters"
-                          }
-                        })}
-                        placeholder="Enter your full name"
-                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 ${
-                          errors.name ? 'border-red-500' : 'border-gray-300'
-                        }`}
-                      />
-                      {errors.name && (
-                        <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
-                      )}
-                    </div>
-
-                    {/* Email */}
-                    <div className="w-full sm:w-1/2">
-                      <label className="block text-sm font-medium text-gray-600 mb-2">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        {...register("email", {
-                          pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: "Invalid email address"
-                          }
-                        })}
-                        placeholder="Enter your email"
-                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                          errors.email ? 'border-red-500' : 'border-gray-300'
-                        }`}
-                      />
-                      {errors.email && (
-                        <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    {/* District */}
-                    <div className="w-full sm:w-1/2">
-                      <label className="block text-sm font-medium text-gray-600 mb-2">
-                        District <span className="text-red-500">*</span>
-                      </label>
-                      <div className="relative">
-                        <Controller
-                          name="district"
-                          control={control}
-                          rules={{ required: "District is required" }}
-                          render={({ field }) => (
-                            <select
-                              {...field}
-                              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none text-gray-900 bg-white ${
-                                errors.district ? 'border-red-500' : 'border-gray-300'
-                              }`}
-                            >
-                              {districts.map((district) => (
-                                <option key={district} value={district}>
-                                  {district}
-                                </option>
-                              ))}
-                            </select>
-                          )}
-                        />
-                        <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
-                      </div>
-                      {errors.district && (
-                        <p className="mt-1 text-sm text-red-600">{errors.district.message}</p>
-                      )}
-                    </div>
-
-                    {/* Street Address */}
-                    <div className="w-full sm:w-1/2">
-                      <label className="block text-sm font-medium text-gray-600 mb-2">
-                        Address <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        {...register("streetAddress", {
-                          required: "Address is required",
-                          minLength: {
-                            value: 5,
-                            message: "Address must be at least 5 characters"
-                          }
-                        })}
-                        placeholder="House number and street name"
-                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                          errors.streetAddress ? 'border-red-500 text-gray-900' : 'border-gray-300 text-gray-500'
-                        }`}
-                      />
-                      {errors.streetAddress && (
-                        <p className="mt-1 text-sm text-red-600">{errors.streetAddress.message}</p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Mobile Number */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-2">
-                      Mobile Number <span className="text-red-500">*</span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                  {/* Full Name & Email side by side */}
+                  <div className="sm:col-span-1">
+                    <label className="flex text-sm font-medium text-gray-700 mb-1 items-center gap-1">
+                      <User className="w-4 h-4 text-gray-400" />
+                      Full Name <span className="text-red-500">*</span>
                     </label>
                     <input
-                      type="tel"
+                      {...register("name", { required: "Name is required" })}
+                      readOnly
+                      className={`w-full px-3 py-2.5 border rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                        errors.name
+                          ? "border-red-300 bg-red-50"
+                          : "border-gray-300"
+                      }`}
+                      placeholder="Enter your full name"
+                    />
+                    {errors.name && (
+                      <p className="text-xs text-red-600 mt-1 flex items-center">
+                        <AlertCircle className="w-3 h-3 mr-1" />
+                        {errors.name.message}
+                      </p>
+                    )}
+                  </div>
+                  <div className="sm:col-span-1">
+                    <label className="flex text-sm font-medium text-gray-700 mb-1 items-center gap-1">
+                      <Mail className="w-4 h-4 text-gray-400" />
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      readOnly
+                      {...register("email", {
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          message: "Please enter a valid email address",
+                        },
+                      })}
+                      className={`w-full px-3 py-2.5 border rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                        errors.email
+                          ? "border-red-300 bg-red-50"
+                          : "border-gray-300"
+                      }`}
+                      placeholder="your@email.com"
+                    />
+                    {errors.email && (
+                      <p className="text-xs text-red-600 mt-1 flex items-center">
+                        <AlertCircle className="w-3 h-3 mr-1" />
+                        {errors.email.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* District & Phone Number side by side */}
+                  <div className="sm:col-span-1">
+                    <label className="flex text-sm font-medium text-gray-700 mb-1 items-center gap-1">
+                      <MapPin className="w-4 h-4 text-gray-400" />
+                      District <span className="text-red-500">*</span>
+                    </label>
+                    <Controller
+                      name="district"
+                      control={control}
+                      rules={{ required: "District is required" }}
+                      render={({ field }) => (
+                        <select
+                          {...field}
+                          className={`w-full px-3 py-2.5 border rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                            errors.district
+                              ? "border-red-300 bg-red-50"
+                              : "border-gray-300"
+                          }`}
+                        >
+                          {districts.map((d) => (
+                            <option key={d} value={d}>
+                              {d}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                    />
+                    {errors.district && (
+                      <p className="text-xs text-red-600 mt-1 flex items-center">
+                        <AlertCircle className="w-3 h-3 mr-1" />
+                        {errors.district.message}
+                      </p>
+                    )}
+                  </div>
+                  <div className="sm:col-span-1">
+                    <label className="flex text-sm font-medium text-gray-700 mb-1 items-center gap-1">
+                      <Phone className="w-4 h-4 text-gray-400" />
+                      Phone Number <span className="text-red-500">*</span>
+                    </label>
+                    <input
                       {...register("mobileNumber", {
-                        required: "Mobile number is required",
+                        required: "Phone number is required",
                         pattern: {
                           value: /^(\+880|880|01)[1-9]\d{8}$/,
-                          message: "Invalid Bangladesh mobile number"
-                        }
+                          message:
+                            "Please enter a valid Bangladesh mobile number",
+                        },
                       })}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                        errors.mobileNumber ? 'border-red-500' : 'border-gray-300'
+                      className={`w-full px-3 py-2.5 border rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${
+                        errors.mobileNumber
+                          ? "border-red-300 bg-red-50"
+                          : "border-gray-300"
                       }`}
+                      placeholder="01XXXXXXXXX"
                     />
                     {errors.mobileNumber && (
-                      <p className="mt-1 text-sm text-red-600">{errors.mobileNumber.message}</p>
+                      <p className="text-xs text-red-600 mt-1 flex items-center">
+                        <AlertCircle className="w-3 h-3 mr-1" />
+                        {errors.mobileNumber.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Address */}
+                  <div className="sm:col-span-2">
+                    <label className="flex text-sm font-medium text-gray-700 mb-1 items-center gap-1">
+                      <MapPin className="w-4 h-4 text-gray-400" />
+                      Street Address <span className="text-red-500">*</span>
+                    </label>
+                    <textarea
+                      {...register("streetAddress", {
+                        required: "Address is required",
+                      })}
+                      rows={3}
+                      className={`w-full px-3 py-2.5 border rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none ${
+                        errors.streetAddress
+                          ? "border-red-300 bg-red-50"
+                          : "border-gray-300"
+                      }`}
+                      placeholder="House/Flat number, Road name, Area"
+                    />
+                    {errors.streetAddress && (
+                      <p className="text-xs text-red-600 mt-1 flex items-center">
+                        <AlertCircle className="w-3 h-3 mr-1" />
+                        {errors.streetAddress.message}
+                      </p>
                     )}
                   </div>
                 </div>
+
+                {/* Payment Method */}
+                <div className="mt-8 pt-6 border-t border-gray-200">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <CreditCard className="w-5 h-5 mr-2 text-gray-500" />
+                    Payment Method
+                  </h3>
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <label className="flex items-center cursor-pointer">
+                      <input
+                        type="radio"
+                        value="COD"
+                        {...register("paymentMethod")}
+                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                        defaultChecked
+                      />
+                      <div className="ml-3 flex items-center">
+                        <CreditCard className="w-5 h-5 text-green-600 mr-2" />
+                        <span className="text-sm font-medium text-gray-900">
+                          Cash on Delivery
+                        </span>
+                      </div>
+                    </label>
+                    <p className="text-xs text-gray-600 ml-7 mt-1">
+                      Pay when you receive your order
+                    </p>
+                  </div>
+                </div>
               </div>
+            </div>
 
-              {/* Payment Method */}
-{/* Add this radio button option alongside your existing payment methods */}
-<label className="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
-  <input checked
-    type="radio"
-    value="cod"
-    {...register("paymentMethod")}
-    className="mr-3"
-  />
-  <div className="flex items-center space-x-2">
-    <span className="font-medium text-gray-900">Cash on Delivery</span>
-    <span className="text-sm text-green-600 bg-green-100 px-2 py-1 rounded-full">
-      Pay when you receive
-    </span>
-  </div>
-</label>        </div>
-
-            {/* Right Side - Your Order */}
-            <div className="lg:sticky lg:top-8 lg:h-fit">
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-6 uppercase tracking-wide">
-                  YOUR ORDER
+            {/* Order Summary */}
+            <div className="lg:col-span-1">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 lg:sticky lg:top-6">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <ShoppingCart className="w-5 h-5 mr-2 text-gray-500" />
+                  Order Summary
                 </h2>
 
-                {/* Order Header */}
-                <div className="flex justify-between items-center pb-4 border-b border-gray-200 mb-6">
-                  <h3 className="font-semibold text-gray-900 uppercase tracking-wide">
-                    PRODUCT
-                  </h3>
-                  <h3 className="font-semibold text-gray-900 uppercase tracking-wide">
-                    SUBTOTAL
-                  </h3>
+                <div className="space-y-3 mb-4">
+                  {orderItems.length === 0 ? (
+                    <div className="py-8 text-center">
+                      <ShoppingCart className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                      <p className="text-gray-500 text-sm">
+                        No items in your cart
+                      </p>
+                    </div>
+                  ) : (
+                    orderItems.map((item) => {
+                      const itemTotal =
+                        item.discountPrice ?? item.price * item.quantity;
+                      return (
+                        <div
+                          key={item._id}
+                          className="flex items-center gap-3 py-3 border-b border-gray-100 last:border-b-0"
+                        >
+                          <div className="relative">
+                            <img
+                              src={item.images?.[0]}
+                              alt={item.name}
+                              className="w-12 h-12 object-cover rounded-md border border-gray-200"
+                            />
+                            <span className="absolute -top-2 -right-2 bg-gray-900 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                              {item.quantity}
+                            </span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="text-sm font-medium text-gray-900 truncate">
+                              {item.name}
+                            </h4>
+                            <p className="text-xs text-gray-500 truncate">
+                              {item.brand} • {item.category}
+                            </p>
+                          </div>
+                          <div className="text-sm font-semibold text-gray-900">
+                            ৳{itemTotal.toLocaleString()}
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
                 </div>
 
-                {/* Order Items */}
-                <div className="space-y-4 mb-6">
-                  {orderItems.map((item, index) => (
-                    <div key={index} className="space-y-2">
-                      <div className="flex justify-between items-start">
-                        <div className="flex-1">
-                          <p className="font-medium text-gray-900">{item.name}</p>
-                          <p className="text-sm text-red-600">
-                            Ships on {item.shipDate} × {item.quantity}
-                          </p>
-                        </div>
-                        <p className="font-semibold text-gray-900">
-                          ৳{item.price}
-                        </p>
+                {orderItems.length > 0 && (
+                  <>
+                    <div className="border-t border-gray-200 pt-4 space-y-2">
+                      <div className="flex justify-between text-sm text-gray-600">
+                        <span>Subtotal</span>
+                        <span>৳{subtotal.toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between text-sm text-gray-600">
+                        <span>Shipping</span>
+                        <span className="text-green-600 font-medium">Free</span>
                       </div>
                     </div>
-                  ))}
-                </div>
 
-                {/* Order Summary */}
-                <div className="space-y-3 border-t border-gray-200 pt-4">
-                  <div className="flex justify-between">
-                    <span className="font-medium text-gray-900">Subtotal</span>
-                    <span className="font-semibold text-gray-900">
-                      ৳{subtotal}
-                    </span>
-                  </div>
+                    <div className="border-t border-gray-200 pt-4 mt-4">
+                      <div className="flex justify-between text-lg font-semibold text-gray-900">
+                        <span>Total</span>
+                        <span>৳{total.toLocaleString()}</span>
+                      </div>
+                    </div>
+                  </>
+                )}
 
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">
-                      Shipping for Preorder product(s)
-                    </span>
-                    <span className="font-semibold text-gray-900">
-                      ৳{shippingCost}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Total */}
-                <div className="border-t border-gray-200 pt-4 mt-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xl font-bold text-gray-900">Total</span>
-                    <span className="text-2xl font-bold text-gray-900">
-                      ৳{total}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Terms Notice */}
-                <div className="mt-4 text-center">
-                  <p className="text-sm text-gray-600">
-                    Please check the{" "}
-                    <span className="text-blue-600 cursor-pointer hover:underline">
-                      Delivery Policy
-                    </span>{" "}
-                    before completing your order
-                  </p>
-                </div>
-
-                {/* Privacy Notice */}
-                <div className="mt-4 text-xs text-gray-500 leading-relaxed">
-                  <p>
-                    Your personal data will be used to process your order, support
-                    your experience throughout this website, and for other
-                    purposes described in our{" "}
-                    <span className="text-blue-600 cursor-pointer hover:underline">
-                      privacy policy
-                    </span>
-                    .
-                  </p>
-                </div>
-
-                {/* Place Order Button */}
-                <button 
+                <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-4 px-6 rounded-lg mt-6 uppercase tracking-wide transition-colors"
+                  disabled={isLoading || orderItems.length === 0}
+                  className="w-full mt-6 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium py-3 px-4 rounded-md text-sm transition-colors duration-200 flex items-center justify-center"
                 >
-                  {isSubmitting ? 'PLACING ORDER...' : 'PLACE ORDER'}
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <Check className="w-4 h-4 mr-2" />
+                      Place Order
+                    </>
+                  )}
                 </button>
+
+                {orderItems.length > 0 && (
+                  <p className="text-xs text-gray-500 text-center mt-3">
+                    By placing this order, you agree to our terms and conditions
+                  </p>
+                )}
               </div>
             </div>
           </div>

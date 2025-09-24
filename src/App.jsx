@@ -6,7 +6,7 @@ import ScrollToTopButton from "./utils/ScrollToTopButton";
 
 export default function App() {
   return (
-    <div>
+    <div className="font-montserrat">
       <Navbar />
       <ScrollToTop />
       <Outlet />

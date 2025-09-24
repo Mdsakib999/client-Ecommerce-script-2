@@ -45,17 +45,21 @@ export default function CartSlider({ isOpen, toggleCart }) {
     dispatch(updateQuantity({ productId, productPrice, quantity }));
   };
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-  const savings = cartItems.reduce(
-    (sum, item) => sum + (item.originalPrice - item.price) * item.quantity,
-    0
-  );
-  const shipping = subtotal > 50 ? 0 : 9.99;
-  const tax = subtotal * 0.08;
-  const total = subtotal + shipping + tax;
+  // Calculate subtotal, savings, shipping, total
+  const subtotal = cartItems.reduce((sum, item) => {
+    const effectivePrice = item.discountPrice ?? item.price; // use discount if exists
+    return sum + effectivePrice * item.quantity;
+  }, 0);
+
+  const savings = cartItems.reduce((sum, item) => {
+    if (item.discountPrice) {
+      return sum + (item.price - item.discountPrice) * item.quantity;
+    }
+    return sum;
+  }, 0);
+
+  const shipping = subtotal >= 1500 ? 0 : 100;
+  const total = subtotal + shipping;
 
   return (
     <>
@@ -108,12 +112,14 @@ export default function CartSlider({ isOpen, toggleCart }) {
               <p className="text-gray-500 mb-6">
                 Add some items to get started!
               </p>
-              <button
-                onClick={toggleCart}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors duration-200"
-              >
-                Continue Shopping
-              </button>
+              <Link to="/products">
+                <button
+                  onClick={toggleCart}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors duration-200"
+                >
+                  Continue Shopping
+                </button>
+              </Link>
             </div>
           ) : (
             cartItems.map((item) => (
@@ -171,11 +177,11 @@ export default function CartSlider({ isOpen, toggleCart }) {
                     {/* Price */}
                     <div className="flex items-center space-x-2 mt-2">
                       <span className="font-bold text-gray-900 text-sm">
-                        ${item.price.toFixed(2)}
+                        ${item.discountPrice.toFixed(2)}
                       </span>
-                      {item.originalPrice > item.price && (
+                      {item.price > item.discountPrice && (
                         <span className="text-xs text-gray-500 line-through">
-                          ${item.originalPrice.toFixed(2)}
+                          ${item.price.toFixed(2)}
                         </span>
                       )}
                     </div>
@@ -224,12 +230,14 @@ export default function CartSlider({ isOpen, toggleCart }) {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-600">Subtotal</span>
-                <span className="font-semibold">${subtotal.toFixed(2)}</span>
+                <span className="font-semibold">Tk {subtotal.toFixed(2)}</span>
               </div>
               {savings > 0 && (
                 <div className="flex justify-between text-green-600">
                   <span>You Save</span>
-                  <span className="font-semibold">-${savings.toFixed(2)}</span>
+                  <span className="font-semibold">
+                    - Tk {savings.toFixed(2)}
+                  </span>
                 </div>
               )}
               <div className="flex justify-between">
@@ -241,23 +249,19 @@ export default function CartSlider({ isOpen, toggleCart }) {
                       : "font-semibold"
                   }
                 >
-                  {shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`}
+                  {shipping === 0 ? "FREE" : `Tk ${shipping.toFixed(2)}`}
                 </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Tax</span>
-                <span className="font-semibold">${tax.toFixed(2)}</span>
               </div>
               <hr className="border-gray-300" />
               <div className="flex justify-between text-lg font-bold">
                 <span>Total</span>
-                <span className="text-blue-600">${total.toFixed(2)}</span>
+                <span className="text-blue-600">Tk {total.toFixed(2)}</span>
               </div>
             </div>
 
             {shipping > 0 && (
               <div className="text-xs text-center text-gray-600 bg-blue-50 p-2 rounded-lg">
-                Add ${(50 - subtotal).toFixed(2)} more for FREE shipping!
+                Add ${(1500 - subtotal).toFixed(2)} more for FREE shipping!
               </div>
             )}
 
@@ -268,13 +272,14 @@ export default function CartSlider({ isOpen, toggleCart }) {
                 <ArrowRight className="w-5 h-5" />
               </button>
             </Link>
-
-            <button
-              onClick={toggleCart}
-              className="mt-3 w-full bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 px-4 rounded-xl font-semibold transition-colors duration-200"
-            >
-              Continue Shopping
-            </button>
+            <Link to="/products">
+              <button
+                onClick={toggleCart}
+                className="mt-3 w-full bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 px-4 rounded-xl font-semibold transition-colors duration-200"
+              >
+                Continue Shopping
+              </button>
+            </Link>
           </div>
         )}
       </div>

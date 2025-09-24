@@ -7,13 +7,17 @@ import Loader from "../utils/Loader";
 export default function SearchBar() {
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
+
   const navigate = useNavigate();
+
   const params = {
     searchTerm: query,
     limit: 10000,
   };
+
   const { data: productsData, isLoading: isProductLoading } =
     useGetAllProductQuery(params);
+
   const products = productsData?.data || [];
 
   if (isProductLoading) return <Loader />;

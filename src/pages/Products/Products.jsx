@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Product from "./Product";
 import { useGetAllProductQuery } from "../../redux/app/services/product/productApi";
 import { useGetAllCategoriesQuery } from "../../redux/app/services/category/categoryApi";
@@ -31,7 +31,9 @@ export default function Products() {
     totalPage: 1,
   };
 
-  console.log(products);
+  useEffect(() => {
+    setPage(1);
+  }, [selectedCategories]);
 
   if (isProductLoading || isCategoryLoading) return <Loader />;
 
