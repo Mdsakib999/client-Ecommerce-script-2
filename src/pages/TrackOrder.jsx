@@ -15,7 +15,6 @@ export default function TrackOrder() {
   const [trackingId, setTrackingId] = useState("");
   const [notFound, setNotFound] = useState(false);
   const [trigger, { data: order, isFetching }] = useLazyTrackOrderQuery();
-  console.log(order);
 
   const handleTrack = async () => {
     setNotFound(false);

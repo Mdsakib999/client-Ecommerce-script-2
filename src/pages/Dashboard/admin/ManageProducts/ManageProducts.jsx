@@ -49,18 +49,6 @@ export default function ManageProducts() {
     setShowDeleteModal(true);
   };
 
-  const handleSaveEdit = async (updatedProduct) => {
-    // Add your API call here
-    console.log("Updating product:", updatedProduct);
-    // Example: await updateProductApi(updatedProduct._id, updatedProduct);
-  };
-
-  const handleConfirmDelete = async (product) => {
-    // Add your API call here
-    console.log("Deleting product:", product);
-    // Example: await deleteProductApi(product._id);
-  };
-
   const closeAllModals = () => {
     setShowViewModal(false);
     setShowEditModal(false);
@@ -199,14 +187,12 @@ export default function ManageProducts() {
         product={selectedProduct}
         isOpen={showEditModal}
         onClose={() => setShowEditModal(false)}
-        onSave={handleSaveEdit}
       />
 
       <DeleteConfirmModal
         product={selectedProduct}
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
-        onConfirm={handleConfirmDelete}
       />
     </div>
   );

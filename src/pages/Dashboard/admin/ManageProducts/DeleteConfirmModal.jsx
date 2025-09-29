@@ -1,13 +1,9 @@
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useDeleteProductMutation } from "../../../../redux/app/services/product/productApi";
+import toast from "react-hot-toast";
 
-export default function DeleteConfirmModal({
-  product,
-  isOpen,
-  onClose,
-  onConfirm,
-}) {
+export default function DeleteConfirmModal({ product, isOpen, onClose }) {
   const [loading, setLoading] = useState(false);
   const [deleteProduct] = useDeleteProductMutation();
 
@@ -15,7 +11,9 @@ export default function DeleteConfirmModal({
     setLoading(true);
     try {
       await deleteProduct(product._id).unwrap();
-      if (onConfirm) await onConfirm(product);
+      toast.success(
+        <h1 className="text-center font-serif">product deleted successfully</h1>
+      );
       onClose();
     } finally {
       setLoading(false);

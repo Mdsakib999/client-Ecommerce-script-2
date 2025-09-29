@@ -8,13 +8,15 @@ import {
 import { Eye, Filter, Search, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 import confirmToast from "../../../utils/confirmToast";
+import Loader from "../../../utils/Loader";
 
 export default function ManageOrders() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedOrder, setSelectedOrder] = useState(null);
 
-  const { data: ordersData } = useGetAllOrdersQuery();
+  const { data: ordersData, isLoading: isOrderLoading } =
+    useGetAllOrdersQuery();
   const orders = ordersData?.data || [];
 
   const statusOptions = [
@@ -118,6 +120,10 @@ export default function ManageOrders() {
       },
     });
   };
+
+  if (isOrderLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="p-3 sm:p-6 min-h-screen max-w-7xl w-full mx-auto">
