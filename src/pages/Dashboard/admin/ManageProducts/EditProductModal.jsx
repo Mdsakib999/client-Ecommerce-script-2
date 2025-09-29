@@ -4,7 +4,7 @@ import { useUpdateProductMutation } from "../../../../redux/app/services/product
 import toast from "react-hot-toast";
 import { useGetAllCategoriesQuery } from "../../../../redux/app/services/category/categoryApi";
 
-export default function EditProductModal({ product, isOpen, onClose, onSave }) {
+export default function EditProductModal({ product, isOpen, onClose }) {
   const [formData, setFormData] = useState({
     name: "",
     brand: "",
@@ -51,7 +51,6 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
           { position: "bottom-right" }
         );
 
-        await onSave({ ...product, ...formData });
         onClose();
       }
     } catch (error) {
