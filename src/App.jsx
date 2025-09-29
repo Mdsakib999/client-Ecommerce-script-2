@@ -9,7 +9,9 @@ export default function App() {
     <div className="font-montserrat">
       <Navbar />
       <ScrollToTop />
-      <Outlet />
+      <main className="min-h-dvh">
+        <Outlet />
+      </main>
       <ScrollToTopButton />
       <Footer />
     </div>

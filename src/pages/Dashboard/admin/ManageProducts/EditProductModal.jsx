@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 import { useGetAllCategoriesQuery } from "../../../../redux/app/services/category/categoryApi";
 
 export default function EditProductModal({ product, isOpen, onClose, onSave }) {
-  console.log(product);
   const [formData, setFormData] = useState({
     name: "",
     brand: "",
@@ -45,14 +44,16 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
         productId: product._id,
         productInfo: { ...product, ...formData },
       }).unwrap();
-      console.log(result);
-      toast.success(
-        <h1 className="font-serif">Product updated successfully!</h1>,
-        { position: "bottom-right" }
-      );
 
-      await onSave({ ...product, ...formData });
-      onClose();
+      if (result.success) {
+        toast.success(
+          <h1 className="font-serif">Product updated successfully!</h1>,
+          { position: "bottom-right" }
+        );
+
+        await onSave({ ...product, ...formData });
+        onClose();
+      }
     } catch (error) {
       console.error("Failed to update product:", error);
     }
@@ -74,11 +75,9 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
     });
   };
 
-  // Add new image (file upload)
   const handleAddImage = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Simulate upload and get URL (replace with real upload logic)
       const url = URL.createObjectURL(file);
       setFormData((prev) => ({ ...prev, images: [...prev.images, url] }));
     }
@@ -89,8 +88,14 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+      >
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900">Edit Product</h2>
           <button

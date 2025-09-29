@@ -14,20 +14,23 @@ export const orderApi = baseApi.injectEndpoints({
       query: ({ orderId, status }) => ({
         url: `/order/${orderId}`,
         method: "PUT",
-        data: status,
+        data: { status },
       }),
+      invalidatesTags: ["ORDER"],
     }),
     deleteOrder: build.mutation({
       query: (orderId) => ({
         url: `/order/${orderId}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["ORDER"],
     }),
     getAllOrders: build.query({
       query: () => ({
         url: "/order/all-orders",
         method: "GET",
       }),
+      providesTags: ["ORDER"],
       transformResponse: (response) => response.data,
     }),
     getMyOrders: build.query({
@@ -35,6 +38,15 @@ export const orderApi = baseApi.injectEndpoints({
         url: `/order/${userId}`,
         method: "GET",
       }),
+      providesTags: ["ORDER"],
+      transformResponse: (response) => response.data,
+    }),
+    trackOrder: build.query({
+      query: (trackingId) => ({
+        url: `/order/track/${trackingId}`,
+        method: "GET",
+      }),
+      providesTags: ["ORDER"],
       transformResponse: (response) => response.data,
     }),
   }),
@@ -46,4 +58,5 @@ export const {
   useDeleteOrderMutation,
   useGetAllOrdersQuery,
   useGetMyOrdersQuery,
+  useLazyTrackOrderQuery,
 } = orderApi;

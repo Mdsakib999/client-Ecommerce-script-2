@@ -17,8 +17,6 @@ export default function DeleteConfirmModal({
       await deleteProduct(product._id).unwrap();
       if (onConfirm) await onConfirm(product);
       onClose();
-    } catch (error) {
-      console.error("Failed to delete product:", error);
     } finally {
       setLoading(false);
     }

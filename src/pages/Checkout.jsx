@@ -75,7 +75,6 @@ export default function Checkout() {
     try {
       const result = await createOrder(finalOrder).unwrap();
       if (result.success) {
-        console.log("result", result);
         dispatch(clearCart());
         toast.success(
           <h1 className="font-serif text-center">
@@ -371,7 +370,11 @@ export default function Checkout() {
 
                 <button
                   type="submit"
-                  disabled={isLoading || orderItems.length === 0}
+                  disabled={
+                    isLoading ||
+                    orderItems.length === 0 ||
+                    userInfo?.data?.role === "ADMIN"
+                  }
                   className="w-full mt-6 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium py-3 px-4 rounded-md text-sm transition-colors duration-200 flex items-center justify-center"
                 >
                   {isLoading ? (

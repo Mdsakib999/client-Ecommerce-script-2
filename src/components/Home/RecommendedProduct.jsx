@@ -19,7 +19,6 @@ export default function RecommendedProduct() {
   const dispatch = useDispatch();
 
   const handleAddToCart = (product) => {
-    console.log(product);
     dispatch(addToCart(product));
   };
 

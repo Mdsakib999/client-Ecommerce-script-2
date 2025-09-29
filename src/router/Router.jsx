@@ -23,6 +23,7 @@ import withPublic from "../utils/withPublic";
 import ManageProducts from "../pages/Dashboard/admin/ManageProducts/ManageProducts";
 import ManageReviews from "../pages/Dashboard/admin/ManageReview";
 import OrderSuccess from "../pages/OrderSuccess";
+import AddOffer from "../pages/Dashboard/admin/AddOffer";
 
 const router = createBrowserRouter([
   {
@@ -82,6 +83,7 @@ const router = createBrowserRouter([
       { index: true, path: "profile", Component: Profile },
       { path: "manage-orders", Component: ManageOrders },
       { path: "add-product", Component: AddProductPage },
+      { path: "add-offer", Component: AddOffer },
       { path: "manage-category", Component: ManageCategory },
       { path: "manage-products", Component: ManageProducts },
       { path: "manage-users", Component: ManageUsers },

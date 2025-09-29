@@ -55,7 +55,7 @@ const MyOrders = () => {
 
   const filteredOrders = orders.filter((order) => {
     const matchSearch =
-      order._id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.transactionId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       order.orders?.some((item) =>
         item.product.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
@@ -74,7 +74,7 @@ const MyOrders = () => {
 
   return (
     <div className="w-full p-6 border-b border-gray-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-      <div className="max-w-7xl mx-auto">
+      <div className="w-full max-w-5xl mx-auto">
         <h1 className="text-3xl font-bold text-black mb-2">My Orders</h1>
         <p className="text-gray-600 mb-6">Track and manage your orders</p>
 
@@ -136,7 +136,7 @@ const MyOrders = () => {
               <div className="p-6 border-b border-gray-200 flex flex-col md:flex-row md:items-center md:justify-between">
                 <div className="space-y-1">
                   <h3 className="font-semibold text-lg text-black">
-                    Order #{order._id.slice(-6)}
+                    # {order.transactionId}
                   </h3>
                   <p className="text-gray-600">
                     Placed on {new Date(order.createdAt).toLocaleString()}

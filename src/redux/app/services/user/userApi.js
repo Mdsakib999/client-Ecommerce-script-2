@@ -47,6 +47,7 @@ export const userApi = baseApi.injectEndpoints({
         url: `/user/${userId}`,
         method: "GET",
       }),
+      providesTags: ["USER"],
     }),
   }),
 });

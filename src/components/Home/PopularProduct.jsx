@@ -37,7 +37,6 @@ export default function PopularProduct() {
   const dispatch = useDispatch();
 
   const handleAddToCart = (product) => {
-    console.log(product);
     dispatch(addToCart(product));
   };
 
