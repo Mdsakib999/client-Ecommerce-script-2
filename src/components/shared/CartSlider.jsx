@@ -41,7 +41,6 @@ export default function CartSlider({ isOpen, toggleCart }) {
   };
 
   const handleQuantity = (productId, productPrice, quantity) => {
-    console.log(productId, productPrice, quantity);
     dispatch(updateQuantity({ productId, productPrice, quantity }));
   };
 
@@ -177,11 +176,11 @@ export default function CartSlider({ isOpen, toggleCart }) {
                     {/* Price */}
                     <div className="flex items-center space-x-2 mt-2">
                       <span className="font-bold text-gray-900 text-sm">
-                        ${item.discountPrice.toFixed(2)}
+                        Tk {item.discountPrice.toFixed(2)}
                       </span>
                       {item.price > item.discountPrice && (
                         <span className="text-xs text-gray-500 line-through">
-                          ${item.price.toFixed(2)}
+                          Tk {item.price.toFixed(2)}
                         </span>
                       )}
                     </div>
@@ -261,7 +260,7 @@ export default function CartSlider({ isOpen, toggleCart }) {
 
             {shipping > 0 && (
               <div className="text-xs text-center text-gray-600 bg-blue-50 p-2 rounded-lg">
-                Add ${(1500 - subtotal).toFixed(2)} more for FREE shipping!
+                Add {(1500 - subtotal).toFixed(2)} Tk more for FREE shipping!
               </div>
             )}
 

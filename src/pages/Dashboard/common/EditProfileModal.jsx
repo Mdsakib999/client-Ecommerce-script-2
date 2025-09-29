@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 export default function EditProfileModal({
   editProfile,
   editImage,
-  loginMethod,
+  // loginMethod,
   openModal,
   setOpenModal,
   setEditImage,
@@ -95,8 +95,7 @@ export default function EditProfileModal({
         );
         setOpenModal(false);
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
       toast.error(<h1 className="font-serif">Profile update failed</h1>, {
         position: "bottom-right",
       });
@@ -104,8 +103,16 @@ export default function EditProfileModal({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-900/60 z-50 px-4 animate-fadeIn">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 relative animate-slideIn">
+    <div
+      onClick={() => setOpenModal(!openModal)}
+      className="fixed inset-0 flex items-center justify-center bg-gray-900/60 z-50 px-4"
+      style={{ minHeight: 0 }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 relative max-h-[90vh] overflow-y-auto"
+        style={{ minHeight: 0 }}
+      >
         <button
           onClick={handleCancel}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition"
@@ -235,7 +242,8 @@ export default function EditProfileModal({
           </div>
 
           {/* Password */}
-          {loginMethod !== "google" && (
+          {/* TODO */}
+          {/* {loginMethod !== "google" && (
             <>
               <div>
                 <label className="block text-sm font-medium text-gray-700">
@@ -284,7 +292,7 @@ export default function EditProfileModal({
                 )}
               </div>
             </>
-          )}
+          )} */}
 
           {/* Actions */}
           <div className="flex justify-end gap-4 mt-6">

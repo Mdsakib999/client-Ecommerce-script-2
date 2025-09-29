@@ -80,8 +80,7 @@ export default function AddProduct({ categories = [] }) {
           </h1>
         );
       }
-    } catch (error) {
-      console.error(error);
+    } catch {
       toast.error(<h1 className="font-serif">Failed to add product</h1>, {
         position: "bottom-right",
       });

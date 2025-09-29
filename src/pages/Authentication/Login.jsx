@@ -51,8 +51,6 @@ export default function Login() {
         navigate("/");
       }
     } catch (err) {
-      console.error(err);
-
       const errorMessage =
         err?.data?.message || err?.message || "Something went wrong";
 

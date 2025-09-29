@@ -1,5 +1,6 @@
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export default function ContactPage() {
   const {
@@ -9,9 +10,13 @@ export default function ContactPage() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Form submitted:", data);
-    alert("✅ Message sent successfully!");
+  const onSubmit = () => {
+    toast.success(
+      <h1 className="font-serif text-center">✅ Message sent successfully!</h1>,
+      {
+        position: "bottom-right",
+      }
+    );
     reset();
   };
 

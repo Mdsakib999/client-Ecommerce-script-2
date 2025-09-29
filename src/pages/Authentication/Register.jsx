@@ -32,7 +32,7 @@ export default function Register() {
   const onSubmit = async (data) => {
     try {
       const result = await registerUser(data);
-      console.log(result);
+
       if (result?.data?.success) {
         toast.success(
           <h1 className="text-center font-serif">
@@ -60,7 +60,6 @@ export default function Register() {
         );
       }
     } catch (error) {
-      console.log(error);
       toast.error(<h1 className="font-serif">{`${error?.data?.message}`}</h1>, {
         position: "bottom-right",
       });

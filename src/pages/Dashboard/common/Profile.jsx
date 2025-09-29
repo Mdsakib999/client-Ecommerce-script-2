@@ -13,7 +13,7 @@ export default function Profile() {
   const [openModal, setOpenModal] = useState(false);
   const { data: userInfo } = useUserInfoQuery();
   const user = useMemo(() => userInfo?.data || {}, [userInfo?.data]);
-  const loginMethod = user.auths?.[0]?.provider;
+  // const loginMethod = user.auths?.[0]?.provider;
 
   const { name = "", email = "", picture = "", role } = user;
 
@@ -62,7 +62,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto mt-12">
+    <div className="w-full max-w-3xl mx-auto mt-12">
       <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
         {/* Profile Card */}
         <div className="flex justify-center items-center bg-gradient-to-r from-blue-50 to-gray-50">
@@ -87,8 +87,8 @@ export default function Profile() {
             </div>
 
             <div className="text-center md:text-left">
-              <div className="flex items-center gap-2">
-                <p className="text-lg font-bold text-gray-700">
+              <div className="flex items-center justify-center md:justify-start mb-2 gap-2">
+                <p className="text-lg font-bold text-gray-600">
                   {role?.charAt(0).toUpperCase() + role?.slice(1).toLowerCase()}
                 </p>
                 {role?.toLowerCase() === "admin" ? (
@@ -107,10 +107,10 @@ export default function Profile() {
         {/* Profile Content */}
         <div className="p-8">
           <div className="flex justify-between items-start sm:items-center mb-8">
-            <h1 className="font-bold text-2xl text-gray-900">My Profile</h1>
+            <h1 className="font-bold md:text-2xl text-gray-900">My Profile</h1>
             <button
               onClick={() => setOpenModal(true)}
-              className="flex items-center cursor-pointer gap-2 px-5 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all shadow-sm"
+              className="flex items-center cursor-pointer gap-2 px-5 py-2 text-xs md:text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all shadow-sm"
             >
               <UserPen size={18} /> Edit Profile
             </button>
@@ -121,12 +121,16 @@ export default function Profile() {
             <div className="space-y-6">
               <div>
                 <h2 className="text-sm font-medium text-gray-500">Full Name</h2>
-                <p className="text-gray-900">{profile.name}</p>
+                <p className="text-gray-900 text-sm md:text-base">
+                  {profile.name}
+                </p>
               </div>
               <div>
                 <h2 className="text-sm font-medium text-gray-500">Address</h2>
                 {profile.address ? (
-                  <p className="text-gray-900">{profile.address}</p>
+                  <p className="text-gray-900 text-sm md:text-base">
+                    {profile.address}
+                  </p>
                 ) : (
                   <button
                     onClick={() => setOpenModal(true)}
@@ -142,14 +146,18 @@ export default function Profile() {
             <div className="space-y-6">
               <div>
                 <h2 className="text-sm font-medium text-gray-500">Email</h2>
-                <p className="text-gray-900">{profile.email}</p>
+                <p className="text-gray-900 text-sm md:text-base">
+                  {profile.email}
+                </p>
               </div>
               <div>
                 <h2 className="text-sm font-medium text-gray-500">
                   Phone Number
                 </h2>
                 {profile.phone ? (
-                  <p className="text-gray-900">{profile.phone}</p>
+                  <p className="text-gray-900 text-sm md:text-base">
+                    {profile.phone}
+                  </p>
                 ) : (
                   <button
                     onClick={() => setOpenModal(true)}
@@ -170,7 +178,7 @@ export default function Profile() {
         setEditProfile={setEditProfile}
         editImage={editImage}
         setEditImage={setEditImage}
-        loginMethod={loginMethod}
+        // loginMethod={loginMethod}
         openModal={openModal}
         setOpenModal={setOpenModal}
         handleSave={handleSave}
