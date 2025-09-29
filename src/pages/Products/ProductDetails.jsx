@@ -7,24 +7,43 @@ import {
   Star,
   ShoppingCart,
   Heart,
-  Share2,
   Shield,
   Truck,
   RefreshCw,
   Award,
 } from "lucide-react";
 import { fakeReviews } from "../../utils/fakeReview";
+import Loader from "../../utils/Loader";
 
 export default function ProductDetails() {
   const { id } = useParams();
   const [mainImage, setMainImage] = useState("");
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const { data: product } = useGetProductQuery(id);
+  const { data: product, isLoading: isProductLoading } = useGetProductQuery(id);
   const dispatch = useDispatch();
 
   const handleAddToCart = (product) => {
     dispatch(addToCart(product));
   };
+
+  // Use first image as default
+  const images = product?.images || [];
+  const displayImage = mainImage || images[0];
+
+  // Average rating
+  const avgRating =
+    fakeReviews.reduce((acc, r) => acc + r.rating, 0) / fakeReviews.length;
+
+  // Calculate discount percentage
+  const discountPercent = product?.discountPrice
+    ? Math.round(
+        ((product?.price - product?.discountPrice) / product?.price) * 100
+      )
+    : 0;
+
+  if (isProductLoading) {
+    return <Loader />;
+  }
 
   if (!product) {
     return (
@@ -43,21 +62,6 @@ export default function ProductDetails() {
       </div>
     );
   }
-
-  // Use first image as default
-  const images = product.images || [];
-  const displayImage = mainImage || images[0];
-
-  // Average rating
-  const avgRating =
-    fakeReviews.reduce((acc, r) => acc + r.rating, 0) / fakeReviews.length;
-
-  // Calculate discount percentage
-  const discountPercent = product.discountPrice
-    ? Math.round(
-        ((product.price - product.discountPrice) / product.price) * 100
-      )
-    : 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
@@ -102,8 +106,8 @@ export default function ProductDetails() {
                     key={index}
                     className={`flex-shrink-0 relative cursor-pointer transition-all duration-300 ${
                       displayImage === img
-                        ? "ring-4 ring-blue-500"
-                        : "hover:ring-2 hover:ring-gray-300"
+                        ? "ring-2 ring-gray-500"
+                        : "hover:ring-4 hover:ring-gray-300"
                     }`}
                     onClick={() => setMainImage(img)}
                   >

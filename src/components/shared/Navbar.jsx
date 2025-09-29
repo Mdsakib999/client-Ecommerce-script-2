@@ -103,8 +103,8 @@ export default function Navbar() {
             </button>
 
             {/* Logo - Center on mobile, Left on desktop */}
-            <div className="lg:flex-shrink-0">
-              <Logo w="32" />
+            <div className="lg:flex-shrink-0 w-32">
+              <Logo />
             </div>
 
             {/* Search Bar - Desktop Only */}

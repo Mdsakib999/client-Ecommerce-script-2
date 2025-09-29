@@ -1,13 +1,10 @@
-import { ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router";
-import { addToCart } from "../../redux/app/features/cart/cartSlice";
 import { useGetAllProductQuery } from "../../redux/app/services/product/productApi";
 import Loader from "../../utils/Loader";
+import Product from "../../pages/Products/Product";
 
 export default function OfferedProducts() {
-  const targetDate = new Date("September 25, 2025 00:00:00").getTime();
+  const targetDate = new Date("January 25, 2026 00:00:00").getTime();
 
   const [timeLeft, setTimeLeft] = useState({});
 
@@ -39,12 +36,7 @@ export default function OfferedProducts() {
     useGetAllProductQuery(params);
 
   const products = productsData?.data || [];
-
-  const dispatch = useDispatch();
-
-  const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
-  };
+  console.log(products);
 
   if (isProductLoading) return <Loader />;
 
@@ -105,62 +97,8 @@ export default function OfferedProducts() {
         {/* Products */}
         <div className="w-full lg:w-3/4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => (
-              <div
-                key={product._id}
-                className="bg-white border border-gray-300 rounded-2xl shadow-md overflow-hidden relative transform transition-transform duration-300 hover:scale-105"
-              >
-                {product.discountPrice && (
-                  <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                    SALE
-                  </div>
-                )}
-                <div className="p-4 flex flex-col items-center">
-                  <div className="w-32 h-32 md:w-40 md:h-40 mb-4">
-                    <img
-                      src={product.images[0]}
-                      alt={product.name}
-                      className="w-full h-full rounded-full object-cover "
-                    />
-                  </div>
-                  <div className="w-full text-center">
-                    <p className="text-sm text-gray-500 mb-1">
-                      {product.category}
-                    </p>
-                    <h2 className="text-lg font-semibold text-gray-800 mb-2">
-                      <Link to={`/product/${product.id}`}>
-                        {product.name.slice(0, 25)}
-                      </Link>
-                    </h2>
-                    <div className="flex justify-center items-baseline space-x-2">
-                      {product.discountPrice ? (
-                        <>
-                          <p className="text-lg font-bold text-red-500">
-                            ${product.discountPrice}
-                          </p>
-                          <p className="text-sm text-gray-400 line-through">
-                            ${product.price}
-                          </p>
-                        </>
-                      ) : (
-                        <p className="text-lg font-bold text-gray-800">
-                          ${product.price}
-                        </p>
-                      )}
-                    </div>
-                    <div className="pt-3">
-                      <button
-                        onClick={() => handleAddToCart(product)}
-                        state={{ product }}
-                        className="w-full cursor-pointer bg-gray-200 rounded-full py-2 px-4 font-semibold text-sm flex items-center justify-center space-x-2 transition-colors hover:bg-gray-700 hover:text-white"
-                      >
-                        <ShoppingCart size={16} />
-                        <span>Add to Cart</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            {products?.map((product) => (
+              <Product key={product?._id} product={product} />
             ))}
           </div>
         </div>
