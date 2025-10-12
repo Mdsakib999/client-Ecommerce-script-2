@@ -23,7 +23,7 @@ export default function Checkout() {
   const orderItems = useSelector((state) => state.cart.items);
 
   const subtotal = orderItems.reduce(
-    (sum, item) => sum + (item.discountPrice ?? item.price) * item.quantity,
+    (sum, item) => sum + (item.discountPrice ?? item.price) * item.cartQuantity,
     0
   );
   const shippingCost = 0;
@@ -33,7 +33,6 @@ export default function Checkout() {
     register,
     handleSubmit,
     control,
-
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -63,9 +62,9 @@ export default function Checkout() {
   const onSubmit = async (data) => {
     const orders = orderItems.map((item) => ({
       product: item._id,
-      quantity: item.quantity,
+      quantity: item.cartQuantity,
       price: item.discountPrice,
-      totalPrice: item.discountPrice * item.quantity,
+      totalPrice: item.discountPrice * item.cartQuantity,
     }));
 
     const total = orders.reduce((sum, item) => sum + item.totalPrice, 0);
@@ -313,7 +312,7 @@ export default function Checkout() {
                   ) : (
                     orderItems.map((item) => {
                       const itemTotal =
-                        item.discountPrice ?? item.price * item.quantity;
+                        item.discountPrice ?? item.price * item.cartQuantity;
                       return (
                         <div
                           key={item._id}
@@ -326,7 +325,7 @@ export default function Checkout() {
                               className="w-12 h-12 object-cover rounded-md border border-gray-200"
                             />
                             <span className="absolute -top-2 -right-2 bg-gray-900 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                              {item.quantity}
+                              {item.cartQuantity}
                             </span>
                           </div>
                           <div className="flex-1 min-w-0">

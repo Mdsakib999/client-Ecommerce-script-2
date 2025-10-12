@@ -42,12 +42,7 @@ export default function CartSlider({ isOpen, toggleCart }) {
     });
   };
 
-  /**
-   * item: the cart item (includes .quantity => original stock, .cartQuantity => in-cart)
-   * delta: +1 or -1
-   */
   const handleQuantity = (productId, delta, item) => {
-    // Before dispatching, check stock bounds on client too
     const current = item.cartQuantity ?? 0;
     const stock = item.quantity ?? 0;
 
@@ -57,8 +52,6 @@ export default function CartSlider({ isOpen, toggleCart }) {
     }
 
     if (delta < 0 && current <= 1) {
-      // if user wants to go to zero, you might prefer to prompt removal
-      // Here we just remove if they try to go below 1
       dispatch(removeFromCart(productId));
       return;
     }
