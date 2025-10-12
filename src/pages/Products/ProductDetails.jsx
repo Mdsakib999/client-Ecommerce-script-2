@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router";
 import { useGetProductQuery } from "../../redux/app/services/product/productApi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/app/features/cart/cartSlice";
 import {
   Star,
@@ -14,16 +14,40 @@ import {
 } from "lucide-react";
 import { fakeReviews } from "../../utils/fakeReview";
 import Loader from "../../utils/Loader";
+import toast from "react-hot-toast";
 
 export default function ProductDetails() {
   const { id } = useParams();
   const [mainImage, setMainImage] = useState("");
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [isWishListed, setIsWishListed] = useState(false);
   const { data: product, isLoading: isProductLoading } = useGetProductQuery(id);
   const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+  const existingItem = cartItems.find((item) => item?._id === product?._id);
+  const hasReachedStock =
+    existingItem && existingItem.cartQuantity >= product.quantity;
+  const isInCart = !!existingItem;
 
   const handleAddToCart = (product) => {
+    if (hasReachedStock) {
+      toast.error(
+        <h1 className="text-center font-serif">
+          Out of stock — you’ve added all available items
+        </h1>
+      );
+      return;
+    }
+
     dispatch(addToCart(product));
+
+    if (!isInCart) {
+      toast.success(<h1 className="text-center font-serif">Added to cart</h1>);
+    } else {
+      toast(<h3 className="text-center font-serif">Quantity increased</h3>, {
+        icon: "🛒",
+        position: "bottom-right",
+      });
+    }
   };
 
   // Use first image as default
@@ -229,22 +253,22 @@ export default function ProductDetails() {
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
                 <button
                   onClick={() => handleAddToCart(product)}
-                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-4 px-6 rounded-md flex items-center justify-center space-x-3 transition-all duration-300 transform shadow-lg hover:shadow-xl"
+                  className={`w-full bg-gradient-to-r ${isInCart} from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-4 px-6 rounded-md flex items-center justify-center space-x-3 transition-all duration-300 transform shadow-lg hover:shadow-xl`}
                 >
                   <ShoppingCart className="w-5 h-5" />
-                  <span>Add to Cart</span>
+                  <span>{isInCart ? "Added ✓" : "Add to Cart"}</span>
                 </button>
 
                 <button
-                  onClick={() => setIsWishlisted(!isWishlisted)}
+                  onClick={() => setIsWishListed(!isWishListed)}
                   className={`w-full px-6 py-4 rounded-md flex items-center justify-center gap-2 border-2 transition-all duration-300 ${
-                    isWishlisted
+                    isWishListed
                       ? "border-red-500 bg-red-50 text-red-600 hover:bg-red-100"
                       : "border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-50"
                   }`}
                 >
                   <Heart
-                    className={`w-5 h-5 ${isWishlisted ? "fill-current" : ""}`}
+                    className={`w-5 h-5 ${isWishListed ? "fill-current" : ""}`}
                   />{" "}
                   <span>Add to wishlist</span>
                 </button>

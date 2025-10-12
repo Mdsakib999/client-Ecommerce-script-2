@@ -1,3 +1,4 @@
+// components/CartSlider.jsx
 import {
   ArrowRight,
   Heart,
@@ -17,6 +18,7 @@ import {
 import confirmToast from "../../utils/confirmToast";
 import { Link, useLocation } from "react-router";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 export default function CartSlider({ isOpen, toggleCart }) {
   const location = useLocation();
@@ -40,19 +42,39 @@ export default function CartSlider({ isOpen, toggleCart }) {
     });
   };
 
-  const handleQuantity = (productId, productPrice, quantity) => {
-    dispatch(updateQuantity({ productId, productPrice, quantity }));
+  /**
+   * item: the cart item (includes .quantity => original stock, .cartQuantity => in-cart)
+   * delta: +1 or -1
+   */
+  const handleQuantity = (productId, delta, item) => {
+    // Before dispatching, check stock bounds on client too
+    const current = item.cartQuantity ?? 0;
+    const stock = item.quantity ?? 0;
+
+    if (delta > 0 && current >= stock) {
+      toast.error("No more stock available");
+      return;
+    }
+
+    if (delta < 0 && current <= 1) {
+      // if user wants to go to zero, you might prefer to prompt removal
+      // Here we just remove if they try to go below 1
+      dispatch(removeFromCart(productId));
+      return;
+    }
+
+    dispatch(updateQuantity({ productId, delta, stockLimit: stock }));
   };
 
-  // Calculate subtotal, savings, shipping, total
+  // Calculate subtotal, savings, shipping, total using cartQuantity
   const subtotal = cartItems.reduce((sum, item) => {
-    const effectivePrice = item.discountPrice ?? item.price; // use discount if exists
-    return sum + effectivePrice * item.quantity;
+    const effectivePrice = item.discountPrice ?? item.price;
+    return sum + effectivePrice * (item.cartQuantity ?? item.quantity ?? 0);
   }, 0);
 
   const savings = cartItems.reduce((sum, item) => {
     if (item.discountPrice) {
-      return sum + (item.price - item.discountPrice) * item.quantity;
+      return sum + (item.price - item.discountPrice) * (item.cartQuantity ?? 0);
     }
     return sum;
   }, 0);
@@ -89,7 +111,8 @@ export default function CartSlider({ isOpen, toggleCart }) {
             <ShoppingBag className="w-6 h-6 text-blue-600" />
             <h2 className="text-xl font-bold text-gray-800">Shopping Cart</h2>
             <span className="bg-blue-100 text-blue-800 text-sm font-semibold px-2.5 py-1 rounded-full">
-              {cartItems.length}
+              {/* show total items count (sum of cartQuantity) */}
+              {cartItems.reduce((s, it) => s + (it.cartQuantity ?? 0), 0)}
             </span>
           </div>
           <button
@@ -134,7 +157,7 @@ export default function CartSlider({ isOpen, toggleCart }) {
                       alt={item.name}
                       className="w-24 h-full object-cover rounded-lg"
                     />
-                    {!item.inStock && (
+                    {item.outOfStock && (
                       <div className="absolute inset-0 bg-red-500 bg-opacity-20 rounded-lg flex items-center justify-center">
                         <span className="text-xs text-red-600 font-bold bg-white px-2 py-1 rounded">
                           Out of Stock
@@ -176,9 +199,9 @@ export default function CartSlider({ isOpen, toggleCart }) {
                     {/* Price */}
                     <div className="flex items-center space-x-2 mt-2">
                       <span className="font-bold text-gray-900 text-sm">
-                        Tk {item.discountPrice.toFixed(2)}
+                        Tk {(item.discountPrice ?? item.price).toFixed(2)}
                       </span>
-                      {item.price > item.discountPrice && (
+                      {item.price > (item.discountPrice ?? item.price) && (
                         <span className="text-xs text-gray-500 line-through">
                           Tk {item.price.toFixed(2)}
                         </span>
@@ -190,22 +213,21 @@ export default function CartSlider({ isOpen, toggleCart }) {
                       {/* Quantity */}
                       <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
                         <button
-                          onClick={() =>
-                            handleQuantity(item._id, item.price, -1)
-                          }
+                          onClick={() => handleQuantity(item._id, -1, item)}
                           className="p-1.5 hover:bg-gray-100 transition-colors duration-200 disabled:opacity-50"
-                          disabled={item.quantity <= 1}
+                          disabled={(item.cartQuantity ?? 0) <= 1}
                         >
                           <Minus className="w-3 h-3 text-gray-600" />
                         </button>
                         <span className="px-3 py-1.5 text-sm font-semibold min-w-[40px] text-center">
-                          {item.quantity}
+                          {item.cartQuantity ?? 0}
                         </span>
                         <button
-                          onClick={() =>
-                            handleQuantity(item._id, item.price, 1)
+                          onClick={() => handleQuantity(item._id, 1, item)}
+                          disabled={
+                            (item.cartQuantity ?? 0) >= (item.quantity ?? 0)
                           }
-                          className="p-1.5 hover:bg-gray-100 transition-colors duration-200"
+                          className="p-1.5 hover:bg-gray-100 transition-colors duration-200 disabled:opacity-50"
                         >
                           <Plus className="w-3 h-3 text-gray-600" />
                         </button>
