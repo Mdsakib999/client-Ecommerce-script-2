@@ -1,8 +1,29 @@
-import { X } from "lucide-react";
+import { X, Plus, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useUpdateProductMutation } from "../../../../redux/app/services/product/productApi";
 import toast from "react-hot-toast";
 import { useGetAllCategoriesQuery } from "../../../../redux/app/services/category/categoryApi";
+
+const parseSpecifications = (specString) => {
+  if (!specString) return [{ key: "", value: "" }];
+
+  const specs = specString
+    .split(";")
+    .map((item) => {
+      const [key, value] = item.split(":").map((part) => part.trim());
+      return { key, value };
+    })
+    .filter((item) => item.key && item.value);
+
+  return specs.length > 0 ? specs : [{ key: "", value: "" }];
+};
+
+const formatSpecifications = (specs) => {
+  const validSpecs = specs.filter(
+    (spec) => spec.key.trim() && spec.value.trim()
+  );
+  return validSpecs.map((spec) => `${spec.key}: ${spec.value}`).join("; ");
+};
 
 export default function EditProductModal({ product, isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -13,9 +34,15 @@ export default function EditProductModal({ product, isOpen, onClose }) {
     discountPrice: "",
     quantity: "",
     description: "",
+    specifications: "",
     inStock: true,
     images: [],
   });
+
+  const [newImageFiles, setNewImageFiles] = useState([]);
+  const [specifications, setSpecifications] = useState([
+    { key: "", value: "" },
+  ]);
 
   useEffect(() => {
     if (isOpen && product) {
@@ -27,22 +54,95 @@ export default function EditProductModal({ product, isOpen, onClose }) {
         discountPrice: product.discountPrice || "",
         quantity: product.quantity || "",
         description: product.description || "",
+        specifications: product.specifications || "",
         inStock: product.inStock ?? true,
         images: product.images || [],
       });
+
+      if (product.specifications) {
+        setSpecifications(parseSpecifications(product.specifications));
+      } else {
+        setSpecifications([{ key: "", value: "" }]);
+      }
+
+      setNewImageFiles([]);
     }
   }, [product, isOpen]);
 
   const [updateProduct, { isLoading }] = useUpdateProductMutation();
   const { data: categories } = useGetAllCategoriesQuery();
 
+  // Add new specification field
+  const addSpecification = () => {
+    setSpecifications([...specifications, { key: "", value: "" }]);
+  };
+
+  // Remove specification field
+  const removeSpecification = (index) => {
+    if (specifications.length > 1) {
+      const newSpecs = specifications.filter((_, i) => i !== index);
+      setSpecifications(newSpecs);
+      updateSpecificationsString(newSpecs);
+    }
+  };
+
+  // Update individual specification field
+  const updateSpecification = (index, field, value) => {
+    const newSpecs = specifications.map((spec, i) =>
+      i === index ? { ...spec, [field]: value } : spec
+    );
+    setSpecifications(newSpecs);
+    updateSpecificationsString(newSpecs);
+  };
+
+  // Convert specifications array to database format string
+  const updateSpecificationsString = (specs) => {
+    const specString = formatSpecifications(specs);
+    setFormData((prev) => ({ ...prev, specifications: specString }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate specifications
+    const hasValidSpecs = specifications.some(
+      (spec) => spec.key.trim() && spec.value.trim()
+    );
+    if (!hasValidSpecs) {
+      toast.error(
+        <h1 className="font-serif">Please add at least one specification.</h1>,
+        {
+          position: "bottom-right",
+        }
+      );
+      return;
+    }
+
     try {
+      const submitData = new FormData();
+
+      submitData.append("name", formData.name);
+      submitData.append("brand", formData.brand);
+      submitData.append("category", formData.category);
+      submitData.append("price", formData.price);
+      submitData.append("discountPrice", formData.discountPrice || "");
+      submitData.append("quantity", formData.quantity);
+      submitData.append("description", formData.description);
+      submitData.append("specifications", formData.specifications);
+      submitData.append("inStock", formData.inStock);
+
+      const existingImages = formData.images.filter(
+        (img) => !img.startsWith("blob:")
+      );
+      submitData.append("existingImages", JSON.stringify(existingImages));
+
+      newImageFiles.forEach((file) => {
+        submitData.append("images", file);
+      });
+
       const result = await updateProduct({
         productId: product._id,
-        productInfo: { ...product, ...formData },
+        productInfo: submitData,
       }).unwrap();
 
       if (result.success) {
@@ -55,6 +155,9 @@ export default function EditProductModal({ product, isOpen, onClose }) {
       }
     } catch (error) {
       console.error("Failed to update product:", error);
+      toast.error(<h1 className="font-serif">Failed to update product</h1>, {
+        position: "bottom-right",
+      });
     }
   };
 
@@ -66,8 +169,21 @@ export default function EditProductModal({ product, isOpen, onClose }) {
     }));
   };
 
-  // Remove image by index
   const handleRemoveImage = (idx) => {
+    const imageToRemove = formData.images[idx];
+
+    // If it's a blob URL (new image), remove from newImageFiles
+    if (imageToRemove.startsWith("blob:")) {
+      const blobImages = formData.images.filter((img) =>
+        img.startsWith("blob:")
+      );
+      const blobIndex = blobImages.indexOf(imageToRemove);
+
+      if (blobIndex >= 0) {
+        setNewImageFiles((files) => files.filter((_, i) => i !== blobIndex));
+      }
+    }
+
     setFormData((prev) => {
       const newImages = prev.images.filter((_, i) => i !== idx);
       return { ...prev, images: newImages };
@@ -77,8 +193,20 @@ export default function EditProductModal({ product, isOpen, onClose }) {
   const handleAddImage = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const url = URL.createObjectURL(file);
-      setFormData((prev) => ({ ...prev, images: [...prev.images, url] }));
+      if (formData.images.length >= 4) {
+        toast.error(<h1 className="font-serif">Maximum 4 images allowed!</h1>, {
+          position: "bottom-right",
+        });
+        return;
+      }
+
+      setNewImageFiles((prev) => [...prev, file]);
+
+      const previewUrl = URL.createObjectURL(file);
+      setFormData((prev) => ({
+        ...prev,
+        images: [...prev.images, previewUrl],
+      }));
     }
   };
 
@@ -93,7 +221,7 @@ export default function EditProductModal({ product, isOpen, onClose }) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        className="bg-white rounded-lg max-w-4xl w-full max-h-[95vh] overflow-y-auto"
       >
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900">Edit Product</h2>
@@ -133,18 +261,20 @@ export default function EditProductModal({ product, isOpen, onClose }) {
                 ) : (
                   <span className="text-gray-400 text-sm">No images</span>
                 )}
-                <label
-                  className="w-24 h-24 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg text-gray-400 hover:border-blue-500 hover:text-blue-600 transition-colors bg-gray-50 cursor-pointer"
-                  title="Add image"
-                >
-                  + Upload
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleAddImage}
-                    className="hidden"
-                  />
-                </label>
+                {formData.images.length < 4 && (
+                  <label
+                    className="w-24 h-24 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg text-gray-400 hover:border-blue-500 hover:text-blue-600 transition-colors bg-gray-50 cursor-pointer"
+                    title="Add image"
+                  >
+                    + Upload
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleAddImage}
+                      className="hidden"
+                    />
+                  </label>
+                )}
               </div>
             </div>
             <div>
@@ -261,6 +391,61 @@ export default function EditProductModal({ product, isOpen, onClose }) {
             />
           </div>
 
+          {/* Specifications Section */}
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <label className="block text-sm font-medium text-gray-700">
+                Specifications
+              </label>
+              <button
+                type="button"
+                onClick={addSpecification}
+                className="flex items-center gap-1 px-3 py-1 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                <Plus className="w-4 h-4" />
+                Add Specification
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              {specifications.map((spec, index) => (
+                <div key={index} className="flex gap-2 items-start">
+                  <div className="flex-1">
+                    <input
+                      type="text"
+                      value={spec.key}
+                      onChange={(e) =>
+                        updateSpecification(index, "key", e.target.value)
+                      }
+                      placeholder="Specification name (e.g., Bluetooth Version)"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <input
+                      type="text"
+                      value={spec.value}
+                      onChange={(e) =>
+                        updateSpecification(index, "value", e.target.value)
+                      }
+                      placeholder="Specification value (e.g., 5.3)"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    />
+                  </div>
+                  {specifications.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeSpecification(index)}
+                      className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="flex items-center">
             <input
               type="checkbox"
@@ -276,6 +461,7 @@ export default function EditProductModal({ product, isOpen, onClose }) {
 
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
             <button
+              disabled={isLoading}
               type="button"
               onClick={onClose}
               className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"

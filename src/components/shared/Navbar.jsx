@@ -1,6 +1,5 @@
 import {
   ChevronDown,
-  Heart,
   HelpCircle,
   Home,
   Info,
@@ -77,6 +76,7 @@ export default function Navbar() {
     dispatch(clearCart());
     setIsMobileMenuOpen(false);
     setIsUserDropdownOpen(false);
+    setIsPictureLoaded(false);
     toast.success("Logged out successfully", { position: "bottom-right" });
   };
 
@@ -129,7 +129,6 @@ export default function Navbar() {
                 )}
               </div>
 
-              {/* User Dropdown - Desktop Only */}
               <div className="relative dropdown-container hidden lg:block">
                 <button
                   onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
